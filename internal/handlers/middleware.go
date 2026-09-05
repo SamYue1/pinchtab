@@ -238,8 +238,7 @@ func AuthMiddlewareWithSessions(live *config.Live, sessions *browsersession.Mana
 			}
 			sess, ok := agentSessions.AuthenticateWithoutTouch(creds.Value)
 			if !ok || sess == nil {
-				w.Header().Set("WWW-Authenticate", `Session realm="pinchtab", error="bad_session"`)
-				httpx.ErrorCode(w, 401, "bad_session", "invalid or expired agent session", false, nil)
+				httpx.UnauthorizedSession(w)
 				return
 			}
 			if refusal, refused := sessionRequestRefusal(r, sess); refused {
@@ -249,8 +248,7 @@ func AuthMiddlewareWithSessions(live *config.Live, sessions *browsersession.Mana
 				return
 			}
 			if !agentSessions.Touch(sess.ID) {
-				w.Header().Set("WWW-Authenticate", `Session realm="pinchtab", error="bad_session"`)
-				httpx.ErrorCode(w, 401, "bad_session", "invalid or expired agent session", false, nil)
+				httpx.UnauthorizedSession(w)
 				return
 			}
 			r.Header.Set(activity.HeaderAgentID, sess.AgentID)
