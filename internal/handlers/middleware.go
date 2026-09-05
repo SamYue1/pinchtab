@@ -223,7 +223,7 @@ func AuthMiddlewareWithSessions(live *config.Live, sessions *browsersession.Mana
 
 		creds := authn.CredentialsFromRequest(r)
 		if creds.Value == "" {
-			authn.ClearSessionCookie(w, r, cfg != nil && cfg.TrustProxyHeaders, cookieSecureSetting(cfg))
+			authn.ClearSessionCookie(w, r, authn.CookiePolicyFor(cfg))
 			httpx.Unauthorized(w, httpx.CodeMissingToken, "")
 			return
 		}
@@ -265,7 +265,7 @@ func AuthMiddlewareWithSessions(live *config.Live, sessions *browsersession.Mana
 			}
 		case authn.MethodHeader:
 			if subtle.ConstantTimeCompare([]byte(creds.Value), []byte(token)) != 1 {
-				authn.ClearSessionCookie(w, r, cfg != nil && cfg.TrustProxyHeaders, cookieSecureSetting(cfg))
+				authn.ClearSessionCookie(w, r, authn.CookiePolicyFor(cfg))
 				httpx.Unauthorized(w, httpx.CodeBadToken, creds.Value)
 				return
 			}
@@ -277,7 +277,7 @@ func AuthMiddlewareWithSessions(live *config.Live, sessions *browsersession.Mana
 				return
 			}
 			if sessions == nil || !sessions.Validate(creds.Value, token) {
-				authn.ClearSessionCookie(w, r, cfg != nil && cfg.TrustProxyHeaders, cookieSecureSetting(cfg))
+				authn.ClearSessionCookie(w, r, authn.CookiePolicyFor(cfg))
 				httpx.Unauthorized(w, httpx.CodeBadToken, "")
 				return
 			}
@@ -297,7 +297,7 @@ func AuthMiddlewareWithSessions(live *config.Live, sessions *browsersession.Mana
 				return sessions.Valid(cookieValue, token)
 			}
 		default:
-			authn.ClearSessionCookie(w, r, cfg != nil && cfg.TrustProxyHeaders, cookieSecureSetting(cfg))
+			authn.ClearSessionCookie(w, r, authn.CookiePolicyFor(cfg))
 			httpx.Unauthorized(w, httpx.CodeBadToken, creds.Value)
 			return
 		}
