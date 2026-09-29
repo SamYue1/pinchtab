@@ -1668,3 +1668,42 @@ func TestAStaleLockWithNoLiveHolderStillDeletes(t *testing.T) {
 			w.Code, w.Body.String())
 	}
 }
+
+func TestCreateSeedsChromiumPreferences(t *testing.T) {
+	dir := t.TempDir()
+	pm := NewProfileManager(dir)
+
+	if err := pm.Create("stdbank-luke"); err != nil {
+		t.Fatal(err)
+	}
+
+	prefs := filepath.Join(dir, profileID("stdbank-luke"), "Default", "Preferences")
+	data, err := os.ReadFile(prefs)
+	if err != nil {
+		t.Fatalf("Preferences not seeded at %s: %v", prefs, err)
+	}
+	if len(data) == 0 {
+		t.Fatal("seeded Preferences must not be empty")
+	}
+}
+
+func TestSeedChromiumPreferencesPreservesExisting(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.MkdirAll(filepath.Join(dir, "Default"), 0755); err != nil {
+		t.Fatal(err)
+	}
+	prefs := filepath.Join(dir, "Default", "Preferences")
+	if err := os.WriteFile(prefs, []byte(`{"real":"prefs"}`), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err := seedChromiumPreferences(dir); err != nil {
+		t.Fatal(err)
+	}
+	data, err := os.ReadFile(prefs)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if string(data) != `{"real":"prefs"}` {
+		t.Fatalf("existing Preferences was overwritten: %s", data)
+	}
+}

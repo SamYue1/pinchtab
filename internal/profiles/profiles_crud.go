@@ -128,10 +128,21 @@ func (pm *ProfileManager) Create(name string) error {
 	if err := os.MkdirAll(filepath.Join(dest, "Default"), 0755); err != nil {
 		return err
 	}
+	if err := seedChromiumPreferences(dest); err != nil {
+		return err
+	}
 	return writeProfileMeta(dest, ProfileMeta{
 		ID:   id,
 		Name: name,
 	})
+}
+
+func seedChromiumPreferences(dest string) error {
+	prefs := filepath.Join(dest, "Default", "Preferences")
+	if _, err := os.Stat(prefs); err == nil {
+		return nil
+	}
+	return os.WriteFile(prefs, []byte("{}"), 0600)
 }
 
 func (pm *ProfileManager) CreateWithMeta(name string, meta ProfileMeta) error {
