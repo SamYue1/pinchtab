@@ -201,6 +201,44 @@ curl -H "Authorization: Bearer $PINCHTAB_TOKEN" http://localhost:9867/health | j
 
 ---
 
+## Languages
+
+The dashboard ships in 12 languages: English, Simplified Chinese (`zh-CN`),
+Traditional Chinese (`zh-TW`), Japanese, Korean, Spanish, Brazilian Portuguese,
+French, German, Italian, Russian, and Arabic.
+
+Switching happens in **Settings → Dashboard Preferences → Language**, where each
+language is listed under its own name so the picker stays readable to someone who
+cannot read the language currently on screen. The choice applies immediately, is
+stored in `localStorage` under `pinchtab_locale`, and survives a reload.
+
+On first load the dashboard picks a language in this order:
+
+1. the stored `pinchtab_locale` value
+2. the first matching entry in `navigator.languages` (`zh-Hant` resolves to `zh-TW`, `pt-PT` to `pt-BR`, and an unrelated language such as `sv-SE` is skipped)
+3. English
+
+Non-English languages load on demand: each one is a separate bundle chunk, so a
+browser downloads the language it renders and nothing more. English ships in the
+entry chunk as the fallback, which also means a language chunk that fails to load
+costs the operator their language but not the dashboard.
+
+The document follows the active language: `<html lang>` and `<html dir>` are kept
+in sync and the page title comes from the language pack. Dates and numbers are
+formatted with the active locale, so an operator reading the dashboard in German
+sees German date and number conventions.
+
+Two limitations are worth knowing:
+
+- **Arabic is right to left, but the layout is not mirrored.** `<html dir="rtl">` is
+  set, so text direction and document flow follow the language, but the dashboard
+  layout itself was built left to right and has not been mirrored for RTL.
+- **Copy returned by the API stays English.** Only the dashboard's own interface text
+  is translated. Error messages, statuses, and other strings the server produces are
+  displayed exactly as the server sends them.
+
+---
+
 ## Event stream
 
 The dashboard uses Server-Sent Events, not WebSockets.
