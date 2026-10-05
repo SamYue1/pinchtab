@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as api from "../services/api";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   instanceId?: string;
@@ -10,8 +11,13 @@ const MAX_LOG_CHARS = 256 * 1024;
 
 export default function InstanceLogsPanel({
   instanceId,
-  emptyMessage = "No instance logs available.",
+  emptyMessage: emptyMessageProp,
 }: Props) {
+  const { t } = useTranslation();
+  // Defaults resolve in the body: a hook cannot run in the parameter list.
+  const emptyMessage =
+    emptyMessageProp ??
+    t("profiles.instancelogspanel.no_instance_logs_available");
   const [logs, setLogs] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -77,7 +83,7 @@ export default function InstanceLogsPanel({
   if (loading && !logs) {
     return (
       <div className="flex h-full items-center justify-center text-sm text-text-muted">
-        Loading logs...
+        {t("profiles.instancelogspanel.loading_logs")}
       </div>
     );
   }

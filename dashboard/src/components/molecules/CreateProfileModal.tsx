@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Input, Modal } from "../atoms";
 import * as api from "../../services/api";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   open: boolean;
@@ -13,6 +14,7 @@ export default function CreateProfileModal({
   onClose,
   onCreated,
 }: Props) {
+  const { t } = useTranslation();
   const [createName, setCreateName] = useState("");
   const [createUseWhen, setCreateUseWhen] = useState("");
   const [createSource, setCreateSource] = useState("");
@@ -51,7 +53,7 @@ export default function CreateProfileModal({
     <Modal
       open={open}
       onClose={onClose}
-      title="📁 New Profile"
+      title={t("components.molecules.createprofilemodal.new_profile")}
       wide
       actions={
         <>
@@ -60,7 +62,7 @@ export default function CreateProfileModal({
             disabled={createLoading}
             onClick={onClose}
           >
-            Cancel
+            {t("components.molecules.createprofilemodal.cancel")}
           </Button>
           <Button
             variant="primary"
@@ -68,27 +70,37 @@ export default function CreateProfileModal({
             disabled={!createName.trim()}
             loading={createLoading}
           >
-            Create
+            {t("components.molecules.createprofilemodal.create")}
           </Button>
         </>
       }
     >
       <div className="flex flex-col gap-4">
         <Input
-          label="Name"
-          placeholder="e.g. personal, work, scraping"
+          label={t("components.molecules.createprofilemodal.name")}
+          placeholder={t(
+            "components.molecules.createprofilemodal.e_g_personal_work_scraping",
+          )}
           value={createName}
           onChange={(e) => setCreateName(e.target.value)}
         />
         <Input
-          label="Use this profile when (helps agents pick the right profile)"
-          placeholder="e.g. I need to access Gmail for the team account"
+          label={t(
+            "components.molecules.createprofilemodal.use_this_profile_when_helps_agents_pick",
+          )}
+          placeholder={t(
+            "components.molecules.createprofilemodal.e_g_i_need_to_access_gmail_for_the_team",
+          )}
           value={createUseWhen}
           onChange={(e) => setCreateUseWhen(e.target.value)}
         />
         <Input
-          label="Import from (optional — Chrome user data path)"
-          placeholder="e.g. /Users/you/Library/Application Support/Google/Chrome"
+          label={t(
+            "components.molecules.createprofilemodal.import_from_optional_chrome_user_data",
+          )}
+          placeholder={t(
+            "components.molecules.createprofilemodal.e_g_users_you_library_application",
+          )}
           value={createSource}
           onChange={(e) => setCreateSource(e.target.value)}
         />

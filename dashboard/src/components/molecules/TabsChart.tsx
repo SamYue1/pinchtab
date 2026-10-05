@@ -14,6 +14,11 @@ import type {
   MemoryDataPoint,
   ServerDataPoint,
 } from "../../stores/useAppStore";
+import { useTranslation } from "react-i18next";
+import {
+  formatNumber,
+  formatTime as formatLocalizedTime,
+} from "../../i18n/format";
 
 interface Props {
   data: TabDataPoint[];
@@ -36,7 +41,7 @@ const COLORS = [
 ];
 
 function formatTime(timestamp: number): string {
-  return new Date(timestamp).toLocaleTimeString("en-GB", {
+  return formatLocalizedTime(timestamp, {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -44,9 +49,7 @@ function formatTime(timestamp: number): string {
 
 function formatMetricValue(value: number, maximumFractionDigits = 0): string {
   if (!Number.isFinite(value)) return "0";
-  return new Intl.NumberFormat("en-US", { maximumFractionDigits }).format(
-    value,
-  );
+  return formatNumber(value, { maximumFractionDigits });
 }
 
 type SeriesKind = "tabs" | "mem" | "heap";
@@ -214,6 +217,7 @@ export default function TabsChart({
   selectedInstanceId,
   onSelectInstance,
 }: Props) {
+  const { t } = useTranslation();
   const instanceColors = useMemo(() => {
     const colors: Record<string, string> = {};
     instances.forEach((inst, i) => {
@@ -248,12 +252,12 @@ export default function TabsChart({
       dataKey: "goHeapMB",
       instanceId: "",
       kind: "heap",
-      displayName: "Server Heap",
+      displayName: t("components.molecules.tabschart.server_heap"),
       suffix: "",
       color: HEAP_COLOR,
     });
     return list;
-  }, [instances, instanceColors]);
+  }, [instances, instanceColors, t]);
 
   const seriesByKey = useMemo(
     () => new Map(series.map((s) => [s.dataKey, s])),
@@ -318,14 +322,14 @@ export default function TabsChart({
         });
       } else {
         vals.push({
-          label: "Heap",
+          label: t("components.molecules.tabschart.heap"),
           value: `${formatMetricValue(num, 1)}MB`,
           color: s.color,
         });
       }
     }
     return vals;
-  }, [mergedData, series]);
+  }, [mergedData, series, t]);
 
   const tooltipContent: NonNullable<TooltipProps<number, string>["content"]> = (
     props: TooltipContentProps<number, string>,
@@ -336,8 +340,8 @@ export default function TabsChart({
       <LoadingDots
         text={
           mergedData.length === 0
-            ? "Collecting data..."
-            : "Waiting for more data..."
+            ? t("components.molecules.tabschart.collecting_data")
+            : t("components.molecules.tabschart.waiting_for_more_data")
         }
       />
     );
@@ -351,9 +355,11 @@ export default function TabsChart({
       <div className="flex items-center justify-between border-b border-border-subtle px-4 py-3">
         <div className="flex items-center gap-2.5">
           <div>
-            <div className="dashboard-section-label">Monitoring</div>
+            <div className="dashboard-section-label">
+              {t("components.molecules.tabschart.monitoring")}
+            </div>
             <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-text-primary">
-              Live telemetry
+              {t("components.molecules.tabschart.live_telemetry")}
               {/* Pulse indicator */}
               <span className="relative flex h-2.5 w-2.5">
                 <span
@@ -386,16 +392,16 @@ export default function TabsChart({
           ))}
           {/* Metric type badges */}
           <span className="rounded-sm border border-border-subtle bg-white/[0.03] px-2 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-text-secondary">
-            Tabs
+            {t("components.molecules.tabschart.tabs")}
           </span>
           {hasMemory && (
             <span className="rounded-sm border border-info/35 bg-info/10 px-2 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-info">
-              Memory
+              {t("components.molecules.tabschart.memory")}
             </span>
           )}
           {hasServer && (
             <span className="rounded-sm border border-primary/35 bg-primary/10 px-2 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-primary">
-              Heap
+              {t("components.molecules.tabschart.heap")}
             </span>
           )}
         </div>

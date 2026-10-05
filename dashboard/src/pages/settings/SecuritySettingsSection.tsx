@@ -10,6 +10,7 @@ import {
   securityEndpointRows,
 } from "./settingsShared";
 import { SectionCard, SettingRow } from "./SettingsSharedComponents";
+import { useTranslation } from "react-i18next";
 
 interface SecuritySettingsSectionProps {
   backendConfig: BackendConfig;
@@ -22,10 +23,13 @@ export function SecuritySettingsSection({
   sensitiveEndpointsEnabled,
   updateBackendSection,
 }: SecuritySettingsSectionProps) {
+  const { t } = useTranslation();
   return (
     <SectionCard
-      title="Security"
-      description="These controls define what risky capabilities PinchTab exposes."
+      title={t("pages.settings.securitysettingssection.security")}
+      description={t(
+        "pages.settings.securitysettingssection.these_controls_define_what_risky",
+      )}
     >
       <div
         className={`rounded-sm px-4 py-3 text-sm leading-6 ${
@@ -35,17 +39,23 @@ export function SecuritySettingsSection({
         }`}
       >
         {sensitiveEndpointsEnabled
-          ? "One or more sensitive endpoint families are enabled. Features like script execution, downloads, uploads, and live capture can expose high-risk capabilities. Only enable them in trusted environments. You are responsible for securing network access, authentication, and downstream use."
-          : "These endpoint families can expose high-risk capabilities when enabled. Only turn them on in trusted environments, and only when you accept responsibility for network access, authentication, and downstream use."}
+          ? t(
+              "pages.settings.securitysettingssection.one_or_more_sensitive_endpoint_families",
+            )
+          : t(
+              "pages.settings.securitysettingssection.these_endpoint_families_can_expose_high",
+            )}
       </div>
       {securityEndpointRows.map((row) => {
         const [key, label] = row;
         const description: string =
           row.length > 2 && typeof row[2] === "string"
-            ? row[2]
-            : "Controls whether the corresponding endpoint family is enabled.";
+            ? t(row[2])
+            : t(
+                "pages.settings.securitysettingssection.controls_whether_the_corresponding",
+              );
         return (
-          <SettingRow key={key} label={label} description={description}>
+          <SettingRow key={key} label={t(label)} description={description}>
             <label className="flex items-center justify-end gap-3 text-sm text-text-secondary">
               <input
                 type="checkbox"
@@ -59,14 +69,16 @@ export function SecuritySettingsSection({
                 }
                 className="h-4 w-4"
               />
-              Enable
+              {t("pages.settings.securitysettingssection.enable")}
             </label>
           </SettingRow>
         );
       })}
       <SettingRow
-        label="Allowed websites"
-        description="Comma-separated domain allowlist for web content. Use exact hosts or patterns like *.example.com."
+        label={t("pages.settings.securitysettingssection.allowed_websites")}
+        description={t(
+          "pages.settings.securitysettingssection.comma_separated_domain_allowlist_for",
+        )}
       >
         <div className="space-y-2">
           <input
@@ -77,18 +89,22 @@ export function SecuritySettingsSection({
               })
             }
             className={fieldClass}
-            placeholder="127.0.0.1, localhost, ::1"
+            placeholder={t(
+              "pages.settings.securitysettingssection.127_0_0_1_localhost_1",
+            )}
           />
           <div className="rounded-sm border border-warning/25 bg-warning/10 px-3 py-2 text-xs leading-5 text-warning">
-            Keep this list narrow. Empty or wildcard entries weaken the main
-            IDPI boundary. Allowing non-local or non-trusted sites increases
-            browser attack surface even when IDPI is enabled.
+            {t(
+              "pages.settings.securitysettingssection.keep_this_list_narrow_empty_or_wildcard",
+            )}
           </div>
         </div>
       </SettingRow>
       <SettingRow
-        label="Trusted proxy CIDRs"
-        description="Comma-separated CIDRs or IPs whose browser-reported remote IP should be trusted during navigation. Use this only for known internal proxies."
+        label={t("pages.settings.securitysettingssection.trusted_proxy_cidrs")}
+        description={t(
+          "pages.settings.securitysettingssection.comma_separated_cidrs_or_ips_whose",
+        )}
       >
         <div className="space-y-2">
           <input
@@ -99,18 +115,24 @@ export function SecuritySettingsSection({
               } as Partial<Pick<BackendSecurityConfig, "trustedProxyCIDRs">>)
             }
             className={fieldClass}
-            placeholder="10.1.2.3, 10.0.0.0/8"
+            placeholder={t(
+              "pages.settings.securitysettingssection.10_1_2_3_10_0_0_0_8",
+            )}
           />
           <div className="rounded-sm border border-warning/25 bg-warning/10 px-3 py-2 text-xs leading-5 text-warning">
-            This weakens navigation IP checks for matching remote IPs. Prefer
-            specific proxy addresses over broad private ranges. Bare IP entries
-            are treated as single hosts.
+            {t(
+              "pages.settings.securitysettingssection.this_weakens_navigation_ip_checks_for",
+            )}
           </div>
         </div>
       </SettingRow>
       <SettingRow
-        label="Trusted resolve CIDRs"
-        description="Comma-separated CIDRs or IPs that a hostname may resolve to during navigation preflight. This is intended for internal DNS or proxy setups."
+        label={t(
+          "pages.settings.securitysettingssection.trusted_resolve_cidrs",
+        )}
+        description={t(
+          "pages.settings.securitysettingssection.comma_separated_cidrs_or_ips_that_a",
+        )}
       >
         <div className="space-y-2">
           <input
@@ -121,12 +143,14 @@ export function SecuritySettingsSection({
               } as Partial<Pick<BackendSecurityConfig, "trustedResolveCIDRs">>)
             }
             className={fieldClass}
-            placeholder="198.18.0.0/15, 10.1.2.3"
+            placeholder={t(
+              "pages.settings.securitysettingssection.198_18_0_0_15_10_1_2_3",
+            )}
           />
           <div className="rounded-sm border border-warning/25 bg-warning/10 px-3 py-2 text-xs leading-5 text-warning">
-            This allows hostnames to resolve to non-public IPs. Keep the list
-            narrow and only include infrastructure you control. Bare IP entries
-            are treated as single hosts.
+            {t(
+              "pages.settings.securitysettingssection.this_allows_hostnames_to_resolve_to_non",
+            )}
           </div>
         </div>
       </SettingRow>

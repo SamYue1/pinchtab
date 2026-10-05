@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IconCamera } from "../atoms/Icon";
 import * as api from "../../services/api";
+import { useTranslation } from "react-i18next";
 
 export type ScreencastStatus = "connecting" | "streaming" | "error";
 
@@ -21,6 +22,7 @@ export default function ScreencastStatusBar({
   fpsDisplay,
   sizeDisplay,
 }: Props) {
+  const { t } = useTranslation();
   const [isCapturing, setIsCapturing] = useState(false);
   const [isPdfGenerating, setIsPdfGenerating] = useState(false);
 
@@ -73,17 +75,18 @@ export default function ScreencastStatusBar({
           <button
             onClick={() => setLocalFps((prev) => Math.max(1, prev - 1))}
             className="flex h-5 w-5 items-center justify-center hover:bg-white/5 active:bg-white/10"
-            title="Decrease FPS"
+            title={t("components.screencast.screencaststatusbar.decrease_fps")}
           >
             -
           </button>
           <div className="min-w-16 px-1.5 text-center font-mono text-[10px] text-text-secondary">
-            {localFps} FPS ({fpsDisplay})
+            {localFps} {t("components.screencast.screencaststatusbar.fps")}
+            {fpsDisplay})
           </div>
           <button
             onClick={() => setLocalFps((prev) => Math.min(30, prev + 1))}
             className="flex h-5 w-5 items-center justify-center hover:bg-white/5 active:bg-white/10"
-            title="Increase FPS"
+            title={t("components.screencast.screencaststatusbar.increase_fps")}
           >
             +
           </button>
@@ -95,7 +98,9 @@ export default function ScreencastStatusBar({
           className={`flex h-6 w-6 items-center justify-center rounded-md border border-border-subtle transition-colors hover:bg-white/5 disabled:opacity-50 ${
             isCapturing ? "bg-primary/20" : "bg-black/20"
           }`}
-          title="Take full quality screenshot (PNG)"
+          title={t(
+            "components.screencast.screencaststatusbar.take_full_quality_screenshot_png",
+          )}
         >
           {isCapturing ? (
             <span className="animate-pulse">⌛</span>
@@ -110,7 +115,7 @@ export default function ScreencastStatusBar({
           className={`flex h-6 w-6 items-center justify-center rounded-md border border-border-subtle transition-colors hover:bg-white/5 disabled:opacity-50 ${
             isPdfGenerating ? "bg-primary/20" : "bg-black/20"
           }`}
-          title="Download as PDF"
+          title={t("components.screencast.screencaststatusbar.download_as_pdf")}
         >
           {isPdfGenerating ? (
             <span className="animate-pulse">⌛</span>

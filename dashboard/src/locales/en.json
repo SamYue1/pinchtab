@@ -1,0 +1,938 @@
+{
+  "app": {
+    "name": "PinchTab",
+    "checking_server_authentication": "Checking server authentication...",
+    "pinchtab_is_restarting_or_unreachable": "PinchTab is restarting or unreachable.",
+    "automatic_retries_stopped": " Automatic retries stopped.",
+    "retry_now": "Retry now",
+    "refresh": "Refresh"
+  },
+  "profiles": {
+    "profiletoolbarbuttons": {
+      "copy_id": "Copy ID",
+      "delete": "Delete",
+      "save": "Save",
+      "stop": "Stop",
+      "start": "Start",
+      "delete_profile": "Delete profile",
+      "cancel": "Cancel",
+      "delete_profile_2": "Delete profile \"",
+      "every_cookie_login_and_session_stored": "\"? Every cookie, login and session stored in it is permanently lost. There is no undo.",
+      "copied": "Copied",
+      "failed": "Failed"
+    },
+    "profilemetainfopanel": {
+      "profile_panel": "Profile panel",
+      "status": "Status",
+      "port": "Port",
+      "browser": "Browser",
+      "size": "Size",
+      "account": "Account",
+      "identity": "Identity",
+      "connection": "Connection",
+      "cdp_attached": "CDP attached",
+      "cdp_url": "CDP URL",
+      "path": "Path",
+      "not_found": " (not found)",
+      "attached_via_cdp": "Attached via CDP",
+      "headless": "Headless",
+      "headed": "Headed"
+    },
+    "profilecard": {
+      "error": "error",
+      "stopped": "stopped",
+      "size": "Size",
+      "account": "Account",
+      "use_when": "Use when",
+      "details": "Details",
+      "stop": "Stop",
+      "start": "Start"
+    },
+    "profiledetailspanel": {
+      "select_a_profile_to_inspect_its": "Select a profile to inspect its instance, live tabs, and logs.",
+      "live": "Live",
+      "tabs": "Tabs",
+      "logs": "Logs",
+      "no_tabs_open": "No tabs open.",
+      "instance_not_running": "Instance not running.",
+      "profile_name": "Profile: {{name}}"
+    },
+    "profilebasicinfopanel": {
+      "name": "Name",
+      "use_this_profile_when": "Use this profile when"
+    },
+    "profileliveviewpanel": {
+      "no_tabs_open": "No tabs open",
+      "instance_not_running_start_the_profile": "Instance not running. Start the profile to see live view."
+    },
+    "instancelogspanel": {
+      "loading_logs": "Loading logs...",
+      "no_instance_logs_available": "No instance logs available."
+    },
+    "groups": {
+      "user": "Profiles",
+      "temporary": "Temporary",
+      "quarantined": "Quarantined"
+    }
+  },
+  "components": {
+    "atoms": {
+      "debugpanel": {
+        "debug": "🐛 Debug",
+        "debug_panel": "Debug Panel",
+        "instances": "Instances:"
+      },
+      "emptystate": {
+        "dashboard": "Dashboard"
+      },
+      "modal": {
+        "dashboard": "Dashboard",
+        "close": "Close"
+      },
+      "errorboundary": {
+        "something_went_wrong": "⚠️ Something went wrong",
+        "unknown_error": "Unknown error",
+        "try_again": "Try again"
+      }
+    },
+    "screencast": {
+      "screencaststatusbar": {
+        "decrease_fps": "Decrease FPS",
+        "increase_fps": "Increase FPS",
+        "take_full_quality_screenshot_png": "Take full quality screenshot (PNG)",
+        "download_as_pdf": "Download as PDF",
+        "fps": "FPS ("
+      },
+      "screencasttile": {
+        "tab_preview": "Tab preview",
+        "connection_lost": "Connection lost",
+        "show_static_preview": "Show static preview",
+        "retry_connection": "Retry connection"
+      },
+      "framedecode": {
+        "failed_to_decode_screencast_frame": "Failed to decode screencast frame"
+      }
+    },
+    "molecules": {
+      "createprofilemodal": {
+        "new_profile": "📁 New Profile",
+        "cancel": "Cancel",
+        "create": "Create",
+        "name": "Name",
+        "e_g_personal_work_scraping": "e.g. personal, work, scraping",
+        "use_this_profile_when_helps_agents_pick": "Use this profile when (helps agents pick the right profile)",
+        "e_g_i_need_to_access_gmail_for_the_team": "e.g. I need to access Gmail for the team account",
+        "import_from_optional_chrome_user_data": "Import from (optional — Chrome user data path)",
+        "e_g_users_you_library_application": "e.g. /Users/you/Library/Application Support/Google/Chrome"
+      },
+      "navbar": {
+        "pinchtab": "PinchTab",
+        "logout": "Logout",
+        "refresh_r": "Refresh (⌘R)",
+        "toggle_menu": "Toggle menu",
+        "monitoring": "Monitoring",
+        "agents": "Agents",
+        "profiles": "Profiles",
+        "settings": "Settings"
+      },
+      "instancestats": {
+        "instance": "Instance",
+        "status": "Status",
+        "uptime": "Uptime",
+        "port": "Port",
+        "crashes": "Crashes",
+        "browsing": "Browsing",
+        "tabs": "Tabs",
+        "domains": "Domains",
+        "resources": "Resources",
+        "memory": "Memory",
+        "renderers": "Renderers",
+        "pages": "Pages",
+        "js_heap": "JS heap",
+        "dom_nodes": "DOM nodes",
+        "listeners": "Listeners",
+        "frames": "Frames",
+        "unreadable": "Unreadable",
+        "just_now": "just now",
+        "tabs_open_before_it_were_lost": "tabs open before it were lost",
+        "rss_across_the_browser_process_tree": "RSS across the browser process tree",
+        "tabs_that_did_not_answer_not_counted": "tabs that did not answer; not counted",
+        "last_crash": "last: {{reason}} at {{time}} · tabs open before it were lost",
+        "heap_summary_one": "used / total, summed over {{count}} tab",
+        "heap_summary_other": "used / total, summed over {{count}} tabs",
+        "document_count_one": "{{count}} document",
+        "document_count_other": "{{count}} documents"
+      },
+      "agentitem": {
+        "tab_paused_for_human_handoff": "tab paused for human handoff",
+        "just_now": "just now",
+        "session_at": "Session {{time}}",
+        "session_range": "Session {{start}}–{{end}}"
+      },
+      "startinstancemodal": {
+        "start_profile": "🖥️ Start Profile",
+        "cancel": "Cancel",
+        "start": "Start",
+        "port": "Port",
+        "auto_select_from_configured_range": "Auto-select from configured range",
+        "leave_blank_to_auto_select_a_free_port": "Leave blank to auto-select a free port from the configured instance port range.",
+        "headless_best_for_docker_vps": "Headless (best for Docker/VPS)",
+        "browser": "Browser",
+        "server_default": "Server default",
+        "chrome": "Chrome",
+        "cloakbrowser": "CloakBrowser",
+        "ghost_chrome": "Ghost + Chrome",
+        "direct_launch_command_backup": "Direct launch command (backup)",
+        "copy_command": "Copy Command",
+        "replace": "Replace",
+        "pinchtab_config_token": "pinchtab config token",
+        "when_auth_is_enabled": "when auth is enabled.",
+        "with_the_value_from": "with the value from",
+        "port_must_be_a_whole_number_between_1": "Port must be a whole number between 1 and 65535.",
+        "profile_id_missing": "Profile ID missing",
+        "failed_to_launch_instance": "Failed to launch instance",
+        "copied": "Copied!",
+        "failed_to_copy": "Failed to copy"
+      },
+      "handoffnotifications": {
+        "human_intervention_required": "Human intervention required",
+        "dismiss_notification": "Dismiss notification",
+        "reason": "Reason:",
+        "resume": "Resume"
+      },
+      "serverstatusbadge": {
+        "expand_instance_list": "Expand instance list",
+        "collapse_instance_list": "Collapse instance list",
+        "tab": "tab",
+        "restart_required": "Restart required",
+        "server_running": "Server running",
+        "restart_required_2": "Restart Required",
+        "running": "Running",
+        "server_running_no_instances": "Server running, no instances"
+      },
+      "serversummary": {
+        "settings": "Settings",
+        "server_information": "Server Information",
+        "technical_details_for_current_session": "Technical details for current session",
+        "version": "Version",
+        "uptime": "Uptime"
+      },
+      "tabschart": {
+        "monitoring": "Monitoring",
+        "live_telemetry": "Live telemetry",
+        "tabs": "Tabs",
+        "memory": "Memory",
+        "heap": "Heap",
+        "server_heap": "Server Heap",
+        "collecting_data": "Collecting data...",
+        "waiting_for_more_data": "Waiting for more data..."
+      },
+      "idbadge": {
+        "click_to_copy_full_id": "Click to copy full ID: {{id}}"
+      }
+    }
+  },
+  "tabs": {
+    "tabbar": {
+      "tab_paused_for_human_handoff": "tab paused for human handoff",
+      "tab_is_paused_for_human_handoff": "Tab is paused for human handoff",
+      "untitled": "Untitled",
+      "unpin_and_follow_the_focused_tab_again": "Unpin and follow the focused tab again",
+      "pin_this_tab_selection": "Pin this tab selection",
+      "tabs": "Tabs",
+      "monitoring": "Monitoring",
+      "pin_tab": "Pin {{title}}",
+      "unpin_tab_and_follow_focus": "Unpin {{title}} and follow focus",
+      "close_tab": "Close {{title}}",
+      "tabs_new": "Tabs ({{count}} new)"
+    },
+    "selectedtabtitle": {
+      "untitled": "Untitled"
+    },
+    "instancetabspanel": {
+      "chart_crashed_check_console": "Chart crashed - check console",
+      "no_tabs_open": "No tabs open",
+      "unknown": "Unknown"
+    },
+    "tabitem": {
+      "untitled": "Untitled"
+    },
+    "consolepanel": {
+      "loading_console_logs": "Loading console logs...",
+      "no_console_logs_yet": "No console logs yet"
+    },
+    "errorspanel": {
+      "loading_errors": "Loading errors...",
+      "no_errors_yet": "No errors yet"
+    },
+    "selectedtabpanel": {
+      "select_a_tab_to_view_details": "Select a tab to view details",
+      "no_instance_id_provided_for_live_view": "No instance ID provided for live view.",
+      "actions": "Actions",
+      "live": "Live",
+      "console": "Console",
+      "errors": "Errors"
+    }
+  },
+  "instances": {
+    "instancelistitem": {
+      "tabs": "tabs",
+      "open_profile": "Open Profile",
+      "restart": "Restart",
+      "stop": "Stop"
+    },
+    "instancecard": {
+      "headless": "Headless",
+      "headed": "Headed",
+      "uptime": "Uptime",
+      "open_dashboard": "Open Dashboard",
+      "stop": "Stop"
+    }
+  },
+  "pages": {
+    "monitoringpage": {
+      "instances": "Instances",
+      "collapse_sidebar": "Collapse sidebar"
+    },
+    "loginpage": {
+      "authentication": "Authentication",
+      "enter_api_token": "Enter API token",
+      "this_pinchtab_server_requires_a_bearer": "This PinchTab server requires a bearer token before the dashboard can load protected routes and APIs.",
+      "run": "Run",
+      "pinchtab_config_token": "pinchtab config token",
+      "to_copy_the_token_to_your_clipboard": "to copy the token to your clipboard.",
+      "paste_bearer_token": "Paste bearer token",
+      "authorizing": "Authorizing...",
+      "continue": "Continue",
+      "authentication_failed": "Authentication failed"
+    },
+    "settings": {
+      "orchestrationsettingssection": {
+        "orchestration": "Orchestration",
+        "port_range_and_allocation_policy_can_be": "Port range and allocation policy can be applied immediately for future launches. Strategy and restart-policy changes require a dashboard restart because strategy routes and lifecycle state are registered at startup.",
+        "strategy": "Strategy",
+        "controls_instance_lifecycle_and_how": "Controls instance lifecycle and how shorthand routes are routed.",
+        "always_on": "Always on",
+        "simple": "Simple",
+        "explicit": "Explicit",
+        "simple_autorestart": "Simple autorestart",
+        "no_instance_hub": "No instance (hub)",
+        "launches_a_default_instance_at_boot_and": "Launches a default instance at boot and relaunches on crash.",
+        "launches_one_instance_on_first_request": "Launches one instance on first request. No auto-restart.",
+        "all_instances_managed_via_api_no": "All instances managed via API. No automatic launches.",
+        "launches_on_first_request_and": "Launches on first request and relaunches on crash.",
+        "no_local_chrome_processes_acts_as_a_hub": "No local Chrome processes. Acts as a hub for remote bridges only.",
+        "allocation_policy": "Allocation policy",
+        "determines_how_running_instances_are": "Determines how running instances are chosen for shorthand requests.",
+        "first_available": "First available",
+        "round_robin": "Round robin",
+        "random": "Random",
+        "instance_port_start": "Instance port start",
+        "lower_bound_for_auto_allocated_instance": "Lower bound for auto-allocated instance ports.",
+        "instance_port_end": "Instance port end",
+        "upper_bound_for_auto_allocated_instance": "Upper bound for auto-allocated instance ports.",
+        "max_restarts": "Max restarts",
+        "maximum_restart_attempts_use_1_for": "Maximum restart attempts. Use -1 for unlimited, 0 for no restarts.",
+        "initial_backoff": "Initial backoff",
+        "delay_in_seconds_before_the_first": "Delay in seconds before the first restart attempt.",
+        "max_backoff": "Max backoff",
+        "upper_bound_in_seconds_for_exponential": "Upper bound in seconds for exponential restart backoff.",
+        "stable_after": "Stable after",
+        "seconds_the_instance_must_stay_healthy": "Seconds the instance must stay healthy before the restart counter resets."
+      },
+      "securitysettingssection": {
+        "security": "Security",
+        "these_controls_define_what_risky": "These controls define what risky capabilities PinchTab exposes.",
+        "one_or_more_sensitive_endpoint_families": "One or more sensitive endpoint families are enabled. Features like script execution, downloads, uploads, and live capture can expose high-risk capabilities. Only enable them in trusted environments. You are responsible for securing network access, authentication, and downstream use.",
+        "these_endpoint_families_can_expose_high": "These endpoint families can expose high-risk capabilities when enabled. Only turn them on in trusted environments, and only when you accept responsibility for network access, authentication, and downstream use.",
+        "controls_whether_the_corresponding": "Controls whether the corresponding endpoint family is enabled.",
+        "enable": "Enable",
+        "allowed_websites": "Allowed websites",
+        "comma_separated_domain_allowlist_for": "Comma-separated domain allowlist for web content. Use exact hosts or patterns like *.example.com.",
+        "127_0_0_1_localhost_1": "127.0.0.1, localhost, ::1",
+        "keep_this_list_narrow_empty_or_wildcard": "Keep this list narrow. Empty or wildcard entries weaken the main IDPI boundary. Allowing non-local or non-trusted sites increases browser attack surface even when IDPI is enabled.",
+        "trusted_proxy_cidrs": "Trusted proxy CIDRs",
+        "comma_separated_cidrs_or_ips_whose": "Comma-separated CIDRs or IPs whose browser-reported remote IP should be trusted during navigation. Use this only for known internal proxies.",
+        "10_1_2_3_10_0_0_0_8": "10.1.2.3, 10.0.0.0/8",
+        "this_weakens_navigation_ip_checks_for": "This weakens navigation IP checks for matching remote IPs. Prefer specific proxy addresses over broad private ranges. Bare IP entries are treated as single hosts.",
+        "trusted_resolve_cidrs": "Trusted resolve CIDRs",
+        "comma_separated_cidrs_or_ips_that_a": "Comma-separated CIDRs or IPs that a hostname may resolve to during navigation preflight. This is intended for internal DNS or proxy setups.",
+        "198_18_0_0_15_10_1_2_3": "198.18.0.0/15, 10.1.2.3",
+        "this_allows_hostnames_to_resolve_to_non": "This allows hostnames to resolve to non-public IPs. Keep the list narrow and only include infrastructure you control. Bare IP entries are treated as single hosts."
+      },
+      "settingssharedcomponents": {
+        "settings": "Settings"
+      },
+      "networksettingssection": {
+        "network_attach": "Network & Attach",
+        "port_and_bind_changes_require_a_restart": "Port and bind changes require a restart. API token management is handled outside the dashboard.",
+        "server_port": "Server port",
+        "http_port_for_the_dashboard_process": "HTTP port for the dashboard process.",
+        "bind_address": "Bind address",
+        "network_interface_the_dashboard_process": "Network interface the dashboard process binds to. Keeping 127.0.0.1 or localhost limits direct reachability to the local machine.",
+        "a_non_loopback_bind_is_a_documented_non": "A non-loopback bind is a documented, non-default, security-reducing configuration change. It may expose the server beyond the local machine unless another network boundary still restricts access. Keep a token set and review proxy or port-publishing behavior explicitly.",
+        "loopback_bind_keeps_direct_server": "Loopback bind keeps direct server reachability local. Moving to",
+        "or_another_non_local_address_widens_the": "or another non-local address widens the trust boundary.",
+        "api_token": "API token",
+        "bearer_token_required_by_authenticated": "Bearer token required by authenticated requests when set. The dashboard never returns it and does not manage it.",
+        "no_token_configured_set_one_through_the": "No token configured. Set one through the CLI or config file.",
+        "token_configured_manage_rotation": "Token configured. Manage rotation through the CLI or config file; the current value is never returned by the server. Run",
+        "pinchtab_config_token": "pinchtab config token",
+        "to_copy_it_to_your_clipboard": "to copy it to your clipboard.",
+        "no_api_token_is_set_anyone_who_can": "No API token is set. Anyone who can reach this server can access exposed endpoints. Keep it on trusted local networks only, or configure a strong token through the CLI or config file. You are responsible for protecting access.",
+        "state_directory": "State directory",
+        "base_state_path_used_by_managed_child": "Base state path used by managed child instances.",
+        "trust_proxy_headers": "Trust proxy headers",
+        "trust_x_forwarded_proto_x_forwarded": "Trust X-Forwarded-Proto, X-Forwarded-Host, and Forwarded headers for origin checks. Enable only when PinchTab runs behind a trusted reverse proxy (e.g. Caddy, nginx).",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
+        "cookie_secure_mode": "Cookie Secure mode",
+        "controls_whether_dashboard_session": "Controls whether dashboard session cookies require HTTPS. Auto enables Secure only on HTTPS. Force Secure is appropriate when TLS is in front of PinchTab.",
+        "auto": "Auto",
+        "force_secure": "Force Secure",
+        "force_insecure": "Force Insecure",
+        "force_secure_blocks_dashboard_login_on": "Force Secure blocks dashboard login on plain HTTP. Use it when PinchTab is served through HTTPS directly or behind a trusted proxy. If TLS terminates in front of PinchTab, enable",
+        "trustproxyheaders": "trustProxyHeaders",
+        "so_forwarded_https_requests_are": "so forwarded HTTPS requests are recognized.",
+        "persist_dashboard_sessions": "Persist dashboard sessions",
+        "keep_dashboard_login_sessions_across": "Keep dashboard login sessions across server restarts. Disable this if you want every restart to force a fresh login.",
+        "session_idle_timeout": "Session idle timeout",
+        "how_long_an_unused_dashboard_session": "How long an unused dashboard session stays valid. This is stored in seconds in config.",
+        "session_max_lifetime": "Session max lifetime",
+        "absolute_lifetime_for_a_dashboard": "Absolute lifetime for a dashboard session before it must be re-created, even if active.",
+        "require_elevation_for_config_saves": "Require elevation for config saves",
+        "ask_for_api_token_re_entry_before": "Ask for API token re-entry before saving backend config changes. Disabled by default.",
+        "allow_attach": "Allow attach",
+        "permit_attaching_pinchtab_to_externally": "Permit attaching PinchTab to externally managed Chrome sessions.",
+        "enable": "Enable",
+        "allowed_attach_hosts": "Allowed attach hosts",
+        "comma_separated_host_allowlist_for": "Comma-separated host allowlist for attach requests. Only include hosts you control and trust. Using \"*\" disables host allowlisting.",
+        "allowhosts": "allowHosts: [\"*\"]",
+        "is_a_documented_non_default_security": "is a documented, non-default, security-reducing override. It disables host allowlisting entirely and allows remote attach requests to any reachable host with an allowed scheme. Use it only on isolated, operator-controlled networks.",
+        "hosts_in_this_allowlist_may_be_used_for": "Hosts in this allowlist may be used for remote attach requests. Broad or untrusted entries expand the trust boundary and can expose external Chrome sessions and browser contents.",
+        "allowed_attach_schemes": "Allowed attach schemes",
+        "comma_separated_scheme_allowlist": "Comma-separated scheme allowlist, usually ws and wss."
+      },
+      "observabilitysettingssection": {
+        "observability": "Observability",
+        "activity_logging_tracks_api_requests": "Activity logging tracks API requests for debugging and audit trails. Logs are stored locally and can be queried via the Activity page.",
+        "activity_logging": "Activity logging",
+        "enable_or_disable_activity_event": "Enable or disable activity event recording.",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
+        "retention_days": "Retention (days)",
+        "how_long_to_keep_activity_logs_before": "How long to keep activity logs before automatic cleanup. Longer retention uses more disk space but provides better audit history.",
+        "session_idle_timeout_seconds": "Session idle timeout (seconds)",
+        "time_before_an_inactive_agent_session": "Time before an inactive agent session is considered idle. Used for grouping activity by session."
+      },
+      "profilessettingssection": {
+        "profiles": "Profiles",
+        "profile_storage_is_host_level_changing": "Profile storage is host-level. Changing the base directory requires restart because the profile manager and orchestrator are created with it at boot.",
+        "profiles_base_directory": "Profiles base directory",
+        "root_directory_where_browser_profiles": "Root directory where browser profiles are stored.",
+        "default_profile": "Default profile",
+        "profile_name_used_when_the_server_needs": "Profile name used when the server needs an implicit default."
+      },
+      "defaultssettingssection": {
+        "instance_defaults": "Instance Defaults",
+        "these_values_are_written_to_config_and": "These values are written to config and used for new managed instances. Existing running instances keep their current runtime.",
+        "mode": "Mode",
+        "default_browser_mode_for_new_launches": "Default browser mode for new launches.",
+        "headless": "Headless",
+        "headed": "Headed",
+        "stealth_level": "Stealth level",
+        "bot_detection_evasion_profile_higher": "Bot detection evasion profile. Higher levels may affect error monitoring and certain browser features.",
+        "light": "Light",
+        "medium": "Medium",
+        "full": "Full",
+        "light_2": "Light:",
+        "default_baseline_stealth_keeps_the": "Default baseline stealth. Keeps the lowest-risk launch and JS contract while hiding basic automation markers.",
+        "default_product_security_baseline": "✓ Default product security baseline",
+        "no_intentional_api_realism_or_security": "✓ No intentional API realism or security tradeoff",
+        "medium_2": "Medium:",
+        "non_default_risk_mode_adds_client_hints": "Non-default risk mode. Adds Client Hints, `chrome.runtime` shims, iframe propagation, stack filtering, and native-looking function masking to improve anti-bot compatibility.",
+        "alters_browser_visible_apis_and_error": "⚠ Alters browser-visible APIs and error/stack behavior. Monitoring and debugging tools may see different results.",
+        "permissions_and_compatibility_shims_can": "⚠ Permissions and compatibility shims can return intentionally altered values. Do not use this as the default safety baseline.",
+        "reports_that_require_explicitly": "⚠ Reports that require explicitly enabling Medium should be treated as opt-in risk acceptance, not default-path behavior.",
+        "full_2": "Full:",
+        "highest_risk_non_default_mode_adds": "Highest-risk non-default mode. Adds graphics, canvas, audio, system-color, and WebRTC alterations on top of Medium.",
+        "browser_output_is_intentionally_less": "⚠ Browser output is intentionally less native and less stable. Rendering, media, and networking behavior may break or drift from real Chrome.",
+        "this_mode_is_not_an_acceptable_default": "⚠ This mode is not an acceptable default security posture. Only enable it when you explicitly accept the tradeoff surface.",
+        "reports_that_depend_on_enabling_full": "⚠ Reports that depend on enabling Full should be triaged as non-default operator risk unless a default-path bypass is shown.",
+        "webrtc_webgl_canvas_and_audio_behavior": "⚠ WebRTC, WebGL, canvas, and audio behavior can all diverge from baseline Chrome.",
+        "tab_eviction_policy": "Tab eviction policy",
+        "how_pinchtab_behaves_when_a_managed": "How PinchTab behaves when a managed instance reaches its tab limit.",
+        "reject_new_tabs": "Reject new tabs",
+        "close_oldest": "Close oldest",
+        "close_least_recently_used": "Close least recently used",
+        "tab_lifecycle": "Tab lifecycle",
+        "close_idle_closes_a_tab_after_a_text": "Close idle closes a tab after a /text, /snapshot, or /action response once the delay passes; /navigate cancels it. Freeze idle freezes any tab no request has touched for the delay and unfreezes it on its next request.",
+        "keep_never_auto_close": "Keep (never auto-close)",
+        "close_idle": "Close idle",
+        "freeze_idle": "Freeze idle",
+        "auto_close_delay": "Auto-close delay",
+        "seconds_of_idleness_before_an_idle_tab": "Seconds of idleness before an idle tab is closed or frozen. Only applies when lifecycle is 'Close idle' or 'Freeze idle'.",
+        "restore_tabs_on_startup": "Restore tabs on startup",
+        "when_enabled_tabs_open_at_shutdown_are": "When enabled, tabs open at shutdown are reopened on the next start. Off by default — closed tabs stay closed across restarts.",
+        "enable": "Enable",
+        "max_tabs": "Max tabs",
+        "maximum_number_of_tabs_per_managed": "Maximum number of tabs per managed instance.",
+        "max_parallel_tabs": "Max parallel tabs",
+        "set_to_0_to_auto_detect_from_cpu_count": "Set to 0 to auto-detect from CPU count.",
+        "timezone": "Timezone",
+        "optional_timezone_override_for_launched": "Optional timezone override for launched instances.",
+        "europe_rome": "Europe/Rome",
+        "user_agent": "User agent",
+        "optional_override_applied_to_new": "Optional override applied to new managed instances.",
+        "custom_user_agent": "Custom user agent",
+        "applies_to_newly_launched_managed": "Applies to newly launched managed instances."
+      },
+      "securityidpisettingssection": {
+        "security_idpi": "Security IDPI",
+        "indirect_prompt_injection_controls": "Indirect prompt injection controls restrict which websites are allowed and add protections around extracted content before it reaches downstream automation.",
+        "idpi_is_disabled_browser_content_is_not": "IDPI is disabled. Browser content is not being filtered by website allowlist or content protections.",
+        "the_website_whitelist_is_not_set_to_a": "The website whitelist is not set to a restricted domain list. This is the main IDPI defense and should be configured.",
+        "the_website_whitelist_contains_which": "The website whitelist contains '*', which effectively disables domain restriction.",
+        "idpi_is_enforcing_a_specific_website": "IDPI is enforcing a specific website whitelist and content protections.",
+        "enable": "Enable",
+        "custom_patterns": "Custom patterns",
+        "optional_comma_separated_phrases_to": "Optional comma-separated phrases to treat as suspicious prompt-injection content.",
+        "ignore_previous_instructions_exfiltrate": "ignore previous instructions, exfiltrate data"
+      },
+      "timeoutssettingssection": {
+        "timeouts": "Timeouts",
+        "runtime_timing_defaults_written_into": "Runtime timing defaults written into new child configs. Existing running instances keep their current timeouts."
+      },
+      "browsersettingssection": {
+        "browser_runtime": "Browser Runtime",
+        "these_settings_are_written_into_the": "These settings are written into the generated child config for new managed instances.",
+        "provider": "Provider",
+        "browser_backend_used_for_new_managed": "Browser backend used for new managed instances.",
+        "chrome": "Chrome",
+        "cloakbrowser": "CloakBrowser",
+        "ghost_chrome": "Ghost + Chrome",
+        "browser_version": "Browser version",
+        "version_string_used_in_generated_ua": "Version string used in generated UA/fingerprint defaults.",
+        "browser_binary": "Browser binary",
+        "optional_path_override_for_the_chrome": "Optional path override for the Chrome or CloakBrowser executable.",
+        "fingerprint_seed": "Fingerprint seed",
+        "deterministic_cloakbrowser_identity": "Deterministic CloakBrowser identity seed. Leave blank for a fresh identity per launch.",
+        "fingerprint_platform": "Fingerprint platform",
+        "native_platform_fingerprint_reported_by": "Native platform fingerprint reported by CloakBrowser.",
+        "auto": "Auto",
+        "windows": "Windows",
+        "macos": "macOS",
+        "linux": "Linux",
+        "cloak_locale": "Cloak locale",
+        "locale_passed_as_fingerprint_locale": "Locale passed as --fingerprint-locale.",
+        "cloak_timezone": "Cloak timezone",
+        "timezone_passed_as_fingerprint_timezone": "Timezone passed as --fingerprint-timezone.",
+        "webrtc_ip": "WebRTC IP",
+        "explicit_replacement_ip_or_auto_for": "Explicit replacement IP or auto for CloakBrowser proxy exit-IP resolution.",
+        "fonts_directory": "Fonts directory",
+        "directory_containing_target_platform": "Directory containing target-platform fonts for CloakBrowser.",
+        "storage_quota": "Storage quota",
+        "storage_quota_in_mb_passed_as": "Storage quota in MB passed as --fingerprint-storage-quota.",
+        "native_stealth_only": "Native stealth only",
+        "disable_pinchtab_js_stealth_overlays": "Disable PinchTab JS stealth overlays and automation-hiding launch flags.",
+        "use_cloakbrowser_native_patches": "Use CloakBrowser native patches",
+        "extra_flags": "Extra flags",
+        "additional_chrome_flags_appended_when": "Additional Chrome flags appended when launching managed instances.",
+        "extension_paths": "Extension paths",
+        "comma_separated_extension_directories": "Comma-separated extension directories to load. By default, PinchTab uses the local extensions/ folder under its state/config directory. Set custom paths here to override that default, or clear the field to disable extension loading."
+      },
+      "dashboardsettingssection": {
+        "dashboard_preferences": "Dashboard Preferences",
+        "language": "Language",
+        "choose_the_language_of_the_dashboard": "Choose the language of the dashboard interface.",
+        "these_controls_affect_this_dashboard_ui": "These controls affect this dashboard UI only. They are stored locally in your browser and do not require a backend restart.",
+        "screencast_frame_rate": "Screencast frame rate",
+        "controls_how_often_live_previews": "Controls how often live previews request new frames.",
+        "fps": "fps",
+        "screencast_quality": "Screencast quality",
+        "jpeg_quality_for_tab_preview_streams": "JPEG quality for tab preview streams.",
+        "screencast_width": "Screencast width",
+        "maximum_preview_width_for_live_tiles": "Maximum preview width for live tiles.",
+        "px": "px",
+        "memory_metrics": "Memory metrics",
+        "poll_every_running_instance_for_browser": "Poll every running instance for browser memory on each monitoring tick: RSS across the Chrome process tree plus JS heap and DOM counters read from each open tab over CDP. Measured cost: about a millisecond per open tab plus a few tens of milliseconds for the process-tree walk, per instance per tick.",
+        "enable": "Enable",
+        "polling_interval": "Polling interval",
+        "how_frequently_the_dashboard_asks_the": "How frequently the dashboard asks the backend for fresh metrics.",
+        "s": "s",
+        "reasoning_output": "Reasoning output",
+        "choose_whether_the_live_agent_feed": "Choose whether the live agent feed shows tool calls, progress updates, or both.",
+        "tool_calls_only": "Tool calls only",
+        "progress_only": "Progress only",
+        "both": "Both"
+      },
+      "autosolversettingssection": {
+        "autosolver": "AutoSolver",
+        "these_settings_are_saved_into_the": "These settings are saved into the PinchTab config file. External provider API keys stay write-only and must be set directly in that file.",
+        "config_file": "Config file",
+        "dashboard_edits_are_written_back_to": "Dashboard edits are written back to this file. Set external provider keys under autoSolver.external in the same config file.",
+        "config_path_unavailable": "Config path unavailable",
+        "enable_autosolver": "Enable AutoSolver",
+        "turns_on_the_autosolver_runtime": "Turns on the autosolver runtime configuration for supported challenge flows.",
+        "enabled": "Enabled",
+        "disabled": "Disabled",
+        "auto_trigger": "Auto trigger",
+        "automatically_run_autosolver_after": "Automatically run autosolver after supported navigation and action requests.",
+        "trigger_on_navigate": "Trigger on navigate",
+        "run_autosolver_checks_after_successful": "Run autosolver checks after successful navigation calls.",
+        "trigger_on_action": "Trigger on action",
+        "run_autosolver_checks_after_successful_2": "Run autosolver checks after successful action calls.",
+        "max_attempts": "Max attempts",
+        "maximum_autosolver_retries_before_the": "Maximum autosolver retries before the pipeline gives up.",
+        "solver_timeout_sec": "Solver timeout (sec)",
+        "per_solver_timeout_for_each_attempt": "Per-solver timeout for each attempt.",
+        "retry_base_delay_ms": "Retry base delay (ms)",
+        "base_retry_backoff_delay_between": "Base retry backoff delay between autosolver attempts.",
+        "retry_max_delay_ms": "Retry max delay (ms)",
+        "maximum_retry_backoff_delay_cap_between": "Maximum retry backoff delay cap between autosolver attempts.",
+        "solvers": "Solvers",
+        "comma_separated_ordered_list_of_solver": "Comma-separated ordered list of solver names to try. Use GET /solvers or GET /config/autosolver to confirm runtime-available names.",
+        "llm_provider": "LLM provider",
+        "optional_provider_name_used_when_llm": "Optional provider name used when LLM fallback is enabled.",
+        "llm_fallback": "LLM fallback",
+        "use_an_llm_as_the_last_resort_after": "Use an LLM as the last resort after registered solvers fail.",
+        "external_provider_keys": "External provider keys",
+        "capsolver_and_2captcha_credentials_are": "Capsolver and 2Captcha credentials are not shown in the dashboard and must be managed in the config file. Those providers appear in runtime solver lists only when keys are configured.",
+        "open_the_config_file_above_and_set": "Open the config file above and set",
+        "autosolver_external_capsolverkey": "autoSolver.external.capsolverKey",
+        "autosolver_external_twocaptchakey": "autoSolver.external.twoCaptchaKey",
+        "there_the_dashboard_does_not_display_or": "there. The dashboard does not display or edit those values, and there are no environment variable overrides."
+      }
+    },
+    "monitoring": {
+      "monitoringemptystate": {
+        "starting_default_instance": "Starting default instance...",
+        "start_default_instance": "Start Default Instance",
+        "open_default_profile": "Open Default Profile",
+        "no_active_instances": "No active instances",
+        "pinchtab_expected_a_default_instance": "PinchTab expected a default instance, but it never became available. Start it manually or inspect the profile.",
+        "start_the_default_instance_or_open": "Start the default instance or open Profiles to launch a different one.",
+        "waiting_for_default_profile": "PinchTab is waiting for the default profile to come online. Checking again automatically ({{count}} checks left)."
+      },
+      "defaultinstancemodal": {
+        "start_default_instance": "Start Default Instance",
+        "cancel": "Cancel",
+        "start_headed": "Start Headed",
+        "start_headless": "Start Headless",
+        "choose_how_to_launch_the_default": "Choose how to launch the default profile for this session.",
+        "configured_default_mode": "Configured default mode:"
+      }
+    },
+    "profilespage": {
+      "loading_profiles": "Loading profiles...",
+      "no_profiles_yet": "No profiles yet",
+      "click_new_profile_to_create_one": "Click New Profile to create one",
+      "new_profile": "New Profile",
+      "profiles": "Profiles",
+      "total": "total",
+      "no_account": "No account",
+      "profile_deleted": "Profile \"{{name}}\" deleted"
+    },
+    "settingspage": {
+      "confirm_admin_action": "Confirm admin action",
+      "cancel": "Cancel",
+      "verifying": "Verifying...",
+      "continue": "Continue",
+      "re_enter_the_api_token_to_save_backend": "Re-enter the API token to save backend configuration changes. The elevated session stays active briefly so you do not need to repeat this for every admin action.",
+      "api_token": "API token",
+      "paste_api_token": "Paste API token",
+      "restart_required": "Restart required",
+      "reset": "Reset",
+      "saving": "Saving...",
+      "save": "Save",
+      "restart_needed_for": "Restart needed for:",
+      "loading_settings": "Loading settings…",
+      "settings_eyebrow": "Settings"
+    }
+  },
+  "activities": {
+    "activityexplorer": {
+      "agent": "Agent",
+      "all": "All",
+      "session": "Session",
+      "request_timeline": "Request timeline",
+      "activity": "Activity",
+      "failed_to_load_activity": "Failed to load activity"
+    },
+    "agentstreampanel": {
+      "no_matching_activity": "No matching activity",
+      "adjust_the_filters_or_generate_some": "Adjust the filters or generate some traffic from the CLI, MCP, or dashboard."
+    },
+    "streamrow": {
+      "ms": "ms",
+      "navigate_to_page": "Navigate to page",
+      "capture_page_snapshot": "Capture page snapshot",
+      "open_screencast_stream": "Open screencast stream",
+      "extract_text_from_page": "Extract text from page",
+      "click_on_page": "Click on page",
+      "double_click_on_page": "Double-click on page",
+      "type_into_page": "Type into page",
+      "hover_on_page": "Hover on page",
+      "fill_field": "Fill field",
+      "select_option": "Select option",
+      "scroll_page": "Scroll page",
+      "press_key": "Press key",
+      "wait_for_condition": "Wait for condition",
+      "evaluate_javascript": "Evaluate JavaScript",
+      "upload_file": "Upload file",
+      "download_file": "Download file",
+      "on_tab": " on tab ",
+      "navigate_to_url": "Navigate to {{url}}",
+      "click_ref": "Click \"{{ref}}\"",
+      "double_click_ref": "Double-click \"{{ref}}\"",
+      "type_into_ref": "Type into \"{{ref}}\"",
+      "hover_ref": "Hover \"{{ref}}\"",
+      "fill_ref": "Fill \"{{ref}}\"",
+      "select_ref": "Select \"{{ref}}\"",
+      "press_key_on_ref": "Press key on \"{{ref}}\""
+    },
+    "activityline": {
+      "progress": "PROGRESS",
+      "agent_reported_progress": "Agent reported progress",
+      "ms": "ms"
+    },
+    "activityitemline": {
+      "tab_paused_for_human_handoff": "tab paused for human handoff",
+      "tab_is_paused_for_human_handoff": "Tab is paused for human handoff",
+      "resume_automation_after_manual": "Resume automation after manual challenge solve",
+      "resuming": "Resuming…",
+      "resolve_challenge": "Resolve challenge",
+      "browser_was_escalated": "Browser was escalated",
+      "escalated": "escalated",
+      "navigate_to_page": "Navigate to page",
+      "capture_page_snapshot": "Capture page snapshot",
+      "open_screencast_stream": "Open screencast stream",
+      "extract_text_from_page": "Extract text from page",
+      "take_screenshot": "Take screenshot",
+      "export_page_as_pdf": "Export page as PDF",
+      "click_on_page": "Click on page",
+      "double_click_on_page": "Double-click on page",
+      "type_into_page": "Type into page",
+      "hover_on_page": "Hover on page",
+      "fill_field": "Fill field",
+      "select_option": "Select option",
+      "scroll_page": "Scroll page",
+      "press_key": "Press key",
+      "wait_for_condition": "Wait for condition",
+      "evaluate_javascript": "Evaluate JavaScript",
+      "upload_file": "Upload file",
+      "download_file": "Download file",
+      "resume_failed": "Resume failed",
+      "navigate_to_url": "Navigate to {{url}}",
+      "click_ref": "Click \"{{ref}}\"",
+      "double_click_ref": "Double-click \"{{ref}}\"",
+      "type_into_ref": "Type into \"{{ref}}\"",
+      "hover_ref": "Hover \"{{ref}}\"",
+      "fill_ref": "Fill \"{{ref}}\"",
+      "select_ref": "Select \"{{ref}}\"",
+      "press_key_on_ref": "Press key on \"{{ref}}\""
+    },
+    "activitytimeline": {
+      "timeline": "Timeline",
+      "recent_events": "Recent events",
+      "no_matching_activity": "No matching activity",
+      "adjust_the_filters_or_generate_some": "Adjust the filters or generate some traffic from the CLI, MCP, or dashboard."
+    },
+    "activefilterbar": {
+      "clear_filters": "Clear filters"
+    },
+    "activityfiltermenu": {
+      "200": "200",
+      "3600": "3600",
+      "profile": "Profile",
+      "tab": "Tab",
+      "agent": "Agent",
+      "action": "Action",
+      "advanced_filters": "Advanced filters",
+      "hide": "Hide",
+      "show": "Show",
+      "instance": "Instance",
+      "path_prefix": "Path prefix",
+      "tabs_or_instances": "/tabs/ or /instances/",
+      "age_seconds": "Age (seconds)",
+      "limit": "Limit",
+      "clear": "Clear",
+      "search": "Search",
+      "any_profile": "Any profile",
+      "any_tab": "Any tab",
+      "any_agent": "Any agent",
+      "any_action": "Any action",
+      "any_instance": "Any instance"
+    },
+    "agentworkspacesidebar": {
+      "agents": "Agents",
+      "activities": "Activities",
+      "no_agent_activity_observed_yet": "No agent activity observed yet",
+      "all_agents": "All Agents"
+    },
+    "copyidpill": {
+      "copied": "Copied",
+      "copy_tab_id": "Copy tab ID {{id}}"
+    },
+    "hooks": {
+      "useactivitydata": {
+        "failed_to_load_activity": "Failed to load activity",
+        "failed_to_load_agent_activity": "Failed to load agent activity"
+      }
+    }
+  },
+  "settings": {
+    "sections": {
+      "dashboard": {
+        "dashboard": "Dashboard",
+        "local_monitoring_and_screencast": "Local monitoring and screencast preferences."
+      },
+      "defaults": {
+        "instance_defaults": "Instance Defaults",
+        "how_new_managed_browser_instances_launch": "How new managed browser instances launch."
+      },
+      "orchestration": {
+        "orchestration": "Orchestration",
+        "routing_strategy_port_range_and": "Routing strategy, port range, and allocation policy."
+      },
+      "security": {
+        "security": "Security",
+        "sensitive_endpoint_gates_and_access": "Sensitive endpoint gates and access controls."
+      },
+      "security-idpi": {
+        "security_idpi": "Security IDPI",
+        "indirect_prompt_injection_website_and": "Indirect prompt injection website and content defenses."
+      },
+      "profiles": {
+        "profiles": "Profiles",
+        "shared_profile_storage_and_default": "Shared profile storage and default profile behavior."
+      },
+      "network": {
+        "network_attach": "Network & Attach",
+        "server_binding_auth_and_attach_policy": "Server binding, auth, and attach policy."
+      },
+      "browser": {
+        "browser_runtime": "Browser Runtime",
+        "chrome_binary_version_flags_and": "Chrome binary, version, flags, and extensions."
+      },
+      "timeouts": {
+        "timeouts": "Timeouts",
+        "action_navigation_shutdown_and_wait": "Action, navigation, shutdown, and wait timing."
+      },
+      "autosolver": {
+        "autosolver": "AutoSolver",
+        "challenge_solving_behavior_and_config": "Challenge-solving behavior and config-file-backed providers."
+      },
+      "observability": {
+        "observability": "Observability",
+        "activity_logging_and_retention_settings": "Activity logging and retention settings."
+      }
+    },
+    "security": {
+      "endpoints": {
+        "allowEvaluate": {
+          "allow_evaluate": "Allow evaluate"
+        },
+        "allowMacro": {
+          "allow_macro": "Allow macro"
+        },
+        "allowScreencast": {
+          "allow_screencast": "Allow screencast"
+        },
+        "allowDownload": {
+          "allow_download": "Allow download"
+        },
+        "allowCookies": {
+          "allow_cookies": "Allow cookies"
+        },
+        "allowUpload": {
+          "allow_upload": "Allow upload"
+        },
+        "allowNetworkIntercept": {
+          "allow_network_interception": "Allow network interception",
+          "lets_agents_install_rules_to_abort_or": "Lets agents install rules to abort or fulfill (mock) HTTP requests on a tab. When on, response forgery is FORBIDDEN on hosts in 'Allowed websites' below and PERMITTED elsewhere. Forging responses on hosts you've authorized the agent to use (e.g. your bank) is the highest-risk outcome — that's why allowlisted hosts are protected, not the reverse. OPTIONS preflights are skipped by default to avoid breaking CORS."
+        },
+        "allowFileScheme": {
+          "allow_file_navigation": "Allow file:// navigation",
+          "lets_agents_open_local_file_urls_a_file": "Lets agents open local file:// URLs. A file:// URL has no host, so it is NOT limited by 'Allowed websites' below and bypasses SSRF/private-IP protection — enabling it grants read access (via snapshot/screenshot/scrape) to any local file the server process can read. It stays blocked while a strict-mode allowlist is active. Enable only on trusted, single-tenant machines."
+        }
+      },
+      "idpi": {
+        "enabled": {
+          "enable_idpi": "Enable IDPI",
+          "turn_on_indirect_prompt_injection": "Turn on indirect prompt injection defenses."
+        },
+        "strictMode": {
+          "strict_mode": "Strict mode",
+          "block_disallowed_domains_and_suspicious": "Block disallowed domains and suspicious content instead of only warning."
+        },
+        "scanContent": {
+          "scan_content": "Scan content",
+          "inspect_extracted_text_and_snapshots": "Inspect extracted text and snapshots for prompt-injection patterns."
+        },
+        "wrapContent": {
+          "wrap_content": "Wrap content",
+          "mark_returned_page_text_as_untrusted": "Mark returned page text as untrusted content for downstream consumers."
+        }
+      }
+    },
+    "defaults": {
+      "booleans": {
+        "blockImages": {
+          "block_images": "Block images"
+        },
+        "blockMedia": {
+          "block_media": "Block media"
+        },
+        "blockAds": {
+          "block_ads": "Block ads"
+        },
+        "noAnimations": {
+          "disable_css_animations": "Disable CSS animations"
+        },
+        "noRestore": {
+          "skip_session_restore": "Skip session restore"
+        }
+      },
+      "timeouts": {
+        "actionSec": {
+          "action_timeout": "Action timeout",
+          "maximum_time_for_action_requests": "Maximum time for action requests."
+        },
+        "navigateSec": {
+          "navigate_timeout": "Navigate timeout",
+          "maximum_time_for_navigation_requests": "Maximum time for navigation requests."
+        },
+        "shutdownSec": {
+          "shutdown_timeout": "Shutdown timeout",
+          "grace_period_before_force_closing_a": "Grace period before force-closing a child process."
+        },
+        "waitNavMs": {
+          "wait_after_navigation_delay": "Wait-after-navigation delay",
+          "post_navigation_stabilization_delay_in": "Post-navigation stabilization delay in milliseconds."
+        }
+      }
+    },
+    "notices": {
+      "backend_config_saved_dynamic_changes": "Backend config saved. Dynamic changes were applied where possible.",
+      "backend_config_saved_dynamic_changes_2": "Backend config saved. Dynamic changes were applied where possible. Restart advised for server-level changes.",
+      "preferencesSaved": "Dashboard preferences saved in this browser."
+    },
+    "errors": {
+      "loadFailed": "Failed to load settings",
+      "saveFailed": "Failed to save settings",
+      "tokenVerifyFailed": "Failed to verify API token"
+    }
+  },
+  "monitoring": {
+    "errors": {
+      "startInstanceFailed": "Failed to start instance"
+    }
+  },
+  "errors": {
+    "requestFailed": "Request failed"
+  },
+  "auth": {
+    "insecureTransport": "Dashboard session is running over insecure HTTP; use HTTPS or localhost for stronger session protection."
+  }
+}

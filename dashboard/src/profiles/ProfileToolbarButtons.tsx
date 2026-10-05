@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Modal } from "../components/atoms";
 import type { Profile, Instance } from "../generated/types";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   profile: Profile;
@@ -25,6 +26,7 @@ export default function ProfileToolbarButtons({
   deleteNotice,
   isSaveDisabled,
 }: Props) {
+  const { t } = useTranslation();
   const [copyFeedback, setCopyFeedback] = useState("");
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const isRunning = instance?.status === "running";
@@ -39,10 +41,10 @@ export default function ProfileToolbarButtons({
     if (!profile.id) return;
     try {
       await navigator.clipboard.writeText(profile.id);
-      setCopyFeedback("Copied");
+      setCopyFeedback(t("profiles.profiletoolbarbuttons.copied"));
       setTimeout(() => setCopyFeedback(""), 2000);
     } catch {
-      setCopyFeedback("Failed");
+      setCopyFeedback(t("profiles.profiletoolbarbuttons.failed"));
       setTimeout(() => setCopyFeedback(""), 2000);
     }
   };
@@ -66,7 +68,7 @@ export default function ProfileToolbarButtons({
       )}
       {profile.id && (
         <Button size="sm" variant="secondary" onClick={handleCopyId}>
-          {copyFeedback || "Copy ID"}
+          {copyFeedback || t("profiles.profiletoolbarbuttons.copy_id")}
         </Button>
       )}
       {!deleteWithheld && (
@@ -75,7 +77,7 @@ export default function ProfileToolbarButtons({
           variant="secondary"
           onClick={() => setConfirmingDelete(true)}
         >
-          Delete
+          {t("profiles.profiletoolbarbuttons.delete")}
         </Button>
       )}
       <Button
@@ -84,38 +86,41 @@ export default function ProfileToolbarButtons({
         onClick={onSave}
         disabled={isSaveDisabled}
       >
-        Save
+        {t("profiles.profiletoolbarbuttons.save")}
       </Button>
       {isRunning ? (
         <Button size="sm" variant="danger" onClick={onStop}>
-          Stop
+          {t("profiles.profiletoolbarbuttons.stop")}
         </Button>
       ) : (
         <Button size="sm" variant="primary" onClick={onLaunch}>
-          Start
+          {t("profiles.profiletoolbarbuttons.start")}
         </Button>
       )}
       <Modal
         open={confirmingDelete}
         onClose={() => setConfirmingDelete(false)}
-        title="Delete profile"
+        title={t("profiles.profiletoolbarbuttons.delete_profile")}
         actions={
           <>
             <Button
               variant="secondary"
               onClick={() => setConfirmingDelete(false)}
             >
-              Cancel
+              {t("profiles.profiletoolbarbuttons.cancel")}
             </Button>
             <Button variant="danger" onClick={confirmDelete}>
-              Delete profile
+              {t("profiles.profiletoolbarbuttons.delete_profile")}
             </Button>
           </>
         }
       >
         <p>
-          Delete profile &quot;{profile.name}&quot;? Every cookie, login and
-          session stored in it is permanently lost. There is no undo.
+          {t("profiles.profiletoolbarbuttons.delete_profile_2")}
+          {profile.name}
+          {t(
+            "profiles.profiletoolbarbuttons.every_cookie_login_and_session_stored",
+          )}
         </p>
       </Modal>
     </div>

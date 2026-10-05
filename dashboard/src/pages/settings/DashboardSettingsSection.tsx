@@ -2,6 +2,9 @@ import type { Dispatch, SetStateAction } from "react";
 import { Select } from "../../components/atoms";
 import type { LocalDashboardSettings } from "../../types";
 import { SectionCard, SettingRow } from "./SettingsSharedComponents";
+import { useTranslation } from "react-i18next";
+import type { Locale } from "../../i18n/locales";
+import { localeOptions, useLocale } from "../../i18n/useLocale";
 
 interface DashboardSettingsSectionProps {
   localSettings: LocalDashboardSettings;
@@ -12,14 +15,40 @@ export function DashboardSettingsSection({
   localSettings,
   setLocalSettings,
 }: DashboardSettingsSectionProps) {
+  const { t } = useTranslation();
+  const { locale, setLocale } = useLocale();
   return (
     <SectionCard
-      title="Dashboard Preferences"
-      description="These controls affect this dashboard UI only. They are stored locally in your browser and do not require a backend restart."
+      title={t("pages.settings.dashboardsettingssection.dashboard_preferences")}
+      description={t(
+        "pages.settings.dashboardsettingssection.these_controls_affect_this_dashboard_ui",
+      )}
     >
       <SettingRow
-        label="Screencast frame rate"
-        description="Controls how often live previews request new frames."
+        label={t("pages.settings.dashboardsettingssection.language")}
+        description={t(
+          "pages.settings.dashboardsettingssection.choose_the_language_of_the_dashboard",
+        )}
+      >
+        <Select
+          aria-label={t("pages.settings.dashboardsettingssection.language")}
+          value={locale}
+          onChange={(e) => setLocale(e.target.value as Locale)}
+        >
+          {localeOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Select>
+      </SettingRow>
+      <SettingRow
+        label={t(
+          "pages.settings.dashboardsettingssection.screencast_frame_rate",
+        )}
+        description={t(
+          "pages.settings.dashboardsettingssection.controls_how_often_live_previews",
+        )}
       >
         <div className="flex items-center gap-3">
           <input
@@ -39,13 +68,16 @@ export function DashboardSettingsSection({
             className="w-full"
           />
           <span className="dashboard-mono w-16 text-right text-sm text-text-secondary">
-            {localSettings.screencast.fps} fps
+            {localSettings.screencast.fps}{" "}
+            {t("pages.settings.dashboardsettingssection.fps")}
           </span>
         </div>
       </SettingRow>
       <SettingRow
-        label="Screencast quality"
-        description="JPEG quality for tab preview streams."
+        label={t("pages.settings.dashboardsettingssection.screencast_quality")}
+        description={t(
+          "pages.settings.dashboardsettingssection.jpeg_quality_for_tab_preview_streams",
+        )}
       >
         <div className="flex items-center gap-3">
           <input
@@ -70,8 +102,10 @@ export function DashboardSettingsSection({
         </div>
       </SettingRow>
       <SettingRow
-        label="Screencast width"
-        description="Maximum preview width for live tiles."
+        label={t("pages.settings.dashboardsettingssection.screencast_width")}
+        description={t(
+          "pages.settings.dashboardsettingssection.maximum_preview_width_for_live_tiles",
+        )}
       >
         <Select
           value={localSettings.screencast.maxWidth}
@@ -87,14 +121,17 @@ export function DashboardSettingsSection({
         >
           {[400, 600, 800, 1024, 1280].map((width) => (
             <option key={width} value={width}>
-              {width}px
+              {width}
+              {t("pages.settings.dashboardsettingssection.px")}
             </option>
           ))}
         </Select>
       </SettingRow>
       <SettingRow
-        label="Memory metrics"
-        description="Poll every running instance for browser memory on each monitoring tick: RSS across the Chrome process tree plus JS heap and DOM counters read from each open tab over CDP. Measured cost: about a millisecond per open tab plus a few tens of milliseconds for the process-tree walk, per instance per tick."
+        label={t("pages.settings.dashboardsettingssection.memory_metrics")}
+        description={t(
+          "pages.settings.dashboardsettingssection.poll_every_running_instance_for_browser",
+        )}
       >
         <label className="flex items-center justify-end gap-3 text-sm text-text-secondary">
           <input
@@ -111,12 +148,14 @@ export function DashboardSettingsSection({
             }
             className="h-4 w-4"
           />
-          Enable
+          {t("pages.settings.dashboardsettingssection.enable")}
         </label>
       </SettingRow>
       <SettingRow
-        label="Polling interval"
-        description="How frequently the dashboard asks the backend for fresh metrics."
+        label={t("pages.settings.dashboardsettingssection.polling_interval")}
+        description={t(
+          "pages.settings.dashboardsettingssection.how_frequently_the_dashboard_asks_the",
+        )}
       >
         <div className="flex items-center gap-3">
           <input
@@ -137,13 +176,16 @@ export function DashboardSettingsSection({
             className="w-full"
           />
           <span className="dashboard-mono w-16 text-right text-sm text-text-secondary">
-            {localSettings.monitoring.pollInterval}s
+            {localSettings.monitoring.pollInterval}
+            {t("pages.settings.dashboardsettingssection.s")}
           </span>
         </div>
       </SettingRow>
       <SettingRow
-        label="Reasoning output"
-        description="Choose whether the live agent feed shows tool calls, progress updates, or both."
+        label={t("pages.settings.dashboardsettingssection.reasoning_output")}
+        description={t(
+          "pages.settings.dashboardsettingssection.choose_whether_the_live_agent_feed",
+        )}
       >
         <Select
           value={localSettings.agents.reasoningMode}
@@ -160,9 +202,15 @@ export function DashboardSettingsSection({
             }))
           }
         >
-          <option value="tool_calls">Tool calls only</option>
-          <option value="progress">Progress only</option>
-          <option value="both">Both</option>
+          <option value="tool_calls">
+            {t("pages.settings.dashboardsettingssection.tool_calls_only")}
+          </option>
+          <option value="progress">
+            {t("pages.settings.dashboardsettingssection.progress_only")}
+          </option>
+          <option value="both">
+            {t("pages.settings.dashboardsettingssection.both")}
+          </option>
         </Select>
       </SettingRow>
     </SectionCard>

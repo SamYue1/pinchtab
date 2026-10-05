@@ -13,9 +13,12 @@ import { activityMethodVariant, activityStatusVariant } from "./helpers";
 import type { ActivityFilters, DashboardActivityEvent } from "./types";
 import CopyIdPill from "./CopyIdPill";
 import FilterPill from "./FilterPill";
+import { useTranslation } from "react-i18next";
+import { i18n } from "../i18n";
+import { formatTime as formatLocalizedTime } from "../i18n/format";
 
 function formatTime(ts: string): string {
-  return new Date(ts).toLocaleTimeString("en-GB", {
+  return formatLocalizedTime(ts, {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -56,48 +59,62 @@ function eventSummary(event: DashboardActivityEvent): string {
     return event.message;
   }
   if (event.path.includes("/navigate")) {
-    return event.url ? `Navigate to ${event.url}` : "Navigate to page";
+    return event.url
+      ? i18n.t("activities.streamrow.navigate_to_url", { url: event.url })
+      : i18n.t("activities.streamrow.navigate_to_page");
   }
 
   if (event.path.includes("/snapshot")) {
-    return "Capture page snapshot";
+    return i18n.t("activities.streamrow.capture_page_snapshot");
   }
 
   if (event.path.includes("/screencast")) {
-    return "Open screencast stream";
+    return i18n.t("activities.streamrow.open_screencast_stream");
   }
 
   if (event.path.includes("/text")) {
-    return "Extract text from page";
+    return i18n.t("activities.streamrow.extract_text_from_page");
   }
 
   switch (event.action) {
     case "click":
-      return event.ref ? `Click ${quoted(event.ref)}` : "Click on page";
+      return event.ref
+        ? i18n.t("activities.streamrow.click_ref", { ref: event.ref })
+        : i18n.t("activities.streamrow.click_on_page");
     case "dblclick":
       return event.ref
-        ? `Double-click ${quoted(event.ref)}`
-        : "Double-click on page";
+        ? i18n.t("activities.streamrow.double_click_ref", { ref: event.ref })
+        : i18n.t("activities.streamrow.double_click_on_page");
     case "type":
-      return event.ref ? `Type into ${quoted(event.ref)}` : "Type into page";
+      return event.ref
+        ? i18n.t("activities.streamrow.type_into_ref", { ref: event.ref })
+        : i18n.t("activities.streamrow.type_into_page");
     case "hover":
-      return event.ref ? `Hover ${quoted(event.ref)}` : "Hover on page";
+      return event.ref
+        ? i18n.t("activities.streamrow.hover_ref", { ref: event.ref })
+        : i18n.t("activities.streamrow.hover_on_page");
     case "fill":
-      return event.ref ? `Fill ${quoted(event.ref)}` : "Fill field";
+      return event.ref
+        ? i18n.t("activities.streamrow.fill_ref", { ref: event.ref })
+        : i18n.t("activities.streamrow.fill_field");
     case "select":
-      return event.ref ? `Select ${quoted(event.ref)}` : "Select option";
+      return event.ref
+        ? i18n.t("activities.streamrow.select_ref", { ref: event.ref })
+        : i18n.t("activities.streamrow.select_option");
     case "scroll":
-      return "Scroll page";
+      return i18n.t("activities.streamrow.scroll_page");
     case "press":
-      return event.ref ? `Press key on ${quoted(event.ref)}` : "Press key";
+      return event.ref
+        ? i18n.t("activities.streamrow.press_key_on_ref", { ref: event.ref })
+        : i18n.t("activities.streamrow.press_key");
     case "wait":
-      return "Wait for condition";
+      return i18n.t("activities.streamrow.wait_for_condition");
     case "evaluate":
-      return "Evaluate JavaScript";
+      return i18n.t("activities.streamrow.evaluate_javascript");
     case "upload":
-      return "Upload file";
+      return i18n.t("activities.streamrow.upload_file");
     case "download":
-      return "Download file";
+      return i18n.t("activities.streamrow.download_file");
     default:
       if (event.action) {
         return `${event.action} ${event.ref ? quoted(event.ref) : ""}`.trim();
@@ -121,6 +138,7 @@ export default function StreamRow({
   simplifyMeta = false,
   onFilterChange,
 }: StreamRowProps) {
+  const { t } = useTranslation();
   if (simplifyMeta) {
     return (
       <div className="px-4 py-4">
@@ -142,7 +160,7 @@ export default function StreamRow({
                 {eventSummary(event)}
                 {event.tabId && event.channel !== "progress" && (
                   <>
-                    {" on tab "}
+                    {t("activities.streamrow.on_tab")}
                     {copyTabId ? (
                       <CopyIdPill id={event.tabId} compact inline />
                     ) : (
@@ -223,7 +241,8 @@ export default function StreamRow({
 
         <div className="flex shrink-0 flex-col items-end gap-1.5">
           <span className="dashboard-mono text-xs text-text-muted">
-            {event.durationMs}ms
+            {event.durationMs}
+            {t("activities.streamrow.ms")}
           </span>
           {!hideAgentFilter && event.agentId && (
             <FilterPill

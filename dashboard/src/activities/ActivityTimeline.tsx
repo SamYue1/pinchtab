@@ -1,6 +1,7 @@
 import { EmptyState } from "../components/atoms";
 import type { DashboardActivityEvent, ActivityFilters } from "./types";
 import ActivityItemLine from "./ActivityItemLine";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   events: DashboardActivityEvent[];
@@ -23,6 +24,7 @@ export default function ActivityTimeline({
   copyTabId = false,
   onFilterChange,
 }: Props) {
+  const { t } = useTranslation();
   return (
     <section
       className={`flex min-h-0 flex-1 flex-col overflow-hidden ${embedded ? "" : "dashboard-panel"}`}
@@ -30,9 +32,11 @@ export default function ActivityTimeline({
       {!embedded && (
         <div className="flex items-center justify-between border-b border-border-subtle px-4 py-3">
           <div>
-            <div className="dashboard-section-label mb-1">Timeline</div>
+            <div className="dashboard-section-label mb-1">
+              {t("activities.activitytimeline.timeline")}
+            </div>
             <h2 className="text-sm font-semibold text-text-secondary">
-              Recent events
+              {t("activities.activitytimeline.recent_events")}
             </h2>
           </div>
           <div className="dashboard-mono text-[0.72rem] text-text-muted">
@@ -51,8 +55,10 @@ export default function ActivityTimeline({
         {!loading && events.length === 0 ? (
           <EmptyState
             icon="📜"
-            title="No matching activity"
-            description="Adjust the filters or generate some traffic from the CLI, MCP, or dashboard."
+            title={t("activities.activitytimeline.no_matching_activity")}
+            description={t(
+              "activities.activitytimeline.adjust_the_filters_or_generate_some",
+            )}
           />
         ) : (
           <div className="divide-y divide-border-subtle/70">

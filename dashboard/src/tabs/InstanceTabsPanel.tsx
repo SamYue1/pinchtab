@@ -6,6 +6,7 @@ import InstanceStats from "../components/molecules/InstanceStats";
 import { ErrorBoundary } from "../components/atoms";
 import TabBar from "./TabBar";
 import SelectedTabPanel from "./SelectedTabPanel";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   tabs: InstanceTab[];
@@ -23,10 +24,14 @@ function sameIds(left: string[], right: string[]): boolean {
 
 export default function InstanceTabsPanel({
   tabs,
-  emptyMessage = "No tabs open",
+  emptyMessage: emptyMessageProp,
   instanceId,
   handoffTabs,
 }: Props) {
+  const { t } = useTranslation();
+  // Defaults resolve in the body: a hook cannot run in the parameter list.
+  const emptyMessage =
+    emptyMessageProp ?? t("tabs.instancetabspanel.no_tabs_open");
   const [selectedTabId, setSelectedTabId] = useState<string | null>(null);
   const [selectionPinned, setSelectionPinned] = useState(false);
   const [acknowledgedTabIds, setAcknowledgedTabIds] = useState<string[]>(() =>
@@ -55,11 +60,13 @@ export default function InstanceTabsPanel({
         ? [
             {
               id: selectedInstance.id,
-              profileName: selectedInstance.profileName || "Unknown",
+              profileName:
+                selectedInstance.profileName ||
+                t("tabs.instancetabspanel.unknown"),
             },
           ]
         : [],
-    [selectedInstance],
+    [selectedInstance, t],
   );
 
   useEffect(() => {
@@ -174,7 +181,7 @@ export default function InstanceTabsPanel({
           <ErrorBoundary
             fallback={
               <div className="flex h-50 items-center justify-center rounded-lg border border-destructive/50 bg-bg-surface text-sm text-destructive">
-                Chart crashed - check console
+                {t("tabs.instancetabspanel.chart_crashed_check_console")}
               </div>
             }
           >

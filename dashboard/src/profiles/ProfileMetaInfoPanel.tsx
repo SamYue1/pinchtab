@@ -1,4 +1,5 @@
 import type { Profile, Instance } from "../generated/types";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   profile: Profile;
@@ -21,43 +22,50 @@ function MetaBlock({
 }
 
 export default function ProfileMetaInfoPanel({ profile, instance }: Props) {
+  const { t } = useTranslation();
   const accountText = profile.accountEmail || profile.accountName || "";
   const sizeText = profile.sizeMB ? `${profile.sizeMB.toFixed(0)} MB` : "—";
   const browserEngine = instance?.browser || "chrome";
   const browserMode = instance?.attached
-    ? "Attached via CDP"
+    ? t("profiles.profilemetainfopanel.attached_via_cdp")
     : instance?.headless
-      ? "Headless"
-      : "Headed";
+      ? t("profiles.profilemetainfopanel.headless")
+      : t("profiles.profilemetainfopanel.headed");
   const browserType = `${browserEngine} / ${browserMode}`;
 
   return (
-    <MetaBlock label="Profile panel">
+    <MetaBlock label={t("profiles.profilemetainfopanel.profile_panel")}>
       <div className="space-y-3 text-sm text-text-secondary">
         <div className="flex items-center justify-between gap-3">
-          <span className="dashboard-section-title text-[0.68rem]">Status</span>
+          <span className="dashboard-section-title text-[0.68rem]">
+            {t("profiles.profilemetainfopanel.status")}
+          </span>
           <span className="text-right">{instance?.status || "stopped"}</span>
         </div>
         {instance?.port && (
           <div className="flex items-center justify-between gap-3">
-            <span className="dashboard-section-title text-[0.68rem]">Port</span>
+            <span className="dashboard-section-title text-[0.68rem]">
+              {t("profiles.profilemetainfopanel.port")}
+            </span>
             <span className="text-right">{instance.port}</span>
           </div>
         )}
         <div className="flex items-center justify-between gap-3">
           <span className="dashboard-section-title text-[0.68rem]">
-            Browser
+            {t("profiles.profilemetainfopanel.browser")}
           </span>
           <span className="text-right">{browserType}</span>
         </div>
         <div className="flex items-center justify-between gap-3">
-          <span className="dashboard-section-title text-[0.68rem]">Size</span>
+          <span className="dashboard-section-title text-[0.68rem]">
+            {t("profiles.profilemetainfopanel.size")}
+          </span>
           <span className="text-right">{sizeText}</span>
         </div>
         {accountText && (
           <div className="flex items-center justify-between gap-3">
             <span className="dashboard-section-title text-[0.68rem]">
-              Account
+              {t("profiles.profilemetainfopanel.account")}
             </span>
             <span className="text-right">{accountText}</span>
           </div>
@@ -65,7 +73,7 @@ export default function ProfileMetaInfoPanel({ profile, instance }: Props) {
         {profile.chromeProfileName && (
           <div className="flex items-center justify-between gap-3">
             <span className="dashboard-section-title text-[0.68rem]">
-              Identity
+              {t("profiles.profilemetainfopanel.identity")}
             </span>
             <span className="text-right">{profile.chromeProfileName}</span>
           </div>
@@ -73,15 +81,17 @@ export default function ProfileMetaInfoPanel({ profile, instance }: Props) {
         {instance?.attached && (
           <div className="flex items-center justify-between gap-3">
             <span className="dashboard-section-title text-[0.68rem]">
-              Connection
+              {t("profiles.profilemetainfopanel.connection")}
             </span>
-            <span className="text-right">CDP attached</span>
+            <span className="text-right">
+              {t("profiles.profilemetainfopanel.cdp_attached")}
+            </span>
           </div>
         )}
         {instance?.cdpUrl && (
           <div>
             <div className="dashboard-section-title mb-1 text-[0.68rem]">
-              CDP URL
+              {t("profiles.profilemetainfopanel.cdp_url")}
             </div>
             <code className="dashboard-mono block break-all text-xs text-text-secondary">
               {instance.cdpUrl}
@@ -91,7 +101,7 @@ export default function ProfileMetaInfoPanel({ profile, instance }: Props) {
         {profile.path && (
           <div>
             <div className="dashboard-section-title mb-1 text-[0.68rem]">
-              Path
+              {t("profiles.profilemetainfopanel.path")}
             </div>
             <code
               className={`dashboard-mono block break-all text-xs ${
@@ -99,7 +109,8 @@ export default function ProfileMetaInfoPanel({ profile, instance }: Props) {
               }`}
             >
               {profile.path}
-              {!profile.pathExists && " (not found)"}
+              {!profile.pathExists &&
+                t("profiles.profilemetainfopanel.not_found")}
             </code>
           </div>
         )}

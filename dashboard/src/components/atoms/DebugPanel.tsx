@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useAppStore } from "../../stores/useAppStore";
+import { useTranslation } from "react-i18next";
 
 export default function DebugPanel() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const store = useAppStore();
 
@@ -11,7 +13,7 @@ export default function DebugPanel() {
         onClick={() => setOpen(true)}
         className="fixed bottom-2 right-2 z-50 rounded bg-yellow-500 px-2 py-1 text-xs text-black"
       >
-        🐛 Debug
+        {t("components.atoms.debugpanel.debug")}
       </button>
     );
   }
@@ -19,7 +21,9 @@ export default function DebugPanel() {
   return (
     <div className="fixed bottom-2 right-2 z-50 max-h-96 w-80 overflow-auto rounded border border-yellow-500 bg-black/90 p-2 text-xs text-green-400 font-mono">
       <div className="flex justify-between mb-2">
-        <span className="text-yellow-500 font-bold">Debug Panel</span>
+        <span className="text-yellow-500 font-bold">
+          {t("components.atoms.debugpanel.debug_panel")}
+        </span>
         <button onClick={() => setOpen(false)} className="text-white">
           ✕
         </button>
@@ -34,7 +38,9 @@ export default function DebugPanel() {
         <div>selectedAgentId: {store.selectedAgentId ?? "null"}</div>
         <div>profilesLoading: {String(store.profilesLoading)}</div>
         <div>instancesLoading: {String(store.instancesLoading)}</div>
-        <div className="mt-2 text-yellow-500">Instances:</div>
+        <div className="mt-2 text-yellow-500">
+          {t("components.atoms.debugpanel.instances")}
+        </div>
         {store.instances?.map((i) => (
           <div key={i.id} className="ml-2 text-gray-400">
             {i.id}: {i.status} ({i.profileName})

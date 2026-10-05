@@ -1,4 +1,5 @@
 import { Button, EmptyState } from "../../components/atoms";
+import { useTranslation } from "react-i18next";
 
 interface MonitoringEmptyStateProps {
   waitingForExpectedInstance: boolean;
@@ -19,11 +20,17 @@ export default function MonitoringEmptyState({
   onStartDefault,
   onOpenDefaultProfile,
 }: MonitoringEmptyStateProps) {
+  const { t } = useTranslation();
   if (waitingForExpectedInstance) {
     return (
       <EmptyState
-        title="Starting default instance..."
-        description={`PinchTab is waiting for the default profile to come online. Checking again automatically (${startupRetriesRemaining} checks left).`}
+        title={t(
+          "pages.monitoring.monitoringemptystate.starting_default_instance",
+        )}
+        description={t(
+          "pages.monitoring.monitoringemptystate.waiting_for_default_profile",
+          { count: startupRetriesRemaining },
+        )}
         icon="⏳"
       />
     );
@@ -36,10 +43,10 @@ export default function MonitoringEmptyState({
         onClick={onStartDefault}
         loading={startingDefaultInstance}
       >
-        Start Default Instance
+        {t("pages.monitoring.monitoringemptystate.start_default_instance")}
       </Button>
       <Button variant="secondary" onClick={onOpenDefaultProfile}>
-        Open Default Profile
+        {t("pages.monitoring.monitoringemptystate.open_default_profile")}
       </Button>
     </div>
   );
@@ -52,11 +59,15 @@ export default function MonitoringEmptyState({
         </div>
       )}
       <EmptyState
-        title="No active instances"
+        title={t("pages.monitoring.monitoringemptystate.no_active_instances")}
         description={
           expectsAutoInstance
-            ? "PinchTab expected a default instance, but it never became available. Start it manually or inspect the profile."
-            : "Start the default instance or open Profiles to launch a different one."
+            ? t(
+                "pages.monitoring.monitoringemptystate.pinchtab_expected_a_default_instance",
+              )
+            : t(
+                "pages.monitoring.monitoringemptystate.start_the_default_instance_or_open",
+              )
         }
         icon="📡"
         action={manualActions}

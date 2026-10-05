@@ -4,6 +4,7 @@ import { SidebarPanelFooterActions } from "../components/molecules";
 import type { Profile, Instance, InstanceTab } from "../types";
 import type { ActivityFilters } from "./types";
 import { actionOptions } from "./helpers";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   filters: ActivityFilters;
@@ -65,16 +66,20 @@ export function ActivityFilterFields({
   onProfileChange,
   onInstanceChange,
 }: ActivityFilterFieldsProps) {
+  const { t } = useTranslation();
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   return (
     <div className="space-y-4 p-4">
       <div className="space-y-3">
         <FilterSelect
-          label="Profile"
+          label={t("activities.activityfiltermenu.profile")}
           value={filters.profileName}
           options={[
-            { value: "", label: "Any profile" },
+            {
+              value: "",
+              label: t("activities.activityfiltermenu.any_profile"),
+            },
             ...profileOptions.map((profile) => ({
               value: profile.name,
               label: profile.name,
@@ -83,10 +88,10 @@ export function ActivityFilterFields({
           onChange={(event) => onProfileChange(event.target.value)}
         />
         <FilterSelect
-          label="Tab"
+          label={t("activities.activityfiltermenu.tab")}
           value={filters.tabId}
           options={[
-            { value: "", label: "Any tab" },
+            { value: "", label: t("activities.activityfiltermenu.any_tab") },
             ...tabOptions.map((tab) => ({
               value: tab.id,
               label: `${tab.title || tab.url || tab.id} · ${tab.id}`,
@@ -99,20 +104,23 @@ export function ActivityFilterFields({
       <div className="space-y-3 border-t border-border-subtle pt-4">
         {showAgentFilter && (
           <FilterSelect
-            label="Agent"
+            label={t("activities.activityfiltermenu.agent")}
             value={filters.agentId}
             options={[
-              { value: "", label: "Any agent" },
+              {
+                value: "",
+                label: t("activities.activityfiltermenu.any_agent"),
+              },
               ...agentOptions.map((id) => ({ value: id, label: id })),
             ]}
             onChange={(event) => onFilterChange("agentId", event.target.value)}
           />
         )}
         <FilterSelect
-          label="Action"
+          label={t("activities.activityfiltermenu.action")}
           value={filters.action}
           options={[
-            { value: "", label: "Any action" },
+            { value: "", label: t("activities.activityfiltermenu.any_action") },
             ...actionOptions
               .filter(Boolean)
               .map((option) => ({ value: option, label: option })),
@@ -130,20 +138,25 @@ export function ActivityFilterFields({
           aria-controls="activity-advanced-filters"
         >
           <span className="dashboard-section-title text-[0.68rem]">
-            Advanced filters
+            {t("activities.activityfiltermenu.advanced_filters")}
           </span>
           <span className="text-[0.68rem] uppercase tracking-[0.16em] text-text-muted">
-            {showAdvanced ? "Hide" : "Show"}
+            {showAdvanced
+              ? t("activities.activityfiltermenu.hide")
+              : t("activities.activityfiltermenu.show")}
           </span>
         </button>
 
         {showAdvanced && (
           <div id="activity-advanced-filters" className="mt-3 space-y-3">
             <FilterSelect
-              label="Instance"
+              label={t("activities.activityfiltermenu.instance")}
               value={filters.instanceId}
               options={[
-                { value: "", label: "Any instance" },
+                {
+                  value: "",
+                  label: t("activities.activityfiltermenu.any_instance"),
+                },
                 ...instanceOptions.map((instance) => ({
                   value: instance.id,
                   label: `${instance.profileName} · ${instance.id}`,
@@ -152,22 +165,22 @@ export function ActivityFilterFields({
               onChange={(event) => onInstanceChange(event.target.value)}
             />
             <Input
-              label="Path prefix"
-              placeholder="/tabs/ or /instances/"
+              label={t("activities.activityfiltermenu.path_prefix")}
+              placeholder={t("activities.activityfiltermenu.tabs_or_instances")}
               value={filters.pathPrefix}
               onChange={(event) =>
                 onFilterChange("pathPrefix", event.target.value)
               }
             />
             <Input
-              label="Age (seconds)"
-              placeholder="3600"
+              label={t("activities.activityfiltermenu.age_seconds")}
+              placeholder={t("activities.activityfiltermenu.3600")}
               value={filters.ageSec}
               onChange={(event) => onFilterChange("ageSec", event.target.value)}
             />
             <Input
-              label="Limit"
-              placeholder="200"
+              label={t("activities.activityfiltermenu.limit")}
+              placeholder={t("activities.activityfiltermenu.200")}
               value={filters.limit}
               onChange={(event) => onFilterChange("limit", event.target.value)}
             />
@@ -183,6 +196,7 @@ export function ActivityFilterActions({
   onClear,
   onRefresh,
 }: Pick<Props, "loading" | "onClear" | "onRefresh">) {
+  const { t } = useTranslation();
   return (
     <SidebarPanelFooterActions>
       <Button
@@ -192,7 +206,7 @@ export function ActivityFilterActions({
         disabled={loading}
         className="flex-1"
       >
-        Clear
+        {t("activities.activityfiltermenu.clear")}
       </Button>
       <Button
         variant="primary"
@@ -201,7 +215,7 @@ export function ActivityFilterActions({
         loading={loading}
         className="flex-1"
       >
-        Search
+        {t("activities.activityfiltermenu.search")}
       </Button>
     </SidebarPanelFooterActions>
   );

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import * as api from "../services/api";
 import type { ConsoleLogEntry } from "../services/api";
+import { useTranslation } from "react-i18next";
+import { formatTime as formatLocalizedTime } from "../i18n/format";
 
 interface Props {
   tabId: string;
@@ -15,7 +17,7 @@ const LEVEL_STYLES: Record<string, string> = {
 };
 
 function formatTime(ts: string): string {
-  return new Date(ts).toLocaleTimeString("en-GB", {
+  return formatLocalizedTime(ts, {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -23,6 +25,7 @@ function formatTime(ts: string): string {
 }
 
 export default function ConsolePanel({ tabId }: Props) {
+  const { t } = useTranslation();
   const [logs, setLogs] = useState<ConsoleLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,7 +58,7 @@ export default function ConsolePanel({ tabId }: Props) {
   if (loading) {
     return (
       <div className="flex h-full flex-1 items-center justify-center text-sm text-text-muted">
-        Loading console logs...
+        {t("tabs.consolepanel.loading_console_logs")}
       </div>
     );
   }
@@ -63,7 +66,7 @@ export default function ConsolePanel({ tabId }: Props) {
   if (logs.length === 0) {
     return (
       <div className="flex h-full flex-1 items-center justify-center text-sm text-text-muted">
-        No console logs yet
+        {t("tabs.consolepanel.no_console_logs_yet")}
       </div>
     );
   }

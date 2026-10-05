@@ -14,9 +14,12 @@ import { activityStatusVariant } from "./helpers";
 import type { ActivityFilters, DashboardActivityEvent } from "./types";
 import CopyIdPill from "./CopyIdPill";
 import FilterPill from "./FilterPill";
+import { useTranslation } from "react-i18next";
+import { i18n } from "../i18n";
+import { formatTime as formatLocalizedTime } from "../i18n/format";
 
 function formatTime(ts: string): string {
-  return new Date(ts).toLocaleTimeString("en-GB", {
+  return formatLocalizedTime(ts, {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -44,50 +47,72 @@ function eventDescription(event: DashboardActivityEvent): string {
     return event.message;
   }
   if (event.path.includes("/navigate")) {
-    return event.url ? `Navigate to ${event.url}` : "Navigate to page";
+    return event.url
+      ? i18n.t("activities.activityitemline.navigate_to_url", {
+          url: event.url,
+        })
+      : i18n.t("activities.activityitemline.navigate_to_page");
   }
   if (event.path.includes("/snapshot")) {
-    return "Capture page snapshot";
+    return i18n.t("activities.activityitemline.capture_page_snapshot");
   }
   if (event.path.includes("/screencast")) {
-    return "Open screencast stream";
+    return i18n.t("activities.activityitemline.open_screencast_stream");
   }
   if (event.path.includes("/text")) {
-    return "Extract text from page";
+    return i18n.t("activities.activityitemline.extract_text_from_page");
   }
   if (event.path.includes("/screenshot")) {
-    return "Take screenshot";
+    return i18n.t("activities.activityitemline.take_screenshot");
   }
   if (event.path.includes("/pdf")) {
-    return "Export page as PDF";
+    return i18n.t("activities.activityitemline.export_page_as_pdf");
   }
   switch (event.action) {
     case "click":
-      return event.ref ? `Click ${quoted(event.ref)}` : "Click on page";
+      return event.ref
+        ? i18n.t("activities.activityitemline.click_ref", { ref: event.ref })
+        : i18n.t("activities.activityitemline.click_on_page");
     case "dblclick":
       return event.ref
-        ? `Double-click ${quoted(event.ref)}`
-        : "Double-click on page";
+        ? i18n.t("activities.activityitemline.double_click_ref", {
+            ref: event.ref,
+          })
+        : i18n.t("activities.activityitemline.double_click_on_page");
     case "type":
-      return event.ref ? `Type into ${quoted(event.ref)}` : "Type into page";
+      return event.ref
+        ? i18n.t("activities.activityitemline.type_into_ref", {
+            ref: event.ref,
+          })
+        : i18n.t("activities.activityitemline.type_into_page");
     case "hover":
-      return event.ref ? `Hover ${quoted(event.ref)}` : "Hover on page";
+      return event.ref
+        ? i18n.t("activities.activityitemline.hover_ref", { ref: event.ref })
+        : i18n.t("activities.activityitemline.hover_on_page");
     case "fill":
-      return event.ref ? `Fill ${quoted(event.ref)}` : "Fill field";
+      return event.ref
+        ? i18n.t("activities.activityitemline.fill_ref", { ref: event.ref })
+        : i18n.t("activities.activityitemline.fill_field");
     case "select":
-      return event.ref ? `Select ${quoted(event.ref)}` : "Select option";
+      return event.ref
+        ? i18n.t("activities.activityitemline.select_ref", { ref: event.ref })
+        : i18n.t("activities.activityitemline.select_option");
     case "scroll":
-      return "Scroll page";
+      return i18n.t("activities.activityitemline.scroll_page");
     case "press":
-      return event.ref ? `Press key on ${quoted(event.ref)}` : "Press key";
+      return event.ref
+        ? i18n.t("activities.activityitemline.press_key_on_ref", {
+            ref: event.ref,
+          })
+        : i18n.t("activities.activityitemline.press_key");
     case "wait":
-      return "Wait for condition";
+      return i18n.t("activities.activityitemline.wait_for_condition");
     case "evaluate":
-      return "Evaluate JavaScript";
+      return i18n.t("activities.activityitemline.evaluate_javascript");
     case "upload":
-      return "Upload file";
+      return i18n.t("activities.activityitemline.upload_file");
     case "download":
-      return "Download file";
+      return i18n.t("activities.activityitemline.download_file");
     default:
       if (event.action) {
         return `${event.action} ${event.ref ? quoted(event.ref) : ""}`.trim();
@@ -120,6 +145,7 @@ export default function ActivityItemLine({
   inHandoff = false,
   onFilterChange,
 }: Props) {
+  const { t } = useTranslation();
   const variant = activityStatusVariant(event.status);
   const [resuming, setResuming] = useState(false);
   const [resumeError, setResumeError] = useState("");
@@ -132,7 +158,11 @@ export default function ActivityItemLine({
     try {
       await resumeTab(event.tabId);
     } catch (err) {
-      setResumeError(err instanceof Error ? err.message : "Resume failed");
+      setResumeError(
+        err instanceof Error
+          ? err.message
+          : t("activities.activityitemline.resume_failed"),
+      );
       setResuming(false);
     }
   };
@@ -149,8 +179,12 @@ export default function ActivityItemLine({
 
       {inHandoff && (
         <span
-          aria-label="tab paused for human handoff"
-          title="Tab is paused for human handoff"
+          aria-label={t(
+            "activities.activityitemline.tab_paused_for_human_handoff",
+          )}
+          title={t(
+            "activities.activityitemline.tab_is_paused_for_human_handoff",
+          )}
           className="inline-block h-2 w-2 shrink-0 rounded-full bg-red-500 ring-2 ring-bg-surface"
         />
       )}
@@ -165,11 +199,14 @@ export default function ActivityItemLine({
           onClick={handleResume}
           disabled={resuming}
           title={
-            resumeError || "Resume automation after manual challenge solve"
+            resumeError ||
+            t("activities.activityitemline.resume_automation_after_manual")
           }
           className="shrink-0 rounded-sm border border-warning/40 bg-warning/10 px-2 py-0.5 text-[0.68rem] text-warning transition-colors hover:bg-warning/20 disabled:opacity-50"
         >
-          {resuming ? "Resuming…" : "Resolve challenge"}
+          {resuming
+            ? t("activities.activityitemline.resuming")
+            : t("activities.activityitemline.resolve_challenge")}
         </button>
       )}
 
@@ -187,9 +224,12 @@ export default function ActivityItemLine({
           {event.route.escalated && (
             <span
               className="rounded-sm bg-warning/10 px-1.5 py-0.5 text-[0.68rem] text-warning"
-              title={event.route.reason || "Browser was escalated"}
+              title={
+                event.route.reason ||
+                t("activities.activityitemline.browser_was_escalated")
+              }
             >
-              {"↑"} escalated
+              {"↑"} {t("activities.activityitemline.escalated")}
               {event.route.reason ? `: ${event.route.reason}` : ""}
             </span>
           )}

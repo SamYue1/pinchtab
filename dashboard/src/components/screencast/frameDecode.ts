@@ -1,3 +1,4 @@
+import { i18n } from "../../i18n";
 function loadImageElement(blob: Blob): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const imgUrl = URL.createObjectURL(blob);
@@ -9,7 +10,13 @@ function loadImageElement(blob: Blob): Promise<HTMLImageElement> {
     };
     img.onerror = () => {
       URL.revokeObjectURL(imgUrl);
-      reject(new Error("Failed to decode screencast frame"));
+      reject(
+        new Error(
+          i18n.t(
+            "components.screencast.framedecode.failed_to_decode_screencast_frame",
+          ),
+        ),
+      );
     };
 
     img.src = imgUrl;

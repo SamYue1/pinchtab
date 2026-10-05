@@ -3,6 +3,7 @@ import type { BackendConfig, BackendConfigState } from "../../types";
 import type { UpdateBackendSection } from "./settingsShared";
 import { csvToList, fieldClass, listToCsv } from "./settingsShared";
 import { SectionCard, SettingRow } from "./SettingsSharedComponents";
+import { useTranslation } from "react-i18next";
 
 interface NetworkSettingsSectionProps {
   apiTokenMissing: boolean;
@@ -21,14 +22,19 @@ export function NetworkSettingsSection({
   nonLoopbackBind,
   updateBackendSection,
 }: NetworkSettingsSectionProps) {
+  const { t } = useTranslation();
   return (
     <SectionCard
-      title="Network & Attach"
-      description="Port and bind changes require a restart. API token management is handled outside the dashboard."
+      title={t("pages.settings.networksettingssection.network_attach")}
+      description={t(
+        "pages.settings.networksettingssection.port_and_bind_changes_require_a_restart",
+      )}
     >
       <SettingRow
-        label="Server port"
-        description="HTTP port for the dashboard process."
+        label={t("pages.settings.networksettingssection.server_port")}
+        description={t(
+          "pages.settings.networksettingssection.http_port_for_the_dashboard_process",
+        )}
       >
         <input
           value={backendConfig.server.port}
@@ -39,8 +45,10 @@ export function NetworkSettingsSection({
         />
       </SettingRow>
       <SettingRow
-        label="Bind address"
-        description="Network interface the dashboard process binds to. Keeping 127.0.0.1 or localhost limits direct reachability to the local machine."
+        label={t("pages.settings.networksettingssection.bind_address")}
+        description={t(
+          "pages.settings.networksettingssection.network_interface_the_dashboard_process",
+        )}
       >
         <div className="space-y-2">
           <input
@@ -54,53 +62,65 @@ export function NetworkSettingsSection({
           />
           {nonLoopbackBind ? (
             <div className="rounded-sm border border-destructive/35 bg-destructive/10 px-3 py-2 text-xs leading-5 text-destructive/80">
-              A non-loopback bind is a documented, non-default,
-              security-reducing configuration change. It may expose the server
-              beyond the local machine unless another network boundary still
-              restricts access. Keep a token set and review proxy or
-              port-publishing behavior explicitly.
+              {t(
+                "pages.settings.networksettingssection.a_non_loopback_bind_is_a_documented_non",
+              )}
             </div>
           ) : (
             <div className="rounded-sm border border-warning/25 bg-warning/10 px-3 py-2 text-xs leading-5 text-warning">
-              Loopback bind keeps direct server reachability local. Moving to{" "}
-              <code>0.0.0.0</code> or another non-local address widens the trust
-              boundary.
+              {t(
+                "pages.settings.networksettingssection.loopback_bind_keeps_direct_server",
+              )}{" "}
+              <code>0.0.0.0</code>{" "}
+              {t(
+                "pages.settings.networksettingssection.or_another_non_local_address_widens_the",
+              )}
             </div>
           )}
         </div>
       </SettingRow>
       <SettingRow
-        label="API token"
-        description="Bearer token required by authenticated requests when set. The dashboard never returns it and does not manage it."
+        label={t("pages.settings.networksettingssection.api_token")}
+        description={t(
+          "pages.settings.networksettingssection.bearer_token_required_by_authenticated",
+        )}
       >
         <div className="space-y-2">
           <div className="text-xs leading-5 text-text-muted">
             {backendState?.tokenConfigured ? (
               <>
-                Token configured. Manage rotation through the CLI or config
-                file; the current value is never returned by the server. Run{" "}
+                {t(
+                  "pages.settings.networksettingssection.token_configured_manage_rotation",
+                )}{" "}
                 <code className="rounded bg-[rgb(var(--brand-surface-code-rgb)/0.72)] px-1 py-0.5 text-text-secondary">
-                  pinchtab config token
+                  {t(
+                    "pages.settings.networksettingssection.pinchtab_config_token",
+                  )}
                 </code>{" "}
-                to copy it to your clipboard.
+                {t(
+                  "pages.settings.networksettingssection.to_copy_it_to_your_clipboard",
+                )}
               </>
             ) : (
-              "No token configured. Set one through the CLI or config file."
+              t(
+                "pages.settings.networksettingssection.no_token_configured_set_one_through_the",
+              )
             )}
           </div>
           {apiTokenMissing && (
             <div className="rounded-sm border border-destructive/35 bg-destructive/10 px-3 py-2 text-xs leading-5 text-destructive">
-              No API token is set. Anyone who can reach this server can access
-              exposed endpoints. Keep it on trusted local networks only, or
-              configure a strong token through the CLI or config file. You are
-              responsible for protecting access.
+              {t(
+                "pages.settings.networksettingssection.no_api_token_is_set_anyone_who_can",
+              )}
             </div>
           )}
         </div>
       </SettingRow>
       <SettingRow
-        label="State directory"
-        description="Base state path used by managed child instances."
+        label={t("pages.settings.networksettingssection.state_directory")}
+        description={t(
+          "pages.settings.networksettingssection.base_state_path_used_by_managed_child",
+        )}
       >
         <input
           value={backendConfig.server.stateDir}
@@ -113,8 +133,10 @@ export function NetworkSettingsSection({
         />
       </SettingRow>
       <SettingRow
-        label="Trust proxy headers"
-        description="Trust X-Forwarded-Proto, X-Forwarded-Host, and Forwarded headers for origin checks. Enable only when PinchTab runs behind a trusted reverse proxy (e.g. Caddy, nginx)."
+        label={t("pages.settings.networksettingssection.trust_proxy_headers")}
+        description={t(
+          "pages.settings.networksettingssection.trust_x_forwarded_proto_x_forwarded",
+        )}
       >
         <label className="flex items-center justify-end gap-3 text-sm text-text-secondary">
           <input
@@ -127,12 +149,16 @@ export function NetworkSettingsSection({
             }
             className="accent-primary"
           />
-          {backendConfig.server.trustProxyHeaders ? "Enabled" : "Disabled"}
+          {backendConfig.server.trustProxyHeaders
+            ? t("pages.settings.networksettingssection.enabled")
+            : t("pages.settings.networksettingssection.disabled")}
         </label>
       </SettingRow>
       <SettingRow
-        label="Cookie Secure mode"
-        description="Controls whether dashboard session cookies require HTTPS. Auto enables Secure only on HTTPS. Force Secure is appropriate when TLS is in front of PinchTab."
+        label={t("pages.settings.networksettingssection.cookie_secure_mode")}
+        description={t(
+          "pages.settings.networksettingssection.controls_whether_dashboard_session",
+        )}
       >
         <div className="space-y-2">
           <Select
@@ -152,22 +178,36 @@ export function NetworkSettingsSection({
               })
             }
           >
-            <option value="auto">Auto</option>
-            <option value="true">Force Secure</option>
-            <option value="false">Force Insecure</option>
+            <option value="auto">
+              {t("pages.settings.networksettingssection.auto")}
+            </option>
+            <option value="true">
+              {t("pages.settings.networksettingssection.force_secure")}
+            </option>
+            <option value="false">
+              {t("pages.settings.networksettingssection.force_insecure")}
+            </option>
           </Select>
           <div className="rounded-sm border border-warning/25 bg-warning/10 px-3 py-2 text-xs leading-5 text-warning">
-            Force Secure blocks dashboard login on plain HTTP. Use it when
-            PinchTab is served through HTTPS directly or behind a trusted proxy.
-            If TLS terminates in front of PinchTab, enable{" "}
-            <code>trustProxyHeaders</code> so forwarded HTTPS requests are
-            recognized.
+            {t(
+              "pages.settings.networksettingssection.force_secure_blocks_dashboard_login_on",
+            )}{" "}
+            <code>
+              {t("pages.settings.networksettingssection.trustproxyheaders")}
+            </code>{" "}
+            {t(
+              "pages.settings.networksettingssection.so_forwarded_https_requests_are",
+            )}
           </div>
         </div>
       </SettingRow>
       <SettingRow
-        label="Persist dashboard sessions"
-        description="Keep dashboard login sessions across server restarts. Disable this if you want every restart to force a fresh login."
+        label={t(
+          "pages.settings.networksettingssection.persist_dashboard_sessions",
+        )}
+        description={t(
+          "pages.settings.networksettingssection.keep_dashboard_login_sessions_across",
+        )}
       >
         <label className="flex items-center justify-end gap-3 text-sm text-text-secondary">
           <input
@@ -183,12 +223,16 @@ export function NetworkSettingsSection({
             }
             className="accent-primary"
           />
-          {backendConfig.sessions.dashboard.persist ? "Enabled" : "Disabled"}
+          {backendConfig.sessions.dashboard.persist
+            ? t("pages.settings.networksettingssection.enabled")
+            : t("pages.settings.networksettingssection.disabled")}
         </label>
       </SettingRow>
       <SettingRow
-        label="Session idle timeout"
-        description="How long an unused dashboard session stays valid. This is stored in seconds in config."
+        label={t("pages.settings.networksettingssection.session_idle_timeout")}
+        description={t(
+          "pages.settings.networksettingssection.how_long_an_unused_dashboard_session",
+        )}
       >
         <input
           type="number"
@@ -207,8 +251,10 @@ export function NetworkSettingsSection({
         />
       </SettingRow>
       <SettingRow
-        label="Session max lifetime"
-        description="Absolute lifetime for a dashboard session before it must be re-created, even if active."
+        label={t("pages.settings.networksettingssection.session_max_lifetime")}
+        description={t(
+          "pages.settings.networksettingssection.absolute_lifetime_for_a_dashboard",
+        )}
       >
         <input
           type="number"
@@ -227,8 +273,12 @@ export function NetworkSettingsSection({
         />
       </SettingRow>
       <SettingRow
-        label="Require elevation for config saves"
-        description="Ask for API token re-entry before saving backend config changes. Disabled by default."
+        label={t(
+          "pages.settings.networksettingssection.require_elevation_for_config_saves",
+        )}
+        description={t(
+          "pages.settings.networksettingssection.ask_for_api_token_re_entry_before",
+        )}
       >
         <label className="flex items-center justify-end gap-3 text-sm text-text-secondary">
           <input
@@ -245,13 +295,15 @@ export function NetworkSettingsSection({
             className="accent-primary"
           />
           {backendConfig.sessions.dashboard.requireElevation
-            ? "Enabled"
-            : "Disabled"}
+            ? t("pages.settings.networksettingssection.enabled")
+            : t("pages.settings.networksettingssection.disabled")}
         </label>
       </SettingRow>
       <SettingRow
-        label="Allow attach"
-        description="Permit attaching PinchTab to externally managed Chrome sessions."
+        label={t("pages.settings.networksettingssection.allow_attach")}
+        description={t(
+          "pages.settings.networksettingssection.permit_attaching_pinchtab_to_externally",
+        )}
       >
         <label className="flex items-center justify-end gap-3 text-sm text-text-secondary">
           <input
@@ -267,12 +319,14 @@ export function NetworkSettingsSection({
             }
             className="h-4 w-4"
           />
-          Enable
+          {t("pages.settings.networksettingssection.enable")}
         </label>
       </SettingRow>
       <SettingRow
-        label="Allowed attach hosts"
-        description='Comma-separated host allowlist for attach requests. Only include hosts you control and trust. Using "*" disables host allowlisting.'
+        label={t("pages.settings.networksettingssection.allowed_attach_hosts")}
+        description={t(
+          "pages.settings.networksettingssection.comma_separated_host_allowlist_for",
+        )}
       >
         <div className="space-y-2">
           <input
@@ -289,24 +343,29 @@ export function NetworkSettingsSection({
           />
           {attachWildcard ? (
             <div className="rounded-sm border border-destructive/35 bg-destructive/10 px-3 py-2 text-xs leading-5 text-destructive/80">
-              <code>allowHosts: ["*"]</code> is a documented, non-default,
-              security-reducing override. It disables host allowlisting entirely
-              and allows remote attach requests to any reachable host with an
-              allowed scheme. Use it only on isolated, operator-controlled
-              networks.
+              <code>
+                {t("pages.settings.networksettingssection.allowhosts")}
+              </code>{" "}
+              {t(
+                "pages.settings.networksettingssection.is_a_documented_non_default_security",
+              )}
             </div>
           ) : (
             <div className="rounded-sm border border-warning/25 bg-warning/10 px-3 py-2 text-xs leading-5 text-warning">
-              Hosts in this allowlist may be used for remote attach requests.
-              Broad or untrusted entries expand the trust boundary and can
-              expose external Chrome sessions and browser contents.
+              {t(
+                "pages.settings.networksettingssection.hosts_in_this_allowlist_may_be_used_for",
+              )}
             </div>
           )}
         </div>
       </SettingRow>
       <SettingRow
-        label="Allowed attach schemes"
-        description="Comma-separated scheme allowlist, usually ws and wss."
+        label={t(
+          "pages.settings.networksettingssection.allowed_attach_schemes",
+        )}
+        description={t(
+          "pages.settings.networksettingssection.comma_separated_scheme_allowlist",
+        )}
       >
         <input
           value={listToCsv(backendConfig.security.attach.allowSchemes)}

@@ -3,15 +3,14 @@ import { Button, Input, Modal } from "../atoms";
 import { useAppStore } from "../../stores/useAppStore";
 import * as api from "../../services/api";
 import type { LaunchInstanceRequest, Profile } from "../../generated/types";
+import { useTranslation } from "react-i18next";
+import { i18n } from "../../i18n";
 
 interface Props {
   open: boolean;
   profile: Profile | null;
   onClose: () => void;
 }
-
-const PORT_VALIDATION_ERROR =
-  "Port must be a whole number between 1 and 65535.";
 
 function normalizeLaunchPort(rawPort: string): {
   port?: string;
@@ -23,18 +22,27 @@ function normalizeLaunchPort(rawPort: string): {
   }
 
   if (!/^\d+$/.test(trimmed)) {
-    return { error: PORT_VALIDATION_ERROR };
+    return {
+      error: i18n.t(
+        "components.molecules.startinstancemodal.port_must_be_a_whole_number_between_1",
+      ),
+    };
   }
 
   const numericPort = Number(trimmed);
   if (numericPort < 1 || numericPort > 65535) {
-    return { error: PORT_VALIDATION_ERROR };
+    return {
+      error: i18n.t(
+        "components.molecules.startinstancemodal.port_must_be_a_whole_number_between_1",
+      ),
+    };
   }
 
   return { port: String(numericPort) };
 }
 
 export default function StartInstanceModal({ open, profile, onClose }: Props) {
+  const { t } = useTranslation();
   const { setInstances } = useAppStore();
   const [port, setPort] = useState("");
   const [headless, setHeadless] = useState(false);
@@ -78,7 +86,9 @@ export default function StartInstanceModal({ open, profile, onClose }: Props) {
   const handleLaunch = async () => {
     if (!profile || launchLoading) return;
     if (!profile.id) {
-      setLaunchError("Profile ID missing");
+      setLaunchError(
+        t("components.molecules.startinstancemodal.profile_id_missing"),
+      );
       return;
     }
     if (portError) {
@@ -103,7 +113,12 @@ export default function StartInstanceModal({ open, profile, onClose }: Props) {
       onClose();
     } catch (e) {
       console.error("Launch failed:", e);
-      const msg = e instanceof Error ? e.message : "Failed to launch instance";
+      const msg =
+        e instanceof Error
+          ? e.message
+          : t(
+              "components.molecules.startinstancemodal.failed_to_launch_instance",
+            );
       setLaunchError(msg);
     } finally {
       setLaunchLoading(false);
@@ -113,10 +128,12 @@ export default function StartInstanceModal({ open, profile, onClose }: Props) {
   const handleCopyCommand = async () => {
     try {
       await navigator.clipboard.writeText(launchCommand);
-      setCopyFeedback("Copied!");
+      setCopyFeedback(t("components.molecules.startinstancemodal.copied"));
       setTimeout(() => setCopyFeedback(""), 2000);
     } catch {
-      setCopyFeedback("Failed to copy");
+      setCopyFeedback(
+        t("components.molecules.startinstancemodal.failed_to_copy"),
+      );
       setTimeout(() => setCopyFeedback(""), 2000);
     }
   };
@@ -129,7 +146,7 @@ export default function StartInstanceModal({ open, profile, onClose }: Props) {
           onClose();
         }
       }}
-      title="🖥️ Start Profile"
+      title={t("components.molecules.startinstancemodal.start_profile")}
       actions={
         <>
           <Button
@@ -137,7 +154,7 @@ export default function StartInstanceModal({ open, profile, onClose }: Props) {
             disabled={launchLoading}
             onClick={onClose}
           >
-            Cancel
+            {t("components.molecules.startinstancemodal.cancel")}
           </Button>
           <Button
             variant="primary"
@@ -145,7 +162,7 @@ export default function StartInstanceModal({ open, profile, onClose }: Props) {
             loading={launchLoading}
             disabled={Boolean(portError)}
           >
-            Start
+            {t("components.molecules.startinstancemodal.start")}
           </Button>
         </>
       }
@@ -157,8 +174,10 @@ export default function StartInstanceModal({ open, profile, onClose }: Props) {
           </div>
         )}
         <Input
-          label="Port"
-          placeholder="Auto-select from configured range"
+          label={t("components.molecules.startinstancemodal.port")}
+          placeholder={t(
+            "components.molecules.startinstancemodal.auto_select_from_configured_range",
+          )}
           value={port}
           onChange={(e) => setPort(e.target.value)}
         />
@@ -166,8 +185,9 @@ export default function StartInstanceModal({ open, profile, onClose }: Props) {
           <p className="-mt-2 text-xs text-destructive">{portError}</p>
         ) : (
           <p className="-mt-2 text-xs text-text-muted">
-            Leave blank to auto-select a free port from the configured instance
-            port range.
+            {t(
+              "components.molecules.startinstancemodal.leave_blank_to_auto_select_a_free_port",
+            )}
           </p>
         )}
         <label className="flex items-center gap-2 text-sm text-text-secondary">
@@ -177,26 +197,40 @@ export default function StartInstanceModal({ open, profile, onClose }: Props) {
             onChange={(e) => setHeadless(e.target.checked)}
             className="h-4 w-4"
           />
-          Headless (best for Docker/VPS)
+          {t(
+            "components.molecules.startinstancemodal.headless_best_for_docker_vps",
+          )}
         </label>
 
         <div>
-          <label className="mb-1 block text-xs text-text-muted">Browser</label>
+          <label className="mb-1 block text-xs text-text-muted">
+            {t("components.molecules.startinstancemodal.browser")}
+          </label>
           <select
             value={browser}
             onChange={(e) => setBrowser(e.target.value)}
             className="w-full rounded border border-border-subtle bg-bg-elevated px-3 py-2 text-sm text-text-primary"
           >
-            <option value="">Server default</option>
-            <option value="chrome">Chrome</option>
-            <option value="cloak">CloakBrowser</option>
-            <option value="ghost-chrome">Ghost + Chrome</option>
+            <option value="">
+              {t("components.molecules.startinstancemodal.server_default")}
+            </option>
+            <option value="chrome">
+              {t("components.molecules.startinstancemodal.chrome")}
+            </option>
+            <option value="cloak">
+              {t("components.molecules.startinstancemodal.cloakbrowser")}
+            </option>
+            <option value="ghost-chrome">
+              {t("components.molecules.startinstancemodal.ghost_chrome")}
+            </option>
           </select>
         </div>
 
         <div>
           <label className="mb-1 block text-xs text-text-muted">
-            Direct launch command (backup)
+            {t(
+              "components.molecules.startinstancemodal.direct_launch_command_backup",
+            )}
           </label>
           <textarea
             readOnly
@@ -205,15 +239,22 @@ export default function StartInstanceModal({ open, profile, onClose }: Props) {
           />
           <div className="mt-2 flex items-center gap-2">
             <Button size="sm" variant="secondary" onClick={handleCopyCommand}>
-              Copy Command
+              {t("components.molecules.startinstancemodal.copy_command")}
             </Button>
             {copyFeedback && (
               <span className="text-xs text-success">{copyFeedback}</span>
             )}
           </div>
           <p className="mt-2 text-xs text-text-muted">
-            Replace <code>{"<token>"}</code> with the value from{" "}
-            <code>pinchtab config token</code> when auth is enabled.
+            {t("components.molecules.startinstancemodal.replace")}
+            <code>{"<token>"}</code>{" "}
+            {t("components.molecules.startinstancemodal.with_the_value_from")}{" "}
+            <code>
+              {t(
+                "components.molecules.startinstancemodal.pinchtab_config_token",
+              )}
+            </code>{" "}
+            {t("components.molecules.startinstancemodal.when_auth_is_enabled")}
           </p>
         </div>
       </div>

@@ -6,6 +6,7 @@ import type {
 import type { UpdateBackendSection } from "./settingsShared";
 import { csvToList, fieldClass, listToCsv } from "./settingsShared";
 import { SectionCard, SettingRow } from "./SettingsSharedComponents";
+import { useTranslation } from "react-i18next";
 
 interface BrowserSettingsSectionProps {
   backendConfig: BackendConfig;
@@ -16,6 +17,7 @@ export function BrowserSettingsSection({
   backendConfig,
   updateBackendSection,
 }: BrowserSettingsSectionProps) {
+  const { t } = useTranslation();
   const cloak = backendConfig.browser.cloak;
   const currentProvider: BackendBrowserProvider =
     backendConfig.browsers?.default ?? "chrome";
@@ -29,12 +31,16 @@ export function BrowserSettingsSection({
 
   return (
     <SectionCard
-      title="Browser Runtime"
-      description="These settings are written into the generated child config for new managed instances."
+      title={t("pages.settings.browsersettingssection.browser_runtime")}
+      description={t(
+        "pages.settings.browsersettingssection.these_settings_are_written_into_the",
+      )}
     >
       <SettingRow
-        label="Provider"
-        description="Browser backend used for new managed instances."
+        label={t("pages.settings.browsersettingssection.provider")}
+        description={t(
+          "pages.settings.browsersettingssection.browser_backend_used_for_new_managed",
+        )}
       >
         <select
           value={currentProvider}
@@ -45,14 +51,22 @@ export function BrowserSettingsSection({
           }
           className={fieldClass}
         >
-          <option value="chrome">Chrome</option>
-          <option value="cloak">CloakBrowser</option>
-          <option value="ghost-chrome">Ghost + Chrome</option>
+          <option value="chrome">
+            {t("pages.settings.browsersettingssection.chrome")}
+          </option>
+          <option value="cloak">
+            {t("pages.settings.browsersettingssection.cloakbrowser")}
+          </option>
+          <option value="ghost-chrome">
+            {t("pages.settings.browsersettingssection.ghost_chrome")}
+          </option>
         </select>
       </SettingRow>
       <SettingRow
-        label="Browser version"
-        description="Version string used in generated UA/fingerprint defaults."
+        label={t("pages.settings.browsersettingssection.browser_version")}
+        description={t(
+          "pages.settings.browsersettingssection.version_string_used_in_generated_ua",
+        )}
       >
         <input
           value={backendConfig.browser.version}
@@ -65,8 +79,10 @@ export function BrowserSettingsSection({
         />
       </SettingRow>
       <SettingRow
-        label="Browser binary"
-        description="Optional path override for the Chrome or CloakBrowser executable."
+        label={t("pages.settings.browsersettingssection.browser_binary")}
+        description={t(
+          "pages.settings.browsersettingssection.optional_path_override_for_the_chrome",
+        )}
       >
         <input
           value={backendConfig.browser.binary}
@@ -81,8 +97,10 @@ export function BrowserSettingsSection({
       {currentProvider === "cloak" && (
         <>
           <SettingRow
-            label="Fingerprint seed"
-            description="Deterministic CloakBrowser identity seed. Leave blank for a fresh identity per launch."
+            label={t("pages.settings.browsersettingssection.fingerprint_seed")}
+            description={t(
+              "pages.settings.browsersettingssection.deterministic_cloakbrowser_identity",
+            )}
           >
             <input
               value={cloak.fingerprintSeed}
@@ -91,8 +109,12 @@ export function BrowserSettingsSection({
             />
           </SettingRow>
           <SettingRow
-            label="Fingerprint platform"
-            description="Native platform fingerprint reported by CloakBrowser."
+            label={t(
+              "pages.settings.browsersettingssection.fingerprint_platform",
+            )}
+            description={t(
+              "pages.settings.browsersettingssection.native_platform_fingerprint_reported_by",
+            )}
           >
             <select
               value={cloak.platform}
@@ -104,15 +126,25 @@ export function BrowserSettingsSection({
               }
               className={fieldClass}
             >
-              <option value="">Auto</option>
-              <option value="windows">Windows</option>
-              <option value="macos">macOS</option>
-              <option value="linux">Linux</option>
+              <option value="">
+                {t("pages.settings.browsersettingssection.auto")}
+              </option>
+              <option value="windows">
+                {t("pages.settings.browsersettingssection.windows")}
+              </option>
+              <option value="macos">
+                {t("pages.settings.browsersettingssection.macos")}
+              </option>
+              <option value="linux">
+                {t("pages.settings.browsersettingssection.linux")}
+              </option>
             </select>
           </SettingRow>
           <SettingRow
-            label="Cloak locale"
-            description="Locale passed as --fingerprint-locale."
+            label={t("pages.settings.browsersettingssection.cloak_locale")}
+            description={t(
+              "pages.settings.browsersettingssection.locale_passed_as_fingerprint_locale",
+            )}
           >
             <input
               value={cloak.locale}
@@ -121,8 +153,10 @@ export function BrowserSettingsSection({
             />
           </SettingRow>
           <SettingRow
-            label="Cloak timezone"
-            description="Timezone passed as --fingerprint-timezone."
+            label={t("pages.settings.browsersettingssection.cloak_timezone")}
+            description={t(
+              "pages.settings.browsersettingssection.timezone_passed_as_fingerprint_timezone",
+            )}
           >
             <input
               value={cloak.timezone}
@@ -131,8 +165,10 @@ export function BrowserSettingsSection({
             />
           </SettingRow>
           <SettingRow
-            label="WebRTC IP"
-            description="Explicit replacement IP or auto for CloakBrowser proxy exit-IP resolution."
+            label={t("pages.settings.browsersettingssection.webrtc_ip")}
+            description={t(
+              "pages.settings.browsersettingssection.explicit_replacement_ip_or_auto_for",
+            )}
           >
             <input
               value={cloak.webrtcIP}
@@ -141,8 +177,10 @@ export function BrowserSettingsSection({
             />
           </SettingRow>
           <SettingRow
-            label="Fonts directory"
-            description="Directory containing target-platform fonts for CloakBrowser."
+            label={t("pages.settings.browsersettingssection.fonts_directory")}
+            description={t(
+              "pages.settings.browsersettingssection.directory_containing_target_platform",
+            )}
           >
             <input
               value={cloak.fontsDir}
@@ -151,8 +189,10 @@ export function BrowserSettingsSection({
             />
           </SettingRow>
           <SettingRow
-            label="Storage quota"
-            description="Storage quota in MB passed as --fingerprint-storage-quota."
+            label={t("pages.settings.browsersettingssection.storage_quota")}
+            description={t(
+              "pages.settings.browsersettingssection.storage_quota_in_mb_passed_as",
+            )}
           >
             <input
               type="number"
@@ -168,8 +208,12 @@ export function BrowserSettingsSection({
             />
           </SettingRow>
           <SettingRow
-            label="Native stealth only"
-            description="Disable PinchTab JS stealth overlays and automation-hiding launch flags."
+            label={t(
+              "pages.settings.browsersettingssection.native_stealth_only",
+            )}
+            description={t(
+              "pages.settings.browsersettingssection.disable_pinchtab_js_stealth_overlays",
+            )}
           >
             <label className="flex items-center gap-2 text-sm text-text-primary">
               <input
@@ -182,14 +226,18 @@ export function BrowserSettingsSection({
                 }
                 className="h-4 w-4 accent-primary"
               />
-              Use CloakBrowser native patches
+              {t(
+                "pages.settings.browsersettingssection.use_cloakbrowser_native_patches",
+              )}
             </label>
           </SettingRow>
         </>
       )}
       <SettingRow
-        label="Extra flags"
-        description="Additional Chrome flags appended when launching managed instances."
+        label={t("pages.settings.browsersettingssection.extra_flags")}
+        description={t(
+          "pages.settings.browsersettingssection.additional_chrome_flags_appended_when",
+        )}
       >
         <input
           value={backendConfig.browser.extraFlags}
@@ -202,8 +250,10 @@ export function BrowserSettingsSection({
         />
       </SettingRow>
       <SettingRow
-        label="Extension paths"
-        description="Comma-separated extension directories to load. By default, PinchTab uses the local extensions/ folder under its state/config directory. Set custom paths here to override that default, or clear the field to disable extension loading."
+        label={t("pages.settings.browsersettingssection.extension_paths")}
+        description={t(
+          "pages.settings.browsersettingssection.comma_separated_extension_directories",
+        )}
       >
         <input
           value={listToCsv(backendConfig.browser.extensionPaths)}

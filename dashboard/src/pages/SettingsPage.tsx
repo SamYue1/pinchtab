@@ -24,6 +24,7 @@ import {
 } from "./settings/settingsShared";
 import { TimeoutsSettingsSection } from "./settings/TimeoutsSettingsSection";
 import { useSettingsController } from "./settings/useSettingsController";
+import { useTranslation } from "react-i18next";
 
 function renderActiveSection(
   activeSection: SectionId,
@@ -133,6 +134,7 @@ function renderActiveSection(
 }
 
 export default function SettingsPage() {
+  const { t } = useTranslation();
   const [activeSection, setActiveSection] = useState<SectionId>("dashboard");
   const {
     serverInfo,
@@ -171,7 +173,7 @@ export default function SettingsPage() {
       <Modal
         open={pendingElevatedAction !== null}
         onClose={closeElevationPrompt}
-        title="Confirm admin action"
+        title={t("pages.settingspage.confirm_admin_action")}
         actions={
           <>
             <Button
@@ -179,7 +181,7 @@ export default function SettingsPage() {
               onClick={closeElevationPrompt}
               disabled={elevating}
             >
-              Cancel
+              {t("pages.settingspage.cancel")}
             </Button>
             <Button
               variant="primary"
@@ -187,7 +189,9 @@ export default function SettingsPage() {
               form="settings-elevation-form"
               disabled={elevating || elevationToken.trim() === ""}
             >
-              {elevating ? "Verifying..." : "Continue"}
+              {elevating
+                ? t("pages.settingspage.verifying")
+                : t("pages.settingspage.continue")}
             </Button>
           </>
         }
@@ -199,16 +203,14 @@ export default function SettingsPage() {
           onSubmit={handleElevationSubmit}
         >
           <p className="leading-6 text-text-muted">
-            Re-enter the API token to save backend configuration changes. The
-            elevated session stays active briefly so you do not need to repeat
-            this for every admin action.
+            {t("pages.settingspage.re_enter_the_api_token_to_save_backend")}
           </p>
           <Input
             id="settings-elevation-password"
             type="password"
             autoComplete="off"
-            label="API token"
-            placeholder="Paste API token"
+            label={t("pages.settingspage.api_token")}
+            placeholder={t("pages.settingspage.paste_api_token")}
             value={elevationToken}
             onChange={(e) => setElevationToken(e.target.value)}
             autoFocus
@@ -233,8 +235,8 @@ export default function SettingsPage() {
           width="narrow"
           header={
             <SidebarPanelHeader
-              eyebrow="Settings"
-              description={`Version: ${serverInfo?.version || "dev"}`}
+              eyebrow={t("pages.settingspage.settings_eyebrow")}
+              description={`${t("components.molecules.serversummary.version")}: ${serverInfo?.version || "dev"}`}
               descriptionClassName="dashboard-mono"
             />
           }
@@ -251,9 +253,9 @@ export default function SettingsPage() {
                 }`}
                 onClick={() => setActiveSection(section.id)}
               >
-                <div className="text-sm font-medium">{section.label}</div>
+                <div className="text-sm font-medium">{t(section.labelKey)}</div>
                 <div className="mt-1 text-xs leading-5 text-text-muted">
-                  {section.description}
+                  {t(section.descriptionKey)}
                 </div>
               </button>
             ))}
@@ -264,7 +266,7 @@ export default function SettingsPage() {
           <div className="sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b border-border-subtle bg-bg-surface/95 p-3 backdrop-blur">
             {restartRequired && (
               <div className="rounded-sm border border-warning/25 bg-warning/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-warning">
-                Restart required
+                {t("pages.settingspage.restart_required")}
               </div>
             )}
             <div className="flex-1" />
@@ -273,14 +275,16 @@ export default function SettingsPage() {
               onClick={handleReset}
               disabled={!hasChanges || saving}
             >
-              Reset
+              {t("pages.settingspage.reset")}
             </Button>
             <Button
               variant="primary"
               onClick={handleSave}
               disabled={!hasChanges || saving || !backendConfig}
             >
-              {saving ? "Saving..." : "Save"}
+              {saving
+                ? t("pages.settingspage.saving")
+                : t("pages.settingspage.save")}
             </Button>
           </div>
           {(error || notice || restartReasons.length > 0) && (
@@ -297,14 +301,17 @@ export default function SettingsPage() {
               )}
               {restartRequired && restartReasons.length > 0 && (
                 <div className="rounded-sm border border-warning/25 bg-warning/10 px-3 py-2 text-sm text-warning">
-                  Restart needed for: {restartReasons.join(", ")}.
+                  {t("pages.settingspage.restart_needed_for")}
+                  {restartReasons.join(", ")}.
                 </div>
               )}
             </div>
           )}
           {loading || !backendConfig ? (
             <Card className="p-6">
-              <div className="text-sm text-text-muted">Loading settings…</div>
+              <div className="text-sm text-text-muted">
+                {t("pages.settingspage.loading_settings")}
+              </div>
             </Card>
           ) : (
             renderActiveSection(activeSection, {

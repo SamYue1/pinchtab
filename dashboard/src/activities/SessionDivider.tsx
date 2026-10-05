@@ -1,5 +1,6 @@
 import { IconBolt } from "../components/atoms/Icon";
 import type { Session } from "../services/api";
+import { formatTime as formatLocalizedTime } from "../i18n/format";
 
 interface SessionDividerProps {
   session?: Session;
@@ -8,7 +9,7 @@ interface SessionDividerProps {
 }
 
 function formatTime(ts: string): string {
-  return new Date(ts).toLocaleTimeString("en-GB", {
+  return formatLocalizedTime(ts, {
     hour: "2-digit",
     minute: "2-digit",
   });

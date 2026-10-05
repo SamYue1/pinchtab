@@ -4,6 +4,7 @@ import type { Session } from "../services/api";
 import ActivityItemLine from "./ActivityItemLine";
 import { isHandoffEvent } from "./handoffState";
 import type { ActivityFilters, DashboardActivityEvent } from "./types";
+import { useTranslation } from "react-i18next";
 
 interface AgentStreamPanelProps {
   events: DashboardActivityEvent[];
@@ -26,6 +27,7 @@ export default function AgentStreamPanel({
   activeSessionId,
   onFilterChange,
 }: AgentStreamPanelProps) {
+  const { t } = useTranslation();
   const sessionLabels = new Map(
     sessions
       .filter((session) => session.label?.trim())
@@ -76,8 +78,10 @@ export default function AgentStreamPanel({
         {!loading && events.length === 0 ? (
           <EmptyState
             icon="📡"
-            title="No matching activity"
-            description="Adjust the filters or generate some traffic from the CLI, MCP, or dashboard."
+            title={t("activities.agentstreampanel.no_matching_activity")}
+            description={t(
+              "activities.agentstreampanel.adjust_the_filters_or_generate_some",
+            )}
           />
         ) : (
           <div className="divide-y divide-border-subtle/70">

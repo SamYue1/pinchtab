@@ -18,65 +18,77 @@ export type SectionId =
   | "autosolver"
   | "observability";
 
+// labelKey and descriptionKey name entries in the locale files; the settings page
+// resolves them with t().
 export const sections: Array<{
   id: SectionId;
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
 }> = [
   {
     id: "dashboard",
-    label: "Dashboard",
-    description: "Local monitoring and screencast preferences.",
+    labelKey: "settings.sections.dashboard.dashboard",
+    descriptionKey:
+      "settings.sections.dashboard.local_monitoring_and_screencast",
   },
   {
     id: "defaults",
-    label: "Instance Defaults",
-    description: "How new managed browser instances launch.",
+    labelKey: "settings.sections.defaults.instance_defaults",
+    descriptionKey:
+      "settings.sections.defaults.how_new_managed_browser_instances_launch",
   },
   {
     id: "orchestration",
-    label: "Orchestration",
-    description: "Routing strategy, port range, and allocation policy.",
+    labelKey: "settings.sections.orchestration.orchestration",
+    descriptionKey:
+      "settings.sections.orchestration.routing_strategy_port_range_and",
   },
   {
     id: "security",
-    label: "Security",
-    description: "Sensitive endpoint gates and access controls.",
+    labelKey: "settings.sections.security.security",
+    descriptionKey:
+      "settings.sections.security.sensitive_endpoint_gates_and_access",
   },
   {
     id: "security-idpi",
-    label: "Security IDPI",
-    description: "Indirect prompt injection website and content defenses.",
+    labelKey: "settings.sections.security-idpi.security_idpi",
+    descriptionKey:
+      "settings.sections.security-idpi.indirect_prompt_injection_website_and",
   },
   {
     id: "profiles",
-    label: "Profiles",
-    description: "Shared profile storage and default profile behavior.",
+    labelKey: "settings.sections.profiles.profiles",
+    descriptionKey:
+      "settings.sections.profiles.shared_profile_storage_and_default",
   },
   {
     id: "network",
-    label: "Network & Attach",
-    description: "Server binding, auth, and attach policy.",
+    labelKey: "settings.sections.network.network_attach",
+    descriptionKey:
+      "settings.sections.network.server_binding_auth_and_attach_policy",
   },
   {
     id: "browser",
-    label: "Browser Runtime",
-    description: "Chrome binary, version, flags, and extensions.",
+    labelKey: "settings.sections.browser.browser_runtime",
+    descriptionKey: "settings.sections.browser.chrome_binary_version_flags_and",
   },
   {
     id: "timeouts",
-    label: "Timeouts",
-    description: "Action, navigation, shutdown, and wait timing.",
+    labelKey: "settings.sections.timeouts.timeouts",
+    descriptionKey:
+      "settings.sections.timeouts.action_navigation_shutdown_and_wait",
   },
   {
     id: "autosolver",
-    label: "AutoSolver",
-    description: "Challenge-solving behavior and config-file-backed providers.",
+    labelKey: "settings.sections.autosolver.autosolver",
+    descriptionKey:
+      "settings.sections.autosolver.challenge_solving_behavior_and_config",
   },
   {
     id: "observability",
-    label: "Observability",
-    description: "Activity logging and retention settings.",
+    labelKey: "settings.sections.observability.observability",
+    descriptionKey:
+      "settings.sections.observability.activity_logging_and_retention_settings",
   },
 ];
 
@@ -98,21 +110,24 @@ export type IDPIToggleKey = Exclude<
 >;
 
 export const securityEndpointRows = [
-  ["allowEvaluate", "Allow evaluate"],
-  ["allowMacro", "Allow macro"],
-  ["allowScreencast", "Allow screencast"],
-  ["allowDownload", "Allow download"],
-  ["allowCookies", "Allow cookies"],
-  ["allowUpload", "Allow upload"],
+  ["allowEvaluate", "settings.security.endpoints.allowEvaluate.allow_evaluate"],
+  ["allowMacro", "settings.security.endpoints.allowMacro.allow_macro"],
+  [
+    "allowScreencast",
+    "settings.security.endpoints.allowScreencast.allow_screencast",
+  ],
+  ["allowDownload", "settings.security.endpoints.allowDownload.allow_download"],
+  ["allowCookies", "settings.security.endpoints.allowCookies.allow_cookies"],
+  ["allowUpload", "settings.security.endpoints.allowUpload.allow_upload"],
   [
     "allowNetworkIntercept",
-    "Allow network interception",
-    "Lets agents install rules to abort or fulfill (mock) HTTP requests on a tab. When on, response forgery is FORBIDDEN on hosts in 'Allowed websites' below and PERMITTED elsewhere. Forging responses on hosts you've authorized the agent to use (e.g. your bank) is the highest-risk outcome — that's why allowlisted hosts are protected, not the reverse. OPTIONS preflights are skipped by default to avoid breaking CORS.",
+    "settings.security.endpoints.allowNetworkIntercept.allow_network_interception",
+    "settings.security.endpoints.allowNetworkIntercept.lets_agents_install_rules_to_abort_or",
   ],
   [
     "allowFileScheme",
-    "Allow file:// navigation",
-    "Lets agents open local file:// URLs. A file:// URL has no host, so it is NOT limited by 'Allowed websites' below and bypasses SSRF/private-IP protection — enabling it grants read access (via snapshot/screenshot/scrape) to any local file the server process can read. It stays blocked while a strict-mode allowlist is active. Enable only on trusted, single-tenant machines.",
+    "settings.security.endpoints.allowFileScheme.allow_file_navigation",
+    "settings.security.endpoints.allowFileScheme.lets_agents_open_local_file_urls_a_file",
   ],
 ] as const satisfies ReadonlyArray<
   | readonly [SecurityEndpointKey, string]
@@ -120,44 +135,59 @@ export const securityEndpointRows = [
 >;
 
 export const idpiToggleRows = [
-  ["enabled", "Enable IDPI", "Turn on indirect prompt injection defenses."],
+  [
+    "enabled",
+    "settings.security.idpi.enabled.enable_idpi",
+    "settings.security.idpi.enabled.turn_on_indirect_prompt_injection",
+  ],
   [
     "strictMode",
-    "Strict mode",
-    "Block disallowed domains and suspicious content instead of only warning.",
+    "settings.security.idpi.strictMode.strict_mode",
+    "settings.security.idpi.strictMode.block_disallowed_domains_and_suspicious",
   ],
   [
     "scanContent",
-    "Scan content",
-    "Inspect extracted text and snapshots for prompt-injection patterns.",
+    "settings.security.idpi.scanContent.scan_content",
+    "settings.security.idpi.scanContent.inspect_extracted_text_and_snapshots",
   ],
   [
     "wrapContent",
-    "Wrap content",
-    "Mark returned page text as untrusted content for downstream consumers.",
+    "settings.security.idpi.wrapContent.wrap_content",
+    "settings.security.idpi.wrapContent.mark_returned_page_text_as_untrusted",
   ],
 ] as const satisfies ReadonlyArray<readonly [IDPIToggleKey, string, string]>;
 
 export const instanceDefaultsBooleanRows = [
-  ["blockImages", "Block images"],
-  ["blockMedia", "Block media"],
-  ["blockAds", "Block ads"],
-  ["noAnimations", "Disable CSS animations"],
-  ["noRestore", "Skip session restore"],
+  ["blockImages", "settings.defaults.booleans.blockImages.block_images"],
+  ["blockMedia", "settings.defaults.booleans.blockMedia.block_media"],
+  ["blockAds", "settings.defaults.booleans.blockAds.block_ads"],
+  [
+    "noAnimations",
+    "settings.defaults.booleans.noAnimations.disable_css_animations",
+  ],
+  ["noRestore", "settings.defaults.booleans.noRestore.skip_session_restore"],
 ] as const;
 
 export const timeoutRows = [
-  ["actionSec", "Action timeout", "Maximum time for action requests."],
-  ["navigateSec", "Navigate timeout", "Maximum time for navigation requests."],
+  [
+    "actionSec",
+    "settings.defaults.timeouts.actionSec.action_timeout",
+    "settings.defaults.timeouts.actionSec.maximum_time_for_action_requests",
+  ],
+  [
+    "navigateSec",
+    "settings.defaults.timeouts.navigateSec.navigate_timeout",
+    "settings.defaults.timeouts.navigateSec.maximum_time_for_navigation_requests",
+  ],
   [
     "shutdownSec",
-    "Shutdown timeout",
-    "Grace period before force-closing a child process.",
+    "settings.defaults.timeouts.shutdownSec.shutdown_timeout",
+    "settings.defaults.timeouts.shutdownSec.grace_period_before_force_closing_a",
   ],
   [
     "waitNavMs",
-    "Wait-after-navigation delay",
-    "Post-navigation stabilization delay in milliseconds.",
+    "settings.defaults.timeouts.waitNavMs.wait_after_navigation_delay",
+    "settings.defaults.timeouts.waitNavMs.post_navigation_stabilization_delay_in",
   ],
 ] as const;
 
@@ -172,9 +202,11 @@ export function listToCsv(value: string[]): string {
   return value.join(", ");
 }
 
+// Returns an i18n key. The notice is raised from a controller whose call site is
+// where the current language is known, so the string is not resolved here.
 export function backendSaveNotice(state: BackendConfigState | null): string {
   if (state?.restartRequired) {
-    return "Backend config saved. Dynamic changes were applied where possible. Restart advised for server-level changes.";
+    return "settings.notices.backend_config_saved_dynamic_changes_2";
   }
-  return "Backend config saved. Dynamic changes were applied where possible.";
+  return "settings.notices.backend_config_saved_dynamic_changes";
 }

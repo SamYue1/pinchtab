@@ -7,6 +7,7 @@ import {
   listToCsv,
 } from "./settingsShared";
 import { SectionCard, SettingRow } from "./SettingsSharedComponents";
+import { useTranslation } from "react-i18next";
 
 interface SecurityIdpiSettingsSectionProps {
   backendConfig: BackendConfig;
@@ -23,10 +24,13 @@ export function SecurityIdpiSettingsSection({
   idpiWildcard,
   updateBackendSection,
 }: SecurityIdpiSettingsSectionProps) {
+  const { t } = useTranslation();
   return (
     <SectionCard
-      title="Security IDPI"
-      description="Indirect prompt injection controls restrict which websites are allowed and add protections around extracted content before it reaches downstream automation."
+      title={t("pages.settings.securityidpisettingssection.security_idpi")}
+      description={t(
+        "pages.settings.securityidpisettingssection.indirect_prompt_injection_controls",
+      )}
     >
       <div
         className={`mb-4 rounded-sm px-4 py-3 text-sm leading-6 ${
@@ -38,15 +42,23 @@ export function SecurityIdpiSettingsSection({
         }`}
       >
         {!idpiEnabled
-          ? "IDPI is disabled. Browser content is not being filtered by website allowlist or content protections."
+          ? t(
+              "pages.settings.securityidpisettingssection.idpi_is_disabled_browser_content_is_not",
+            )
           : !idpiDomainsConfigured
-            ? "The website whitelist is not set to a restricted domain list. This is the main IDPI defense and should be configured."
+            ? t(
+                "pages.settings.securityidpisettingssection.the_website_whitelist_is_not_set_to_a",
+              )
             : idpiWildcard
-              ? "The website whitelist contains '*', which effectively disables domain restriction."
-              : "IDPI is enforcing a specific website whitelist and content protections."}
+              ? t(
+                  "pages.settings.securityidpisettingssection.the_website_whitelist_contains_which",
+                )
+              : t(
+                  "pages.settings.securityidpisettingssection.idpi_is_enforcing_a_specific_website",
+                )}
       </div>
       {idpiToggleRows.map(([key, label, description]) => (
-        <SettingRow key={key} label={label} description={description}>
+        <SettingRow key={key} label={t(label)} description={t(description)}>
           <label className="flex items-center justify-end gap-3 text-sm text-text-secondary">
             <input
               type="checkbox"
@@ -61,13 +73,15 @@ export function SecurityIdpiSettingsSection({
               }
               className="h-4 w-4"
             />
-            Enable
+            {t("pages.settings.securityidpisettingssection.enable")}
           </label>
         </SettingRow>
       ))}
       <SettingRow
-        label="Custom patterns"
-        description="Optional comma-separated phrases to treat as suspicious prompt-injection content."
+        label={t("pages.settings.securityidpisettingssection.custom_patterns")}
+        description={t(
+          "pages.settings.securityidpisettingssection.optional_comma_separated_phrases_to",
+        )}
       >
         <input
           value={listToCsv(backendConfig.security.idpi.customPatterns)}
@@ -80,7 +94,9 @@ export function SecurityIdpiSettingsSection({
             })
           }
           className={fieldClass}
-          placeholder="ignore previous instructions, exfiltrate data"
+          placeholder={t(
+            "pages.settings.securityidpisettingssection.ignore_previous_instructions_exfiltrate",
+          )}
         />
       </SettingRow>
     </SectionCard>

@@ -6,6 +6,7 @@ import ScreencastTile from "../components/screencast/ScreencastTile";
 import SelectedTabTitle from "./SelectedTabTitle";
 import ConsolePanel from "./ConsolePanel";
 import ErrorsPanel from "./ErrorsPanel";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   selectedTab: InstanceTab | null;
@@ -15,13 +16,14 @@ interface Props {
 type SubTabId = "actions" | "live" | "console" | "errors";
 
 export default function SelectedTabPanel({ selectedTab, instanceId }: Props) {
+  const { t } = useTranslation();
   const [activeSubTab, setActiveSubTab] = useState<SubTabId>("live");
 
   const subTabs: { id: SubTabId; label: string }[] = [
-    { id: "live", label: "Live" },
-    { id: "actions", label: "Actions" },
-    { id: "console", label: "Console" },
-    { id: "errors", label: "Errors" },
+    { id: "live", label: t("tabs.selectedtabpanel.live") },
+    { id: "actions", label: t("tabs.selectedtabpanel.actions") },
+    { id: "console", label: t("tabs.selectedtabpanel.console") },
+    { id: "errors", label: t("tabs.selectedtabpanel.errors") },
   ];
 
   const activityInitialFilters = useMemo(
@@ -36,7 +38,7 @@ export default function SelectedTabPanel({ selectedTab, instanceId }: Props) {
   if (!selectedTab) {
     return (
       <div className="flex flex-1 items-center justify-center text-sm text-text-muted">
-        Select a tab to view details
+        {t("tabs.selectedtabpanel.select_a_tab_to_view_details")}
       </div>
     );
   }
@@ -56,7 +58,7 @@ export default function SelectedTabPanel({ selectedTab, instanceId }: Props) {
                 embedded
                 showFilterMenu={false}
                 title=""
-                summaryLabel="Actions"
+                summaryLabel={t("tabs.selectedtabpanel.actions")}
                 initialFilters={activityInitialFilters}
                 lockedFilters={activityLockedFilters}
               />
@@ -74,7 +76,11 @@ export default function SelectedTabPanel({ selectedTab, instanceId }: Props) {
                   showTitle={false}
                 />
               ) : (
-                <EmptyView message="No instance ID provided for live view." />
+                <EmptyView
+                  message={t(
+                    "tabs.selectedtabpanel.no_instance_id_provided_for_live_view",
+                  )}
+                />
               )}
             </div>
           )}

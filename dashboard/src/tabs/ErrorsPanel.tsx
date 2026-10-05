@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import * as api from "../services/api";
 import type { ErrorLogEntry } from "../services/api";
+import { useTranslation } from "react-i18next";
+import { formatTime as formatLocalizedTime } from "../i18n/format";
 
 interface Props {
   tabId: string;
 }
 
 function formatTime(ts: string): string {
-  return new Date(ts).toLocaleTimeString("en-GB", {
+  return formatLocalizedTime(ts, {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -15,6 +17,7 @@ function formatTime(ts: string): string {
 }
 
 export default function ErrorsPanel({ tabId }: Props) {
+  const { t } = useTranslation();
   const [errors, setErrors] = useState<ErrorLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
@@ -48,7 +51,7 @@ export default function ErrorsPanel({ tabId }: Props) {
   if (loading) {
     return (
       <div className="flex h-full flex-1 items-center justify-center text-sm text-text-muted">
-        Loading errors...
+        {t("tabs.errorspanel.loading_errors")}
       </div>
     );
   }
@@ -56,7 +59,7 @@ export default function ErrorsPanel({ tabId }: Props) {
   if (errors.length === 0) {
     return (
       <div className="flex h-full flex-1 items-center justify-center text-sm text-text-muted">
-        No errors yet
+        {t("tabs.errorspanel.no_errors_yet")}
       </div>
     );
   }

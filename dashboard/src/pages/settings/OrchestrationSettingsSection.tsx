@@ -3,6 +3,7 @@ import type { BackendConfig } from "../../types";
 import type { UpdateBackendSection } from "./settingsShared";
 import { fieldClass } from "./settingsShared";
 import { SectionCard, SettingRow } from "./SettingsSharedComponents";
+import { useTranslation } from "react-i18next";
 
 interface OrchestrationSettingsSectionProps {
   backendConfig: BackendConfig;
@@ -13,14 +14,19 @@ export function OrchestrationSettingsSection({
   backendConfig,
   updateBackendSection,
 }: OrchestrationSettingsSectionProps) {
+  const { t } = useTranslation();
   return (
     <SectionCard
-      title="Orchestration"
-      description="Port range and allocation policy can be applied immediately for future launches. Strategy and restart-policy changes require a dashboard restart because strategy routes and lifecycle state are registered at startup."
+      title={t("pages.settings.orchestrationsettingssection.orchestration")}
+      description={t(
+        "pages.settings.orchestrationsettingssection.port_range_and_allocation_policy_can_be",
+      )}
     >
       <SettingRow
-        label="Strategy"
-        description="Controls instance lifecycle and how shorthand routes are routed."
+        label={t("pages.settings.orchestrationsettingssection.strategy")}
+        description={t(
+          "pages.settings.orchestrationsettingssection.controls_instance_lifecycle_and_how",
+        )}
       >
         <Select
           value={backendConfig.multiInstance.strategy}
@@ -31,28 +37,54 @@ export function OrchestrationSettingsSection({
             })
           }
         >
-          <option value="always-on">Always on</option>
-          <option value="simple">Simple</option>
-          <option value="explicit">Explicit</option>
-          <option value="simple-autorestart">Simple autorestart</option>
-          <option value="no-instance">No instance (hub)</option>
+          <option value="always-on">
+            {t("pages.settings.orchestrationsettingssection.always_on")}
+          </option>
+          <option value="simple">
+            {t("pages.settings.orchestrationsettingssection.simple")}
+          </option>
+          <option value="explicit">
+            {t("pages.settings.orchestrationsettingssection.explicit")}
+          </option>
+          <option value="simple-autorestart">
+            {t(
+              "pages.settings.orchestrationsettingssection.simple_autorestart",
+            )}
+          </option>
+          <option value="no-instance">
+            {t("pages.settings.orchestrationsettingssection.no_instance_hub")}
+          </option>
         </Select>
         <div className="mt-2 text-[11px] leading-relaxed text-text-muted">
           {backendConfig.multiInstance.strategy === "always-on" &&
-            "Launches a default instance at boot and relaunches on crash."}
+            t(
+              "pages.settings.orchestrationsettingssection.launches_a_default_instance_at_boot_and",
+            )}
           {backendConfig.multiInstance.strategy === "simple" &&
-            "Launches one instance on first request. No auto-restart."}
+            t(
+              "pages.settings.orchestrationsettingssection.launches_one_instance_on_first_request",
+            )}
           {backendConfig.multiInstance.strategy === "explicit" &&
-            "All instances managed via API. No automatic launches."}
+            t(
+              "pages.settings.orchestrationsettingssection.all_instances_managed_via_api_no",
+            )}
           {backendConfig.multiInstance.strategy === "simple-autorestart" &&
-            "Launches on first request and relaunches on crash."}
+            t(
+              "pages.settings.orchestrationsettingssection.launches_on_first_request_and",
+            )}
           {backendConfig.multiInstance.strategy === "no-instance" &&
-            "No local Chrome processes. Acts as a hub for remote bridges only."}
+            t(
+              "pages.settings.orchestrationsettingssection.no_local_chrome_processes_acts_as_a_hub",
+            )}
         </div>
       </SettingRow>
       <SettingRow
-        label="Allocation policy"
-        description="Determines how running instances are chosen for shorthand requests."
+        label={t(
+          "pages.settings.orchestrationsettingssection.allocation_policy",
+        )}
+        description={t(
+          "pages.settings.orchestrationsettingssection.determines_how_running_instances_are",
+        )}
       >
         <Select
           value={backendConfig.multiInstance.allocationPolicy}
@@ -63,14 +95,24 @@ export function OrchestrationSettingsSection({
             })
           }
         >
-          <option value="fcfs">First available</option>
-          <option value="round_robin">Round robin</option>
-          <option value="random">Random</option>
+          <option value="fcfs">
+            {t("pages.settings.orchestrationsettingssection.first_available")}
+          </option>
+          <option value="round_robin">
+            {t("pages.settings.orchestrationsettingssection.round_robin")}
+          </option>
+          <option value="random">
+            {t("pages.settings.orchestrationsettingssection.random")}
+          </option>
         </Select>
       </SettingRow>
       <SettingRow
-        label="Instance port start"
-        description="Lower bound for auto-allocated instance ports."
+        label={t(
+          "pages.settings.orchestrationsettingssection.instance_port_start",
+        )}
+        description={t(
+          "pages.settings.orchestrationsettingssection.lower_bound_for_auto_allocated_instance",
+        )}
       >
         <input
           type="number"
@@ -85,8 +127,12 @@ export function OrchestrationSettingsSection({
         />
       </SettingRow>
       <SettingRow
-        label="Instance port end"
-        description="Upper bound for auto-allocated instance ports."
+        label={t(
+          "pages.settings.orchestrationsettingssection.instance_port_end",
+        )}
+        description={t(
+          "pages.settings.orchestrationsettingssection.upper_bound_for_auto_allocated_instance",
+        )}
       >
         <input
           type="number"
@@ -104,8 +150,12 @@ export function OrchestrationSettingsSection({
         backendConfig.multiInstance.strategy === "simple-autorestart") && (
         <>
           <SettingRow
-            label="Max restarts"
-            description="Maximum restart attempts. Use -1 for unlimited, 0 for no restarts."
+            label={t(
+              "pages.settings.orchestrationsettingssection.max_restarts",
+            )}
+            description={t(
+              "pages.settings.orchestrationsettingssection.maximum_restart_attempts_use_1_for",
+            )}
           >
             <input
               type="number"
@@ -123,8 +173,12 @@ export function OrchestrationSettingsSection({
             />
           </SettingRow>
           <SettingRow
-            label="Initial backoff"
-            description="Delay in seconds before the first restart attempt."
+            label={t(
+              "pages.settings.orchestrationsettingssection.initial_backoff",
+            )}
+            description={t(
+              "pages.settings.orchestrationsettingssection.delay_in_seconds_before_the_first",
+            )}
           >
             <input
               type="number"
@@ -142,8 +196,10 @@ export function OrchestrationSettingsSection({
             />
           </SettingRow>
           <SettingRow
-            label="Max backoff"
-            description="Upper bound in seconds for exponential restart backoff."
+            label={t("pages.settings.orchestrationsettingssection.max_backoff")}
+            description={t(
+              "pages.settings.orchestrationsettingssection.upper_bound_in_seconds_for_exponential",
+            )}
           >
             <input
               type="number"
@@ -161,8 +217,12 @@ export function OrchestrationSettingsSection({
             />
           </SettingRow>
           <SettingRow
-            label="Stable after"
-            description="Seconds the instance must stay healthy before the restart counter resets."
+            label={t(
+              "pages.settings.orchestrationsettingssection.stable_after",
+            )}
+            description={t(
+              "pages.settings.orchestrationsettingssection.seconds_the_instance_must_stay_healthy",
+            )}
           >
             <input
               type="number"

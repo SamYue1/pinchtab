@@ -1,5 +1,6 @@
 import { Card, Badge, Button, StatusDot } from "../components/atoms";
 import type { Instance } from "../types";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   instance: Instance;
@@ -17,6 +18,7 @@ function formatUptime(startTime: string): string {
 }
 
 export default function InstanceCard({ instance, onOpen, onStop }: Props) {
+  const { t } = useTranslation();
   return (
     <Card hover className="flex flex-col p-4">
       <div className="mb-3 flex items-start justify-between">
@@ -32,14 +34,16 @@ export default function InstanceCard({ instance, onOpen, onStop }: Props) {
         <div className="flex items-center gap-1">
           <Badge variant="default">{instance.browser || "chrome"}</Badge>
           <Badge variant={instance.headless ? "info" : "default"}>
-            {instance.headless ? "Headless" : "Headed"}
+            {instance.headless
+              ? t("instances.instancecard.headless")
+              : t("instances.instancecard.headed")}
           </Badge>
         </div>
       </div>
 
       <div className="mb-3 rounded-sm border border-border-subtle bg-[rgb(var(--brand-surface-code-rgb)/0.4)] px-3 py-2 text-xs">
         <span className="dashboard-section-title mr-2 text-[0.68rem]">
-          Uptime
+          {t("instances.instancecard.uptime")}
         </span>
         <span className="dashboard-mono text-text-secondary">
           {formatUptime(instance.startTime)}
@@ -48,10 +52,10 @@ export default function InstanceCard({ instance, onOpen, onStop }: Props) {
 
       <div className="mt-auto flex gap-2">
         <Button size="sm" variant="primary" className="flex-1" onClick={onOpen}>
-          Open Dashboard
+          {t("instances.instancecard.open_dashboard")}
         </Button>
         <Button size="sm" variant="danger" onClick={onStop}>
-          Stop
+          {t("instances.instancecard.stop")}
         </Button>
       </div>
     </Card>

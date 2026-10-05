@@ -18,6 +18,7 @@ import {
 import { useAllTabs } from "./hooks/useAllTabs";
 import { normalizeDashboardActivityEvent } from "./selectors";
 import type { ActivityFilters, DashboardActivityEvent } from "./types";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   initialFilters?: Partial<ActivityFilters>;
@@ -32,10 +33,16 @@ export default function ActivityExplorer({
   initialFilters,
   lockedFilters,
   showFilterMenu = true,
-  title = "Request timeline",
-  summaryLabel = "Activity",
+  title,
+  summaryLabel,
   embedded = false,
 }: Props) {
+  const { t } = useTranslation();
+  // A hook cannot run in the parameter list, so the defaults resolve here.
+  const resolvedTitle =
+    title ?? t("activities.activityexplorer.request_timeline");
+  const resolvedSummaryLabel =
+    summaryLabel ?? t("activities.activityexplorer.activity");
   const { instances, profiles } = useAppStore();
   const [filters, setFilters] = useState<ActivityFilters>({
     ...defaultActivityFilters,
@@ -104,7 +111,9 @@ export default function ActivityExplorer({
       } catch (err) {
         if (cancelled) return;
         setError(
-          err instanceof Error ? err.message : "Failed to load activity",
+          err instanceof Error
+            ? err.message
+            : t("activities.activityexplorer.failed_to_load_activity"),
         );
       } finally {
         if (!cancelled) {
@@ -116,7 +125,7 @@ export default function ActivityExplorer({
     return () => {
       cancelled = true;
     };
-  }, [queryKey]);
+  }, [queryKey, t]);
 
   const stats = useMemo(() => {
     const agents = new Set(
@@ -237,8 +246,8 @@ export default function ActivityExplorer({
           headerPadding="lg"
           header={
             <SidebarPanelHeader
-              eyebrow={summaryLabel}
-              title={title}
+              eyebrow={resolvedSummaryLabel}
+              title={resolvedTitle}
               description={summary}
             />
           }
@@ -266,7 +275,7 @@ export default function ActivityExplorer({
       {embedded && agentOptions.length > 0 && (
         <div className="flex items-center gap-2 border-b border-border-subtle px-4 py-1.5">
           <label className="flex items-center gap-1.5 text-xs text-text-muted">
-            Agent
+            {t("activities.activityexplorer.agent")}
             <Select
               value={effectiveFilters.agentId}
               onChange={(e) => {
@@ -275,7 +284,7 @@ export default function ActivityExplorer({
               }}
               variant="compact"
             >
-              <option value="">All</option>
+              <option value="">{t("activities.activityexplorer.all")}</option>
               {agentOptions.map((id) => (
                 <option key={id} value={id}>
                   {id}
@@ -284,14 +293,14 @@ export default function ActivityExplorer({
             </Select>
           </label>
           <label className="flex items-center gap-1.5 text-xs text-text-muted">
-            Session
+            {t("activities.activityexplorer.session")}
             <Select
               value={effectiveFilters.sessionId}
               onChange={(e) => updateFilter("sessionId", e.target.value)}
               disabled={!effectiveFilters.agentId}
               variant="compact"
             >
-              <option value="">All</option>
+              <option value="">{t("activities.activityexplorer.all")}</option>
               {sessionOptions.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.label || s.id}

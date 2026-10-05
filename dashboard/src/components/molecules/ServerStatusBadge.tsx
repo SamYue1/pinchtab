@@ -1,5 +1,6 @@
 import type { Instance } from "../../generated/types";
 import type { DashboardServerInfo } from "../../types";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   serverInfo: DashboardServerInfo | null;
@@ -20,12 +21,14 @@ export default function ServerStatusBadge({
   hasRunningInstance = false,
   onToggleSidebar,
 }: Props) {
+  const { t } = useTranslation();
   const serverRunning = !!serverInfo && serverInfo.status !== "error";
 
   if (serverRunning && !hasRunningInstance) {
     const title = serverInfo.restartRequired
-      ? serverInfo.restartReasons?.join(", ") || "Server running, no instances"
-      : "Server running, no instances";
+      ? serverInfo.restartReasons?.join(", ") ||
+        t("components.molecules.serverstatusbadge.server_running_no_instances")
+      : t("components.molecules.serverstatusbadge.server_running_no_instances");
 
     return (
       <div className="mr-2 flex items-center px-2 py-1" title={title}>
@@ -59,7 +62,9 @@ export default function ServerStatusBadge({
         onClick={onToggleSidebar}
         className="mr-2 flex items-center gap-1.5 px-2 py-1 text-text-muted transition-colors hover:text-text-primary"
         title={
-          sidebarCollapsed ? "Expand instance list" : "Collapse instance list"
+          sidebarCollapsed
+            ? t("components.molecules.serverstatusbadge.expand_instance_list")
+            : t("components.molecules.serverstatusbadge.collapse_instance_list")
         }
       >
         <svg
@@ -79,7 +84,8 @@ export default function ServerStatusBadge({
           {instance.profileName} ·
         </span>
         <span className="hidden text-[10px] tracking-wider lg:inline">
-          {instance.status} · {tabCount} tab
+          {instance.status} · {tabCount}{" "}
+          {t("components.molecules.serverstatusbadge.tab")}
           {tabCount !== 1 ? "s" : ""} ·{" "}
         </span>
         <span className="text-[10px] tracking-wider">{instance.port}</span>
@@ -98,8 +104,9 @@ export default function ServerStatusBadge({
       }`}
       title={
         serverInfo.restartRequired
-          ? serverInfo.restartReasons?.join(", ") || "Restart required"
-          : "Server running"
+          ? serverInfo.restartReasons?.join(", ") ||
+            t("components.molecules.serverstatusbadge.restart_required")
+          : t("components.molecules.serverstatusbadge.server_running")
       }
     >
       <div
@@ -112,7 +119,9 @@ export default function ServerStatusBadge({
           serverInfo.restartRequired ? "text-warning" : "text-success"
         }`}
       >
-        {serverInfo.restartRequired ? "Restart Required" : "Running"}
+        {serverInfo.restartRequired
+          ? t("components.molecules.serverstatusbadge.restart_required_2")
+          : t("components.molecules.serverstatusbadge.running")}
       </span>
     </div>
   );

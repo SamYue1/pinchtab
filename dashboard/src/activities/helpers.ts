@@ -1,3 +1,4 @@
+import { formatDateTime } from "../i18n/format";
 import type {
   ActivityFilters,
   ActivityQuery,
@@ -94,7 +95,7 @@ export function sameActivityFilters(
 }
 
 export function formatActivityTimestamp(timestamp: string): string {
-  return new Date(timestamp).toLocaleString("en-GB", {
+  return formatDateTime(timestamp, {
     year: "numeric",
     month: "short",
     day: "2-digit",

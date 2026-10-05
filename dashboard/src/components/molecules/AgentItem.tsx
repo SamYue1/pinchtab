@@ -1,6 +1,9 @@
 import { IconRobot, IconBolt } from "../atoms/Icon";
 import type { Agent } from "../../types";
 import type { Session } from "../../services/api";
+import { useTranslation } from "react-i18next";
+import { i18n } from "../../i18n";
+import { formatTime as formatLocalizedTime } from "../../i18n/format";
 
 interface Props {
   agent: Agent;
@@ -14,9 +17,12 @@ interface Props {
 }
 
 function HandoffDot() {
+  const { t } = useTranslation();
   return (
     <span
-      aria-label="tab paused for human handoff"
+      aria-label={t(
+        "components.molecules.agentitem.tab_paused_for_human_handoff",
+      )}
       className="inline-block h-2 w-2 shrink-0 rounded-full bg-red-500 ring-2 ring-bg-surface"
     />
   );
@@ -25,7 +31,7 @@ function HandoffDot() {
 function timeAgo(date: string): string {
   const diff = Date.now() - new Date(date).getTime();
   const secs = Math.floor(diff / 1000);
-  if (secs < 5) return "just now";
+  if (secs < 5) return i18n.t("components.molecules.agentitem.just_now");
   if (secs < 60) return `${secs}s ago`;
   if (secs < 3600) return `${Math.floor(secs / 60)}m ago`;
   if (secs < 86400) return `${Math.floor(secs / 3600)}h ago`;
@@ -33,7 +39,7 @@ function timeAgo(date: string): string {
 }
 
 function formatSessionTime(ts: string): string {
-  return new Date(ts).toLocaleTimeString("en-GB", {
+  return formatLocalizedTime(ts, {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -43,7 +49,13 @@ function sessionDisplayName(session: Session): string {
   if (session.label) return session.label;
   const start = formatSessionTime(session.createdAt);
   const end = formatSessionTime(session.lastSeenAt || session.createdAt);
-  return start === end ? `Session ${start}` : `Session ${start}–${end}`;
+  if (start === end) {
+    return i18n.t("components.molecules.agentitem.session_at", { time: start });
+  }
+  return i18n.t("components.molecules.agentitem.session_range", {
+    start,
+    end,
+  });
 }
 
 export default function AgentItem({

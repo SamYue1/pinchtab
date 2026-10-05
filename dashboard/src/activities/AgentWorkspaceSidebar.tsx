@@ -7,6 +7,7 @@ import {
   ActivityFilterFields,
 } from "./ActivityFilterMenu";
 import type { ActivityFilters } from "./types";
+import { useTranslation } from "react-i18next";
 
 type WorkspaceTab = "agents" | "activities";
 
@@ -59,6 +60,7 @@ export default function AgentWorkspaceSidebar({
   onProfileChange,
   onInstanceChange,
 }: AgentWorkspaceSidebarProps) {
+  const { t } = useTranslation();
   const sessionsByAgent = useMemo(() => {
     const map = new Map<string, Session[]>();
     for (const session of sessions) {
@@ -87,8 +89,14 @@ export default function AgentWorkspaceSidebar({
       header={
         <div className="flex">
           {[
-            { id: "agents" as const, label: "Agents" },
-            { id: "activities" as const, label: "Activities" },
+            {
+              id: "agents" as const,
+              label: t("activities.agentworkspacesidebar.agents"),
+            },
+            {
+              id: "activities" as const,
+              label: t("activities.agentworkspacesidebar.activities"),
+            },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -120,7 +128,9 @@ export default function AgentWorkspaceSidebar({
         visibleAgents.length === 0 ? (
           <div className="py-8 text-center text-sm text-text-muted">
             <div className="mb-2 text-2xl">🦀</div>
-            No agent activity observed yet
+            {t(
+              "activities.agentworkspacesidebar.no_agent_activity_observed_yet",
+            )}
           </div>
         ) : (
           <div className="flex flex-col">
@@ -134,7 +144,7 @@ export default function AgentWorkspaceSidebar({
                 }`}
                 onClick={() => onSelectAgent("")}
               >
-                All Agents
+                {t("activities.agentworkspacesidebar.all_agents")}
               </button>
             )}
             {visibleAgents.map((agent) => (

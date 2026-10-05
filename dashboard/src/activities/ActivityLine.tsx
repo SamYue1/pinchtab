@@ -9,6 +9,8 @@ import {
   IconSearch,
 } from "../components/atoms/Icon";
 import type { ActivityEvent } from "../types";
+import { useTranslation } from "react-i18next";
+import { formatTime as formatLocalizedTime } from "../i18n/format";
 
 interface Props {
   event: ActivityEvent;
@@ -35,7 +37,7 @@ const typeIcons: Record<string, React.ReactNode> = {
 };
 
 function formatTime(ts: string): string {
-  return new Date(ts).toLocaleTimeString("en-GB", {
+  return formatLocalizedTime(ts, {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -43,6 +45,7 @@ function formatTime(ts: string): string {
 }
 
 export default function ActivityLine({ event }: Props) {
+  const { t } = useTranslation();
   const status =
     typeof event.details?.status === "number" ? event.details.status : null;
   const durationMs =
@@ -74,9 +77,12 @@ export default function ActivityLine({ event }: Props) {
           </span>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <Badge variant={typeColors.progress}>PROGRESS</Badge>
+              <Badge variant={typeColors.progress}>
+                {t("activities.activityline.progress")}
+              </Badge>
               <span className="truncate text-text-primary">
-                {event.message || "Agent reported progress"}
+                {event.message ||
+                  t("activities.activityline.agent_reported_progress")}
               </span>
             </div>
             {(progressLabel || progressValue !== undefined) && (
@@ -128,7 +134,8 @@ export default function ActivityLine({ event }: Props) {
       )}
       {durationMs !== null && (
         <span className="dashboard-mono shrink-0 text-xs text-text-muted">
-          {durationMs}ms
+          {durationMs}
+          {t("activities.activityline.ms")}
         </span>
       )}
       <span className="dashboard-mono shrink-0 text-xs text-text-muted">

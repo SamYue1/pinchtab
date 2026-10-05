@@ -9,6 +9,7 @@ import { TabsLayout, EmptyView } from "../components/molecules";
 import type { Profile, Instance, InstanceTab } from "../generated/types";
 import * as api from "../services/api";
 import { useAppStore } from "../stores/useAppStore";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   profile: Profile | null;
@@ -33,6 +34,7 @@ export default function ProfileDetailsPanel({
   deleteError,
   deleteNotice,
 }: Props) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabId>("profile");
   // null is "the count is not known", which the badge must not render as 0: a
   // hard 0 beside a running instance reads as "idle, safe to stop" and Stop is
@@ -91,7 +93,11 @@ export default function ProfileDetailsPanel({
   if (!profile) {
     return (
       <div className="h-full min-h-112">
-        <EmptyView message="Select a profile to inspect its instance, live tabs, and logs." />
+        <EmptyView
+          message={t(
+            "profiles.profiledetailspanel.select_a_profile_to_inspect_its",
+          )}
+        />
       </div>
     );
   }
@@ -101,10 +107,19 @@ export default function ProfileDetailsPanel({
     formValues.useWhen !== (profile.useWhen || "");
 
   const profileTabs: { id: TabId; label: string; badge?: string | number }[] = [
-    { id: "profile", label: `Profile: ${profile.name}` },
-    { id: "live", label: "Live" },
-    { id: "tabs", label: "Tabs", badge: tabs === null ? "—" : tabs.length },
-    { id: "logs", label: "Logs" },
+    {
+      id: "profile",
+      label: t("profiles.profiledetailspanel.profile_name", {
+        name: profile.name,
+      }),
+    },
+    { id: "live", label: t("profiles.profiledetailspanel.live") },
+    {
+      id: "tabs",
+      label: t("profiles.profiledetailspanel.tabs"),
+      badge: tabs === null ? "—" : tabs.length,
+    },
+    { id: "logs", label: t("profiles.profiledetailspanel.logs") },
   ];
 
   return (
@@ -156,7 +171,9 @@ export default function ProfileDetailsPanel({
                 instanceId={instance?.id}
                 handoffTabs={handoffTabs}
                 emptyMessage={
-                  isRunning ? "No tabs open." : "Instance not running."
+                  isRunning
+                    ? t("profiles.profiledetailspanel.no_tabs_open")
+                    : t("profiles.profiledetailspanel.instance_not_running")
                 }
               />
             </div>

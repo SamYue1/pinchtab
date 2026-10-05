@@ -5,10 +5,11 @@ export type ProfileGroupKind = "user" | "temporary" | "quarantined";
 // groupOrder puts the operator's own profiles first, so quarantine debris and ephemeral
 // instance directories can never push them out of view — the rows someone made are at the
 // top whether there are ten quarantined siblings or none.
-export const groupOrder: { kind: ProfileGroupKind; label: string }[] = [
-  { kind: "user", label: "Profiles" },
-  { kind: "temporary", label: "Temporary" },
-  { kind: "quarantined", label: "Quarantined" },
+// labelKey names a locale entry; ProfilesPage resolves it with t().
+export const groupOrder: { kind: ProfileGroupKind; labelKey: string }[] = [
+  { kind: "user", labelKey: "profiles.groups.user" },
+  { kind: "temporary", labelKey: "profiles.groups.temporary" },
+  { kind: "quarantined", labelKey: "profiles.groups.quarantined" },
 ];
 
 // groupProfiles splits the listing on the FLAGS the API sends, never on the name. A profile

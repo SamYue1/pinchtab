@@ -9,6 +9,7 @@ import {
 } from "../selectors";
 import type { ActivityFilters, DashboardActivityEvent } from "../types";
 import { useAllTabs } from "./useAllTabs";
+import { i18n } from "../../i18n";
 
 interface UseActivityDataOptions {
   deferredFilters: ActivityFilters;
@@ -100,7 +101,11 @@ export function useActivityData({
           return;
         }
         setError(
-          err instanceof Error ? err.message : "Failed to load activity",
+          err instanceof Error
+            ? err.message
+            : i18n.t(
+                "activities.hooks.useactivitydata.failed_to_load_activity",
+              ),
         );
       } finally {
         if (!cancelled) {
@@ -143,7 +148,11 @@ export function useActivityData({
           return;
         }
         setError(
-          err instanceof Error ? err.message : "Failed to load agent activity",
+          err instanceof Error
+            ? err.message
+            : i18n.t(
+                "activities.hooks.useactivitydata.failed_to_load_agent_activity",
+              ),
         );
       } finally {
         if (!cancelled) {

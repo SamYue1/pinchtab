@@ -3,6 +3,9 @@ import type {
   InstanceMetrics,
   InstanceTab,
 } from "../../generated/types";
+import { useTranslation } from "react-i18next";
+import { i18n } from "../../i18n";
+import { formatClock, formatNumber } from "../../i18n/format";
 
 interface Props {
   instance?: Instance | null;
@@ -49,14 +52,12 @@ function StatGroup({
 
 function fmt(n: number, decimals = 0): string {
   if (!Number.isFinite(n)) return "0";
-  return new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: decimals,
-  }).format(n);
+  return formatNumber(n, { maximumFractionDigits: decimals });
 }
 
 function formatUptime(startTime: string): string {
   const ms = Date.now() - new Date(startTime).getTime();
-  if (ms < 0) return "just now";
+  if (ms < 0) return i18n.t("components.molecules.instancestats.just_now");
   const secs = Math.floor(ms / 1000);
   if (secs < 60) return `${secs}s`;
   const mins = Math.floor(secs / 60);
@@ -71,7 +72,7 @@ function formatUptime(startTime: string): string {
 function formatCrashTime(time: string): string {
   const at = new Date(time);
   if (Number.isNaN(at.getTime())) return time;
-  return at.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  return formatClock(at, { hour: "2-digit", minute: "2-digit" });
 }
 
 function countUniqueDomains(tabs: InstanceTab[]): number {
@@ -87,24 +88,46 @@ function countUniqueDomains(tabs: InstanceTab[]): number {
 }
 
 export default function InstanceStats({ instance, metrics, tabs }: Props) {
+  const { t } = useTranslation();
   const uniqueDomains = countUniqueDomains(tabs);
 
   return (
     <div className="grid grid-cols-2 gap-y-4 border-t border-border-subtle px-4 py-4">
-      <StatGroup title="Instance">
+      <StatGroup title={t("components.molecules.instancestats.instance")}>
         {instance && (
           <>
-            <StatItem label="Status" value={instance.status} />
-            <StatItem label="Uptime" value={formatUptime(instance.startTime)} />
-            <StatItem label="Port" value={instance.port} />
+            <StatItem
+              label={t("components.molecules.instancestats.status")}
+              value={instance.status}
+            />
+            <StatItem
+              label={t("components.molecules.instancestats.uptime")}
+              value={formatUptime(instance.startTime)}
+            />
+            <StatItem
+              label={t("components.molecules.instancestats.port")}
+              value={instance.port}
+            />
             {instance.crashes && instance.crashes.total > 0 && (
               <StatItem
-                label="Crashes"
+                label={t("components.molecules.instancestats.crashes")}
                 value={fmt(instance.crashes.total)}
                 sub={
                   instance.crashes.recent.length > 0
-                    ? `last: ${instance.crashes.recent[instance.crashes.recent.length - 1].reason} at ${formatCrashTime(instance.crashes.recent[instance.crashes.recent.length - 1].time)} · tabs open before it were lost`
-                    : "tabs open before it were lost"
+                    ? t("components.molecules.instancestats.last_crash", {
+                        reason:
+                          instance.crashes.recent[
+                            instance.crashes.recent.length - 1
+                          ].reason,
+                        time: formatCrashTime(
+                          instance.crashes.recent[
+                            instance.crashes.recent.length - 1
+                          ].time,
+                        ),
+                      })
+                    : t(
+                        "components.molecules.instancestats.tabs_open_before_it_were_lost",
+                      )
                 }
               />
             )}
@@ -112,48 +135,68 @@ export default function InstanceStats({ instance, metrics, tabs }: Props) {
         )}
       </StatGroup>
 
-      <StatGroup title="Browsing">
-        <StatItem label="Tabs" value={fmt(tabs.length)} />
-        <StatItem label="Domains" value={fmt(uniqueDomains)} />
+      <StatGroup title={t("components.molecules.instancestats.browsing")}>
+        <StatItem
+          label={t("components.molecules.instancestats.tabs")}
+          value={fmt(tabs.length)}
+        />
+        <StatItem
+          label={t("components.molecules.instancestats.domains")}
+          value={fmt(uniqueDomains)}
+        />
       </StatGroup>
 
       {metrics && (
-        <StatGroup title="Resources">
+        <StatGroup title={t("components.molecules.instancestats.resources")}>
           <StatItem
-            label="Memory"
+            label={t("components.molecules.instancestats.memory")}
             value={`${fmt(metrics.memoryMB, 1)} MB`}
-            sub="RSS across the browser process tree"
+            sub={t(
+              "components.molecules.instancestats.rss_across_the_browser_process_tree",
+            )}
           />
-          <StatItem label="Renderers" value={fmt(metrics.renderers)} />
+          <StatItem
+            label={t("components.molecules.instancestats.renderers")}
+            value={fmt(metrics.renderers)}
+          />
         </StatGroup>
       )}
 
       {metrics && (metrics.page || metrics.unreadableTargets > 0) && (
-        <StatGroup title="Pages">
+        <StatGroup title={t("components.molecules.instancestats.pages")}>
           {metrics.page && (
             <>
               <StatItem
-                label="JS heap"
+                label={t("components.molecules.instancestats.js_heap")}
                 value={`${fmt(metrics.page.jsHeapUsedMB, 1)} / ${fmt(metrics.page.jsHeapTotalMB, 1)} MB`}
-                sub={`used / total, summed over ${fmt(metrics.page.targets)} tab${metrics.page.targets === 1 ? "" : "s"}`}
+                sub={t("components.molecules.instancestats.heap_summary", {
+                  count: metrics.page.targets,
+                })}
               />
-              <StatItem label="DOM nodes" value={fmt(metrics.page.nodes)} />
               <StatItem
-                label="Listeners"
+                label={t("components.molecules.instancestats.dom_nodes")}
+                value={fmt(metrics.page.nodes)}
+              />
+              <StatItem
+                label={t("components.molecules.instancestats.listeners")}
                 value={fmt(metrics.page.jsEventListeners)}
               />
               <StatItem
-                label="Frames"
+                label={t("components.molecules.instancestats.frames")}
                 value={fmt(metrics.page.frames)}
-                sub={`${fmt(metrics.page.documents)} documents`}
+                sub={t("components.molecules.instancestats.document_count", {
+                  count: metrics.page.documents,
+                })}
               />
             </>
           )}
           {metrics.unreadableTargets > 0 && (
             <StatItem
-              label="Unreadable"
+              label={t("components.molecules.instancestats.unreadable")}
               value={fmt(metrics.unreadableTargets)}
-              sub="tabs that did not answer; not counted"
+              sub={t(
+                "components.molecules.instancestats.tabs_that_did_not_answer_not_counted",
+              )}
             />
           )}
         </StatGroup>

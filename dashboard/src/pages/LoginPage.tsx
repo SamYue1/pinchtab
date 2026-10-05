@@ -5,11 +5,12 @@ import { Button, Card } from "../components/atoms";
 import * as api from "../services/api";
 import {
   dispatchAuthStateChanged,
-  INSECURE_DASHBOARD_TRANSPORT_WARNING,
   isInsecureDashboardTransport,
 } from "../services/auth";
+import { useTranslation } from "react-i18next";
 
 export default function LoginPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [token, setToken] = useState("");
@@ -32,7 +33,11 @@ export default function LoginPage() {
       dispatchAuthStateChanged();
       navigate(from, { replace: true });
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Authentication failed");
+      setError(
+        e instanceof Error
+          ? e.message
+          : t("pages.loginpage.authentication_failed"),
+      );
     } finally {
       setSubmitting(false);
     }
@@ -42,24 +47,25 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-bg-app px-4">
       <Card className="w-full max-w-md p-6">
         <div className="mb-6">
-          <div className="dashboard-section-label mb-2">Authentication</div>
+          <div className="dashboard-section-label mb-2">
+            {t("pages.loginpage.authentication")}
+          </div>
           <h1 className="text-xl font-semibold text-text-primary">
-            Enter API token
+            {t("pages.loginpage.enter_api_token")}
           </h1>
           <p className="mt-2 text-sm leading-6 text-text-muted">
-            This PinchTab server requires a bearer token before the dashboard
-            can load protected routes and APIs.
+            {t("pages.loginpage.this_pinchtab_server_requires_a_bearer")}
           </p>
           <p className="mt-1 text-xs leading-5 text-text-muted">
-            Run{" "}
+            {t("pages.loginpage.run")}{" "}
             <code className="rounded bg-[rgb(var(--brand-surface-code-rgb)/0.72)] px-1.5 py-0.5 text-text-secondary">
-              pinchtab config token
+              {t("pages.loginpage.pinchtab_config_token")}
             </code>{" "}
-            to copy the token to your clipboard.
+            {t("pages.loginpage.to_copy_the_token_to_your_clipboard")}
           </p>
           {insecureDashboardTransport && (
             <div className="mt-3 rounded-sm border border-warning/25 bg-warning/10 px-3 py-2 text-xs leading-5 text-warning">
-              {INSECURE_DASHBOARD_TRANSPORT_WARNING}
+              {t("auth.insecureTransport")}
             </div>
           )}
         </div>
@@ -78,7 +84,7 @@ export default function LoginPage() {
             value={token}
             onChange={(e) => setToken(e.target.value)}
             className="w-full rounded-sm border border-border-subtle bg-[rgb(var(--brand-surface-code-rgb)/0.72)] px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-all duration-150 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-            placeholder="Paste bearer token"
+            placeholder={t("pages.loginpage.paste_bearer_token")}
             spellCheck={false}
             autoCapitalize="none"
           />
@@ -88,7 +94,9 @@ export default function LoginPage() {
             </div>
           )}
           <Button type="submit" disabled={submitting || token.trim() === ""}>
-            {submitting ? "Authorizing..." : "Continue"}
+            {submitting
+              ? t("pages.loginpage.authorizing")
+              : t("pages.loginpage.continue")}
           </Button>
         </form>
       </Card>

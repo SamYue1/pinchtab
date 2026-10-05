@@ -2,6 +2,7 @@ import type { BackendConfig } from "../../types";
 import type { UpdateBackendSection } from "./settingsShared";
 import { fieldClass } from "./settingsShared";
 import { SectionCard, SettingRow } from "./SettingsSharedComponents";
+import { useTranslation } from "react-i18next";
 
 interface ObservabilitySettingsSectionProps {
   backendConfig: BackendConfig;
@@ -12,6 +13,7 @@ export function ObservabilitySettingsSection({
   backendConfig,
   updateBackendSection,
 }: ObservabilitySettingsSectionProps) {
+  const { t } = useTranslation();
   const activity = backendConfig.observability.activity;
 
   const updateActivity = (
@@ -24,12 +26,18 @@ export function ObservabilitySettingsSection({
 
   return (
     <SectionCard
-      title="Observability"
-      description="Activity logging tracks API requests for debugging and audit trails. Logs are stored locally and can be queried via the Activity page."
+      title={t("pages.settings.observabilitysettingssection.observability")}
+      description={t(
+        "pages.settings.observabilitysettingssection.activity_logging_tracks_api_requests",
+      )}
     >
       <SettingRow
-        label="Activity logging"
-        description="Enable or disable activity event recording."
+        label={t(
+          "pages.settings.observabilitysettingssection.activity_logging",
+        )}
+        description={t(
+          "pages.settings.observabilitysettingssection.enable_or_disable_activity_event",
+        )}
       >
         <label className="flex cursor-pointer items-center gap-3">
           <input
@@ -39,14 +47,18 @@ export function ObservabilitySettingsSection({
             className="h-4 w-4 rounded border-border-subtle bg-bg-elevated text-primary focus:ring-primary/50"
           />
           <span className="text-sm text-text-secondary">
-            {activity.enabled ? "Enabled" : "Disabled"}
+            {activity.enabled
+              ? t("pages.settings.observabilitysettingssection.enabled")
+              : t("pages.settings.observabilitysettingssection.disabled")}
           </span>
         </label>
       </SettingRow>
 
       <SettingRow
-        label="Retention (days)"
-        description="How long to keep activity logs before automatic cleanup. Longer retention uses more disk space but provides better audit history."
+        label={t("pages.settings.observabilitysettingssection.retention_days")}
+        description={t(
+          "pages.settings.observabilitysettingssection.how_long_to_keep_activity_logs_before",
+        )}
       >
         <input
           type="number"
@@ -61,8 +73,12 @@ export function ObservabilitySettingsSection({
       </SettingRow>
 
       <SettingRow
-        label="Session idle timeout (seconds)"
-        description="Time before an inactive agent session is considered idle. Used for grouping activity by session."
+        label={t(
+          "pages.settings.observabilitysettingssection.session_idle_timeout_seconds",
+        )}
+        description={t(
+          "pages.settings.observabilitysettingssection.time_before_an_inactive_agent_session",
+        )}
       >
         <input
           type="number"

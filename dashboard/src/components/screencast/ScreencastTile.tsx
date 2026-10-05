@@ -2,6 +2,7 @@ import { useRef } from "react";
 import ScreencastStatusBar from "./ScreencastStatusBar";
 import { useScreencastStream } from "./useScreencastStream";
 import { useScreencastInput } from "./useScreencastInput";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   instanceId: string;
@@ -24,6 +25,7 @@ export default function ScreencastTile({
   fps = 10,
   showTitle = true,
 }: Props) {
+  const { t } = useTranslation();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stream = useScreencastStream({
     instanceId,
@@ -66,7 +68,7 @@ export default function ScreencastTile({
         {!stream.hasFrame && stream.fallbackUrl ? (
           <img
             src={stream.fallbackUrl}
-            alt="Tab preview"
+            alt={t("components.screencast.screencasttile.tab_preview")}
             className="max-h-full max-w-full object-contain"
           />
         ) : (
@@ -85,7 +87,7 @@ export default function ScreencastTile({
         {stream.status === "error" && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/80 text-sm text-text-primary backdrop-blur-[2px]">
             <div className="font-semibold text-white drop-shadow-md">
-              Connection lost
+              {t("components.screencast.screencasttile.connection_lost")}
             </div>
             <div className="flex gap-2">
               {!stream.fallbackUrl && (
@@ -93,7 +95,9 @@ export default function ScreencastTile({
                   onClick={stream.captureFallback}
                   className="rounded bg-white/10 px-3 py-1.5 font-medium shadow-lg backdrop-blur-md transition-colors hover:bg-white/20"
                 >
-                  Show static preview
+                  {t(
+                    "components.screencast.screencasttile.show_static_preview",
+                  )}
                 </button>
               )}
               <button
@@ -102,7 +106,7 @@ export default function ScreencastTile({
                 }}
                 className="rounded bg-primary/30 px-3 py-1.5 font-medium text-white shadow-lg backdrop-blur-md transition-colors hover:bg-primary/40"
               >
-                Retry connection
+                {t("components.screencast.screencasttile.retry_connection")}
               </button>
             </div>
           </div>

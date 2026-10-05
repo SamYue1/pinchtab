@@ -14,6 +14,7 @@ import {
 } from "../components/molecules";
 import ProfileDetailsPanel from "../profiles/ProfileDetailsPanel";
 import { useProfilesController, getProfileKey } from "./useProfilesController";
+import { useTranslation } from "react-i18next";
 
 const kindBadge: Partial<Record<ProfileGroupKind, string>> = {
   temporary: "temporary",
@@ -33,8 +34,11 @@ function ProfileRow({
   selected: boolean;
   onSelect: () => void;
 }) {
+  const { t } = useTranslation();
   const accountText =
-    profile.accountEmail || profile.accountName || "No account";
+    profile.accountEmail ||
+    profile.accountName ||
+    t("pages.profilespage.no_account");
   const statusVariant =
     instance?.status === "running"
       ? "success"
@@ -80,6 +84,7 @@ function ProfileRow({
 }
 
 export default function ProfilesPage() {
+  const { t } = useTranslation();
   const {
     profiles,
     profilesLoading,
@@ -106,15 +111,17 @@ export default function ProfilesPage() {
         <div className="h-full">
           {profilesLoading && profiles.length === 0 ? (
             <div className="flex items-center justify-center py-16 text-text-muted">
-              Loading profiles...
+              {t("pages.profilespage.loading_profiles")}
             </div>
           ) : profiles.length === 0 ? (
             <EmptyState
-              title="No profiles yet"
-              description="Click New Profile to create one"
+              title={t("pages.profilespage.no_profiles_yet")}
+              description={t(
+                "pages.profilespage.click_new_profile_to_create_one",
+              )}
               action={
                 <Button variant="primary" onClick={() => setShowCreate(true)}>
-                  New Profile
+                  {t("pages.profilespage.new_profile")}
                 </Button>
               }
             />
@@ -123,19 +130,19 @@ export default function ProfilesPage() {
               <div className="flex max-h-88 w-full shrink-0 flex-col overflow-hidden border-r border-border-subtle bg-bg-surface/50 lg:max-h-none lg:w-80">
                 <div className="flex items-center justify-between border-b border-border-subtle px-4 py-2.5">
                   <span className="text-xs font-medium text-text-muted">
-                    Profiles
+                    {t("pages.profilespage.profiles")}
                   </span>
                   <button
                     type="button"
                     onClick={() => setShowCreate(true)}
                     className="rounded bg-primary px-2.5 py-1 text-xs font-medium text-white transition-colors hover:bg-primary/90"
                   >
-                    New Profile
+                    {t("pages.profilespage.new_profile")}
                   </button>
                 </div>
 
                 <div className="flex-1 overflow-auto">
-                  {groupOrder.map(({ kind, label }) => {
+                  {groupOrder.map(({ kind, labelKey }) => {
                     const rows = groups[kind];
                     if (rows.length === 0) {
                       return null;
@@ -148,10 +155,11 @@ export default function ProfilesPage() {
                             data-testid={`profile-group-${kind}`}
                           >
                             <span className="font-medium uppercase tracking-[0.08em]">
-                              {label} ({rows.length})
+                              {t(labelKey)} ({rows.length})
                             </span>
                             <span>
-                              {formatProfileBytes(groupBytes(rows))} total
+                              {formatProfileBytes(groupBytes(rows))}{" "}
+                              {t("pages.profilespage.total")}
                             </span>
                           </div>
                         )}

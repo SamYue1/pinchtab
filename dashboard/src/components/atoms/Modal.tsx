@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Button from "./Button";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   open: boolean;
@@ -18,6 +19,7 @@ export default function Modal({
   actions,
   wide,
 }: Props) {
+  const { t } = useTranslation();
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -46,14 +48,16 @@ export default function Modal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 border-b border-border-subtle pb-4">
-          <div className="dashboard-section-label mb-2">Dashboard</div>
+          <div className="dashboard-section-label mb-2">
+            {t("components.atoms.modal.dashboard")}
+          </div>
           <h3 className="text-lg font-semibold text-text-primary">{title}</h3>
         </div>
         <div className="text-sm text-text-secondary">{children}</div>
         <div className="mt-5 flex justify-end gap-2 border-t border-border-subtle pt-4">
           {actions ?? (
             <Button variant="secondary" onClick={onClose}>
-              Close
+              {t("components.atoms.modal.close")}
             </Button>
           )}
         </div>

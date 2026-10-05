@@ -2,6 +2,7 @@ import type { BackendConfig } from "../../types";
 import type { UpdateBackendSection } from "./settingsShared";
 import { fieldClass, timeoutRows } from "./settingsShared";
 import { SectionCard, SettingRow } from "./SettingsSharedComponents";
+import { useTranslation } from "react-i18next";
 
 interface TimeoutsSettingsSectionProps {
   backendConfig: BackendConfig;
@@ -12,13 +13,16 @@ export function TimeoutsSettingsSection({
   backendConfig,
   updateBackendSection,
 }: TimeoutsSettingsSectionProps) {
+  const { t } = useTranslation();
   return (
     <SectionCard
-      title="Timeouts"
-      description="Runtime timing defaults written into new child configs. Existing running instances keep their current timeouts."
+      title={t("pages.settings.timeoutssettingssection.timeouts")}
+      description={t(
+        "pages.settings.timeoutssettingssection.runtime_timing_defaults_written_into",
+      )}
     >
       {timeoutRows.map(([key, label, description]) => (
-        <SettingRow key={key} label={label} description={description}>
+        <SettingRow key={key} label={t(label)} description={t(description)}>
           <input
             type="number"
             min={0}
