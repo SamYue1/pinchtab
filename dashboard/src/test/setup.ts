@@ -1,4 +1,6 @@
 import "@testing-library/jest-dom/vitest";
+import { initializeI18n } from "../i18n";
+import { enMessages } from "../i18n/messages";
 
 class MemoryStorage implements Storage {
   private store = new Map<string, string>();
@@ -50,3 +52,7 @@ const ensureStorage = (name: "localStorage" | "sessionStorage") => {
 
 ensureStorage("localStorage");
 ensureStorage("sessionStorage");
+
+// Component tests assert on the English copy, so the suite renders against the
+// English bundle the same way the browser falls back to it.
+await initializeI18n("en", { en: { translation: enMessages } });
